@@ -1,0 +1,8 @@
+alias ll="ls -la"
+alias g=". gisanfu-backdir .."
+alias gg=". gisanfu-backdir ../.."
+alias ggg=". gisanfu-backdir ../../.."
+alias gggg=". gisanfu-backdir ../../../.."
+alias ggggg=". gisanfu-backdir ../../../../.."
+alias gggggg=". gisanfu-backdir ../../../../../.."
+alias d=". gisanfu-intodir ${1}" 

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cd $1
+echo "[PWD]=>`pwd`"
+filecount=`ls | wc -l`
+if [ "$filecount" == "0" ]; then
+echo "[EMPTY]"
+else
+ls
+fi

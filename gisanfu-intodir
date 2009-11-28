@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# fix space to effect array result
+IFS=$'\012'
+
+nextRelativeChdir=$1
+
+# load dir list into basharray
+dirList=(`ls -d --format=single-column */ | grep -ir ^$nextRelativeChdir`)
+
+if [ "${#dirList[@]}" == "1" ]; then
+	cd ${dirList[0]}
+	echo "[PWD]=>`pwd`"
+
+	# check file count
+	filecount=`ls | wc -l`
+	if [ "$filecount" == "0" ]; then
+		echo "[EMPTY]"
+	else
+		ls
+	fi
+elif [ "${#dirList[@]}" -gt "1" ]; then
+
+	# if have duplicate dirname then CHDIR
+	Success="0"
+	for dirDuplicatelist in ${dirList[@]}
+	do
+		if [ "$dirDuplicatelist" == "$nextRelativeChdir/" ]; then
+			cd $nextRelativeChdir
+			echo "[PWD]=>`pwd`"
+
+			# check file count
+			filecount=`ls | wc -l`
+			if [ "$filecount" == "0" ]; then
+				echo "[EMPTY]"
+			else
+				ls
+			fi
+			Success="1"
+			break
+		fi
+	done
+
+	# if no duplicate dirname then print them
+	if [ $Success == "0" ]; then
+		for echothem in ${dirList[@]}
+		do
+			echo $echothem
+		done
+	fi
+
+fi
+
