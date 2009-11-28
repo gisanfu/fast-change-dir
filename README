@@ -1,0 +1,66 @@
+EXAMPLE
+
+if directory is
+aaa
+   +-- dddd
+abc
+bbb
+   +-- eeee
+ccc
+   +-- ffff
+           +-- ggggg
+		            +-- hhhhhh
+
+show list
+$ ls -la 
+
+drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX aaa
+drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX abc
+drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX bbb
+drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ccc
+
+into aaa
+$ cd aaa (it's standard, you know)
+
+goto parent directory
+$ cd .. (you know)
+
+replace cd to d
+$ d aaa
+
+[PWD]=>/aaa
+ddd/
+
+replace cd .. to g
+$ g (goto parent directory)
+
+[PWD]=>/
+aaa/ bbb/ ccc/ abc/
+
+input several (^)keyword, if duplicate, then show them 
+$ d a
+
+aaa/
+abc/
+
+input no duplicate keyword
+$ d aa
+
+goto many directory
+$ d ccc
+$ d ffff
+$ d ggggg
+$ d hhhhhh
+
+return to parent dir for 4 layer
+$ gggg (maximum layer is 6)
+
+INSTALL
+
+1. copy scripts to unix-like /bin directory
+$ sudo cp gisanfu-* /bin
+
+2. copy bashrc.txt line to your .bashrc
+$ vi .bashrc
+
+3. restart your terminal
