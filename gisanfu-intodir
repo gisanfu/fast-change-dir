@@ -6,7 +6,7 @@ IFS=$'\012'
 nextRelativeChdir=$1
 
 # load dir list into basharray
-dirList=(`ls -d --format=single-column */ | grep -ir ^$nextRelativeChdir`)
+dirList=(`ls -aF | grep / | grep -ir ^$nextRelativeChdir`)
 
 if [ "${#dirList[@]}" == "1" ]; then
 	cd ${dirList[0]}
