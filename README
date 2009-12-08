@@ -80,6 +80,6 @@ $ d
 $ sudo cp gisanfu-* /bin
 
 2. copy bashrc.txt line to your .bashrc
-$ vi .bashrc
+$ sudo echo bashrc.txt >> ~/.bashrc
 
 3. restart your terminal
