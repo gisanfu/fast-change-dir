@@ -1,5 +1,31 @@
 #!/bin/bash
 
+# +--------+----------------------+
+# |FUNCTION| func_statusbar       |
+# +--------+----------------------+
+# |ARGUMENT| $1: Action Name      |
+# +--------+----------------------+
+func_statusbar()
+{
+	echo "[ACT]=>$1"
+	echo "[PWD]=>`pwd`"
+}
+
+# +--------+----------------------+
+# |FUNCTION| func_checkfilecount  |
+# +--------+----------------------+
+# |ARGUMENT|                      |
+# +--------+----------------------+
+func_checkfilecount()
+{
+	filecount=`ls | wc -l`
+	if [ "$filecount" == "0" ]; then
+		echo "[EMPTY]"
+	else
+		ls
+	fi
+}
+
 # fix space to effect array result
 IFS=$'\012'
 
@@ -31,6 +57,8 @@ else
 		do
 			if [ "$dirDuplicatelist" == "$nextRelativeChdir/" ]; then
 				cd $nextRelativeChdir
+
+				func_statusbar 'INTO-LUCK-DIR'
 	
 				# check file count and ls action
 				func_checkfilecount
@@ -40,8 +68,8 @@ else
 		done
 	
 		# if no duplicate dirname then print them
-		func_statusbar 'PLEASE-SELECT-ONE-INTO'
 		if [ $Success == "0" ]; then
+			func_statusbar 'PLEASE-SELECT-ONE-INTO'
 			for echothem in ${dirList[@]}
 			do
 				echo $echothem
@@ -50,28 +78,3 @@ else
 	fi
 fi
 
-# +--------+----------------------+
-# |FUNCTION| func_statusbar       |
-# +--------+----------------------+
-# |ARGUMENT| $1: Action Name      |
-# +--------+----------------------+
-func_statusbar()
-{
-	echo "[ACT]=>$1"
-	echo "[PWD]=>`pwd`"
-}
-
-# +--------+----------------------+
-# |FUNCTION| func_checkfilecount  |
-# +--------+----------------------+
-# |ARGUMENT|                      |
-# +--------+----------------------+
-func_checkfilecount()
-{
-	filecount=`ls | wc -l`
-	if [ "$filecount" == "0" ]; then
-		echo "[EMPTY]"
-	else
-		ls
-	fi
-}

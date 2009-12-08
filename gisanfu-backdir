@@ -1,10 +1,5 @@
 #!/bin/bash
 
-cd $1
-func_statusbar 'GOTO-PARENT-DIR'
-# check file count and ls action
-func_checkfilecount
-
 # +--------+----------------------+
 # |FUNCTION| func_statusbar       |
 # +--------+----------------------+
@@ -30,3 +25,10 @@ func_checkfilecount()
 		ls
 	fi
 }
+
+
+cd $1
+func_statusbar 'GOTO-PARENT-DIR'
+# check file count and ls action
+func_checkfilecount
+
