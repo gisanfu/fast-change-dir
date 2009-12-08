@@ -1,4 +1,16 @@
 /*
+ * Request environment
+ */
+BASH
+
+
+/*
+ * Develop environment
+ */
+ubuntu 9.04
+
+
+/*
  * EXAMPLE
  */
 
