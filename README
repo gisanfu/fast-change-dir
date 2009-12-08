@@ -1,4 +1,6 @@
-EXAMPLE
+/*
+ * EXAMPLE
+ */
 
 if directory is
 aaa
@@ -55,7 +57,12 @@ $ d hhhhhh
 return to parent dir for 4 layer
 $ gggg (maximum layer is 6)
 
-INSTALL
+goto the last time directory(old command is => cd -)
+$ d
+
+/*
+ *INSTALL
+ */
 
 1. copy scripts to unix-like /bin directory
 $ sudo cp gisanfu-* /bin

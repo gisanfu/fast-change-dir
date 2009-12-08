@@ -1,10 +1,32 @@
 #!/bin/bash
 
 cd $1
-echo "[PWD]=>`pwd`"
-filecount=`ls | wc -l`
-if [ "$filecount" == "0" ]; then
-echo "[EMPTY]"
-else
-ls
-fi
+func_statusbar 'GOTO-PARENT-DIR'
+# check file count and ls action
+func_checkfilecount
+
+# +--------+----------------------+
+# |FUNCTION| func_statusbar       |
+# +--------+----------------------+
+# |ARGUMENT| $1: Action Name      |
+# +--------+----------------------+
+func_statusbar()
+{
+	echo "[ACT]=>$1"
+	echo "[PWD]=>`pwd`"
+}
+
+# +--------+----------------------+
+# |FUNCTION| func_checkfilecount  |
+# +--------+----------------------+
+# |ARGUMENT|                      |
+# +--------+----------------------+
+func_checkfilecount()
+{
+	filecount=`ls | wc -l`
+	if [ "$filecount" == "0" ]; then
+		echo "[EMPTY]"
+	else
+		ls
+	fi
+}
