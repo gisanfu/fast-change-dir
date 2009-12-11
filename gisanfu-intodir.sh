@@ -75,6 +75,8 @@ else
 				echo $echothem
 			done
 		fi
+	else
+		func_statusbar 'NOT-FOUND-OR-NOT-EXIST'
 	fi
 fi
 
