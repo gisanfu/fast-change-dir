@@ -30,6 +30,7 @@ func_checkfilecount()
 IFS=$'\012'
 
 nextRelativeChdir=$1
+secondCondition=$2
 
 # if empty of variable, then go back directory
 if [ "$nextRelativeChdir" == "" ]; then
@@ -66,6 +67,20 @@ else
 				break
 			fi
 		done
+
+		# if have secondCondition, DO secondCheck
+		if [ "$secondCondition" != "" ]; then
+			dirList2=(`ls -aF | grep / | grep -ir ^$nextRelativeChdir | grep -ir $secondCondition`)
+			if [ "${#dirList2[@]}" == "1" ]; then
+				cd ${dirList2[0]}
+
+				func_statusbar 'INTO-LUCK-DIR-BY-SECOND-CONDITION'
+	
+				# check file count and ls action
+				func_checkfilecount
+				Success="1"
+			fi
+		fi
 	
 		# if no duplicate dirname then print them
 		if [ $Success == "0" ]; then

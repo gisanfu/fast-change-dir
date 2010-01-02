@@ -32,6 +32,8 @@ drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX aaa
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX abc
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX bbb
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ccc
+drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX gggg
+drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ggfff
 
 into aaa
 $ cd aaa (it's standard, you know)
@@ -71,6 +73,9 @@ $ gggg (maximum layer is 6)
 
 goto the last time directory(old command is => cd -)
 $ d
+
+goto directory by two condition
+$ d gg ff
 
 /*
  *INSTALL
