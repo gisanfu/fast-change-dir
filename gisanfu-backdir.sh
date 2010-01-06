@@ -21,6 +21,8 @@ func_checkfilecount()
 	filecount=`ls | wc -l`
 	if [ "$filecount" == "0" ]; then
 		echo "[EMPTY]"
+	elif [ "$filecount" -le "6" ]; then
+		ls -la
 	else
 		ls
 	fi
