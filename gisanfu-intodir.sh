@@ -1,32 +1,6 @@
 #!/bin/bash
 
-# +--------+----------------------+
-# |FUNCTION| func_statusbar       |
-# +--------+----------------------+
-# |ARGUMENT| $1: Action Name      |
-# +--------+----------------------+
-func_statusbar()
-{
-	echo "[ACT]=>$1"
-	echo "[PWD]=>`pwd`"
-}
-
-# +--------+----------------------+
-# |FUNCTION| func_checkfilecount  |
-# +--------+----------------------+
-# |ARGUMENT|                      |
-# +--------+----------------------+
-func_checkfilecount()
-{
-	filecount=`ls | wc -l`
-	if [ "$filecount" == "0" ]; then
-		echo "[EMPTY]"
-	elif [ "$filecount" -le "6" ]; then
-		ls -la
-	else
-		ls
-	fi
-}
+source 'gisanfu-function.sh'
 
 # fix space to effect array result
 IFS=$'\012'
@@ -43,7 +17,7 @@ if [ "$nextRelativeChdir" == "" ]; then
 else
 
 	# load dir list into basharray
-	dirList=(`ls -aF | grep / | grep -ir ^$nextRelativeChdir`)
+	dirList=(`ls -AF | grep / | grep -ir ^$nextRelativeChdir`)
 	
 	if [ "${#dirList[@]}" == "1" ]; then
 		cd ${dirList[0]}

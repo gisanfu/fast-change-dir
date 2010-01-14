@@ -36,6 +36,9 @@ drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX gggg
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ggfff
 
 into aaa
+$ 1
+
+into aaa
 $ cd aaa (it's standard, you know)
 
 goto parent directory

@@ -1,3 +1,5 @@
+
+# fast-change-dir
 alias ll="ls -la"
 alias g=". gisanfu-backdir.sh .."
 alias gg=". gisanfu-backdir.sh ../.."
@@ -5,4 +7,10 @@ alias ggg=". gisanfu-backdir.sh ../../.."
 alias gggg=". gisanfu-backdir.sh ../../../.."
 alias ggggg=". gisanfu-backdir.sh ../../../../.."
 alias gggggg=". gisanfu-backdir.sh ../../../../../.."
-alias d=". gisanfu-intodir.sh ${1}" 
+alias d=". gisanfu-intodir.sh" 
+alias 1=". gisanfu-positiondir.sh 1"
+alias 2=". gisanfu-positiondir.sh 2"
+alias 3=". gisanfu-positiondir.sh 3"
+alias 4=". gisanfu-positiondir.sh 4"
+alias 5=". gisanfu-positiondir.sh 5"
+alias 6=". gisanfu-positiondir.sh 6"
