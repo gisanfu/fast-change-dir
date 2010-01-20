@@ -17,7 +17,7 @@ if [ "$nextRelativeChdir" == "" ]; then
 else
 
 	# load dir list into basharray
-	dirList=(`ls -AF | grep / | grep -ir ^$nextRelativeChdir`)
+	dirList=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeChdir`)
 	
 	if [ "${#dirList[@]}" == "1" ]; then
 		cd ${dirList[0]}

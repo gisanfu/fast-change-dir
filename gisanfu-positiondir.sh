@@ -8,7 +8,7 @@ IFS=$'\012'
 dirPosition=$1
 
 if [ "$dirPosition" != "" ]; then
-	dirList=(`ls -AF | grep /`)
+	dirList=(`ls -AF | grep "/$"`)
 	if [ "${#dirList[@]}" -lt 1 ]; then
 		func_statusbar 'THERE-IS-NO-DIR'
 	else	
