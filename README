@@ -35,8 +35,8 @@ drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ccc
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX gggg
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ggfff
 
-into aaa
-$ 1
+into bbb
+$ eee
 
 into aaa
 $ cd aaa (it's standard, you know)
@@ -80,8 +80,8 @@ $ d
 goto directory by two condition
 $ d gg ff
 
-edit position 1 file use vim
-$ v1
+edit position 3 file use vim
+$ vvv
 
 /*
  *INSTALL
