@@ -1,5 +1,5 @@
 
-# fast-change-dir
+# fast-change-dir 
 alias ll="ls -la"
 alias g=". gisanfu-backdir.sh .."
 alias gg=". gisanfu-backdir.sh ../.."
@@ -7,10 +7,23 @@ alias ggg=". gisanfu-backdir.sh ../../.."
 alias gggg=". gisanfu-backdir.sh ../../../.."
 alias ggggg=". gisanfu-backdir.sh ../../../../.."
 alias gggggg=". gisanfu-backdir.sh ../../../../../.."
+
+# fast-change-dir cd dir use relative keyword
 alias d=". gisanfu-intodir.sh" 
-alias 1=". gisanfu-positiondir.sh 1"
-alias 2=". gisanfu-positiondir.sh 2"
-alias 3=". gisanfu-positiondir.sh 3"
-alias 4=". gisanfu-positiondir.sh 4"
-alias 5=". gisanfu-positiondir.sh 5"
-alias 6=". gisanfu-positiondir.sh 6"
+
+# fast-change-dir cd dir use position
+alias e=". gisanfu-positiondir.sh 1"
+alias ee=". gisanfu-positiondir.sh 2"
+alias eee=". gisanfu-positiondir.sh 3"
+alias eeee=". gisanfu-positiondir.sh 4"
+alias eeeee=". gisanfu-positiondir.sh 5"
+alias eeeeee=". gisanfu-positiondir.sh 6"
+
+# fast-change-dir vim file use position
+alias v=". gisanfu-positionfile.sh 1"
+alias vv=". gisanfu-positionfile.sh 2"
+alias vvv=". gisanfu-positionfile.sh 3"
+alias vvvv=". gisanfu-positionfile.sh 4"
+alias vvvvv=". gisanfu-positionfile.sh 5"
+alias vvvvvv=". gisanfu-positionfile.sh 6"
+

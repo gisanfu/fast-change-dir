@@ -80,6 +80,9 @@ $ d
 goto directory by two condition
 $ d gg ff
 
+edit position 1 file use vim
+$ v1
+
 /*
  *INSTALL
  */
