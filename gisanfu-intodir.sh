@@ -27,25 +27,25 @@ else
 		func_checkfilecount
 
 	elif [ "${#dirList[@]}" -gt "1" ]; then
-	
-		# if have duplicate dirname then CHDIR
-		Success="0"
-		for dirDuplicatelist in ${dirList[@]}
-		do
-			if [ "$dirDuplicatelist" == "$nextRelativeChdir/" ]; then
-				cd $nextRelativeChdir
 
-				func_statusbar 'INTO-LUCK-DIR'
-	
-				# check file count and ls action
-				func_checkfilecount
-				Success="1"
-				break
-			fi
-		done
+		if [ "$secondCondition" == "" ]; then
+			# if have duplicate dirname then CHDIR
+			Success="0"
+			for dirDuplicatelist in ${dirList[@]}
+			do
+				if [ "$dirDuplicatelist" == "$nextRelativeChdir/" ]; then
+					cd $nextRelativeChdir
 
-		# if have secondCondition, DO secondCheck
-		if [ "$secondCondition" != "" ]; then
+					func_statusbar 'INTO-LUCK-DIR'
+	
+					# check file count and ls action
+					func_checkfilecount
+					Success="1"
+					break
+				fi
+			done
+		else
+			# if have secondCondition, DO secondCheck
 			dirList2=(`ls -aF | grep / | grep -ir ^$nextRelativeChdir | grep -ir $secondCondition`)
 			if [ "${#dirList2[@]}" == "1" ]; then
 				cd ${dirList2[0]}
