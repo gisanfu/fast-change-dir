@@ -16,7 +16,9 @@ fi
 
 . gisanfu-relative.sh
 
-vim $relativeitem
+if [ "$relativeitem" != "" ]; then
+	vim $relativeitem
+fi
 
 relativeitem=''
 itemList=''
