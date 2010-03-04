@@ -1,9 +1,12 @@
 #!/bin/bash
 
-source 'gisanfu-function.sh'
+#source 'gisanfu-function.sh'
 
-cd $1
-func_statusbar 'GOTO-PARENT-DIR'
+nextRelativeChdir=$1
+secondCondition=$2
 
-# check file count and ls action
-func_checkfilecount
+cd .. && . gisanfu-cddir.sh $nextRelativeChdir $secondCondition
+
+if [ "$relativeitem" == "" ]; then
+	cd -
+fi

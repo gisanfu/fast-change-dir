@@ -1,29 +1,32 @@
-
-# fast-change-dir 
+# fast-change-dir: use relative keyword
 alias ll="ls -la"
-alias g=". gisanfu-backdir.sh .."
-alias gg=". gisanfu-backdir.sh ../.."
-alias ggg=". gisanfu-backdir.sh ../../.."
-alias gggg=". gisanfu-backdir.sh ../../../.."
-alias ggggg=". gisanfu-backdir.sh ../../../../.."
-alias gggggg=". gisanfu-backdir.sh ../../../../../.."
+# back dir ..
+alias g=". gisanfu-backdir.sh"
+# cd
+alias d=". gisanfu-cddir.sh"
+# vim
+alias v=". gisanfu-editfile.sh"
 
-# fast-change-dir cd dir use relative keyword
-alias d=". gisanfu-intodir.sh" 
+# fast-change-dir: back dir use position
+alias ge=". gisanfu-pos-backdir.sh 1"
+alias gee=". gisanfu-pos-backdir.sh 2"
+alias geee=". gisanfu-pos-backdir.sh 3"
+alias geeee=". gisanfu-pos-backdir.sh 4"
+alias geeeee=". gisanfu-pos-backdir.sh 5"
+alias geeeeee=". gisanfu-pos-backdir.sh 6"
 
-# fast-change-dir cd dir use position
-alias e=". gisanfu-positiondir.sh 1"
-alias ee=". gisanfu-positiondir.sh 2"
-alias eee=". gisanfu-positiondir.sh 3"
-alias eeee=". gisanfu-positiondir.sh 4"
-alias eeeee=". gisanfu-positiondir.sh 5"
-alias eeeeee=". gisanfu-positiondir.sh 6"
+# fast-change-dir: cd dir use position
+alias de=". gisanfu-pos-cddir.sh 1"
+alias dee=". gisanfu-pos-cddir.sh 2"
+alias deee=". gisanfu-pos-cddir.sh 3"
+alias deeee=". gisanfu-pos-cddir.sh 4"
+alias deeeee=". gisanfu-pos-cddir.sh 5"
+alias deeeeee=". gisanfu-pos-cddir.sh 6"
 
-# fast-change-dir vim file use position
-alias v=". gisanfu-positionfile.sh 1"
-alias vv=". gisanfu-positionfile.sh 2"
-alias vvv=". gisanfu-positionfile.sh 3"
-alias vvvv=". gisanfu-positionfile.sh 4"
-alias vvvvv=". gisanfu-positionfile.sh 5"
-alias vvvvvv=". gisanfu-positionfile.sh 6"
-
+# fast-change-dir: vim file use position
+alias ve=". gisanfu-pos-editfile.sh 1"
+alias vee=". gisanfu-pos-editfile.sh 2"
+alias veee=". gisanfu-pos-editfile.sh 3"
+alias veeee=". gisanfu-pos-editfile.sh 4"
+alias veeeee=". gisanfu-pos-editfile.sh 5"
+alias veeeeee=". gisanfu-pos-editfile.sh 6"
