@@ -3,6 +3,7 @@
 source 'gisanfu-function.sh'
 
 relativeitem=''
+Success=0
 
 # if empty of variable, then go back directory
 if [ "$nextRelativeItem" == "" ]; then
@@ -19,7 +20,8 @@ else
 			Success="0"
 			for dirDuplicatelist in ${itemList[@]}
 			do
-				if [ "$dirDuplicatelist" == "$nextRelativeItem/" ]; then
+				# to match file or dir rule
+				if [ "$dirDuplicatelist" == "$nextRelativeItem/" ] || [ "$dirDuplicatelist" == "$nextRelativeItem" ]; then
 					relativeitem=$nextRelativeItem
 
 					func_statusbar 'USE-LUCK-ITEM'
@@ -41,7 +43,7 @@ else
 	
 		# if no duplicate dirname then print them
 		if [ $Success == "0" ]; then
-			func_statusbar 'PLEASE-SELECT-ONE-INTO'
+			func_statusbar 'PLEASE-SELECT-ONE-ITEM'
 			for echothem in ${itemList[@]}
 			do
 				echo $echothem
