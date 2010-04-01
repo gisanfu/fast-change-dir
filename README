@@ -89,8 +89,11 @@ $ vf
 vim argument list buffer (vim -p aaa.txt bbb.txt ....)
 $ vff
 
-delete vim argument list buffer
+vim ~/vimargumentlist.txt file
 $ vfff
+
+delete vim argument list buffer
+$ vdelete
 
 /*
  *INSTALL
