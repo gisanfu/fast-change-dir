@@ -17,7 +17,7 @@ fi
 . gisanfu-relative.sh
 
 if [ "$relativeitem" != "" ]; then
-	echo "`pwd`/$1" >> ~/vimargumentlist.txt
+	echo "`pwd`/$relativeitem" >> ~/vimargumentlist.txt
 	cat ~/vimargumentlist.txt
 fi
 
