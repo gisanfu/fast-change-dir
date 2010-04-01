@@ -7,7 +7,7 @@ alias d=". gisanfu-cddir.sh"
 # vim
 alias v=". gisanfu-editfile.sh"
 alias vf="gisanfu-vim-write.sh"
-alias vff="vim -p `cat ~/vimargumentlist.txt | tr "\n" " "`"
+alias vff="gisanfu-vim-argumentlist.sh"
 alias vfff="rm ~/vimargumentlist.txt"
 
 # fast-change-dir: back dir use position
