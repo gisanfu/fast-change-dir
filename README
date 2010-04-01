@@ -83,6 +83,15 @@ $ d gg ff
 edit position 3 file use vim
 $ vvv
 
+add filename to vim argument list buffer
+$ vf
+
+vim argument list buffer (vim -p aaa.txt bbb.txt ....)
+$ vff
+
+delete vim argument list buffer
+$ vfff
+
 /*
  *INSTALL
  */
