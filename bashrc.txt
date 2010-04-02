@@ -17,7 +17,7 @@ alias dvvv=". gisanfu-dirpoint-edit.sh"
 alias v=". gisanfu-editfile.sh"
 alias vf=". gisanfu-vimlist-append.sh"
 alias vff=". gisanfu-vimlist.sh"
-alias vfff="gisanfu-vimlist-edit.sh"
+alias vfff=". gisanfu-vimlist-edit.sh"
 
 # fast-change-dir: back dir use position
 alias ge=". gisanfu-pos-backdir.sh 1"
