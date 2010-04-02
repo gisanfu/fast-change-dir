@@ -1,15 +1,23 @@
 # fast-change-dir: use relative keyword
 alias ll="ls -la"
+
+# set groupname
+alias groupname=". gisanfu-groupname.sh"
+
 # back dir ..
 alias g=". gisanfu-backdir.sh"
+
 # cd
 alias d=". gisanfu-cddir.sh"
+alias dv=". gisanfu-dirpoint.sh"
+alias dvv=". gisanfu-dirpoint-append.sh"
+alias dvvv=". gisanfu-dirpoint-edit.sh"
+
 # vim
 alias v=". gisanfu-editfile.sh"
-alias vf="gisanfu-vim-write.sh"
-alias vff="gisanfu-vim-argumentlist.sh"
-alias vfff="vim ~/vimargumentlist.txt"
-alias vdelete="rm ~/vimargumentlist.txt"
+alias vf=". gisanfu-vimlist-append.sh"
+alias vff=". gisanfu-vimlist.sh"
+alias vfff="gisanfu-vimlist-edit.sh"
 
 # fast-change-dir: back dir use position
 alias ge=". gisanfu-pos-backdir.sh 1"

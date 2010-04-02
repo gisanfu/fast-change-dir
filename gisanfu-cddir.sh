@@ -23,3 +23,6 @@ if [ "$relativeitem" != "" ]; then
 	# check file count and ls action
 	func_checkfilecount
 fi
+
+relativeitem=''
+itemList=''

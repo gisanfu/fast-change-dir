@@ -16,9 +16,11 @@ fi
 
 . gisanfu-relative.sh
 
-if [ "$relativeitem" != "" ]; then
-	echo "`pwd`/$relativeitem" >> ~/vimargumentlist.txt
-	cat ~/vimargumentlist.txt
+if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
+	echo "`pwd`/$relativeitem" >> ~/gisanfu-vimlist-$groupname.txt
+	cat ~/gisanfu-vimlist-$groupname.txt
+elif [ "$groupname" == "" ]; then
+	echo '[ERROR] groupname is empty'
 fi
 
 relativeitem=''
