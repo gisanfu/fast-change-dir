@@ -36,7 +36,7 @@ drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX gggg
 drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ggfff
 
 into bbb
-$ eee
+$ deee
 
 into aaa
 $ cd aaa (it's standard, you know)
@@ -72,7 +72,7 @@ $ d ggggg
 $ d hhhhhh
 
 return to parent dir for 4 layer
-$ gggg (maximum layer is 6)
+$ geeee (maximum layer is 6)
 
 goto the last time directory(old command is => cd -)
 $ d
@@ -81,7 +81,10 @@ goto directory by two condition
 $ d gg ff
 
 edit position 3 file use vim
-$ vvv
+$ veee
+
+set groupname to environment variable
+$ export groupname=project01
 
 add filename to vim argument list buffer
 $ vf
@@ -89,11 +92,18 @@ $ vf
 vim argument list buffer (vim -p aaa.txt bbb.txt ....)
 $ vff
 
-vim ~/vimargumentlist.txt file
+edit ~/gisanfu-vimlist-${groupname}.txt file
 $ vfff
 
-delete vim argument list buffer
-$ vdelete
+add dirpoint to buffer(library is point)
+$ dvv library /home/user01/zend/library
+
+switch to dirpoint
+$ dv library
+
+edit ~/gisanfu-dirpoint-${groupname}.txt file
+$ dvvv
+
 
 /*
  *INSTALL
