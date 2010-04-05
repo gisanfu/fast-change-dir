@@ -16,7 +16,8 @@ elif [ "$action" == "append" ]; then
 	count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
 	if [ "$count" == "0" ]; then
 		echo $groupname >> ~/gisanfu-groupname.txt
-		echo '[OK] append groupname success'
+		export groupname=$groupname
+		echo '[OK] append and export groupname success'
 	else
 		echo "[ERROR] groupname is exist by $groupname"
 	fi
