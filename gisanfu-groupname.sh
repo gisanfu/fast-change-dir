@@ -6,6 +6,7 @@ groupname=$2
 if [ "$action" == "select" ]; then
 	count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
 	if [ "$count" == "0" ]; then
+		export groupname=""
 		echo "[ERROR] groupname is not exist by $groupname"
 	else
 		export groupname=$groupname
