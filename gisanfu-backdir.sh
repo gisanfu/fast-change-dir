@@ -10,10 +10,10 @@ secondCondition=$2
 
 #searchCondition='ls -AF | grep "/$" | grep -ir ^$nextRelativeItem'
 
-itemList=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem`)
+itemList=(`ls -AF .. | grep "/$" | grep -ir ^$nextRelativeItem`)
 
 if [ "$secondCondition" != "" ]; then
-	itemList2=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+	itemList2=(`ls -AF .. | grep "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
 fi
 
 . gisanfu-relative.sh
