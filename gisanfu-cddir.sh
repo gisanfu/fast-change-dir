@@ -8,12 +8,18 @@ IFS=$'\012'
 nextRelativeItem=$1
 secondCondition=$2
 
-#searchCondition='ls -AF | grep "/$" | grep -ir ^$nextRelativeItem'
-
 itemList=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem`)
 
-if [ "$secondCondition" != "" ]; then
-	itemList2=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+# use (^) grep fast, if no match, then remove (^)
+if [ "${#itemList[@]}" -lt "1" ]; then
+	itemList=(`ls -AF | grep "/$" | grep -ir $nextRelativeItem`)
+	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != "" ]]; then
+		itemList2=(`ls -AF | grep "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+	fi
+elif [ "${#itemList[@]}" -gt "1" ]; then
+	if [ "$secondCondition" != "" ]; then
+		itemList2=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+	fi
 fi
 
 . gisanfu-relative.sh
