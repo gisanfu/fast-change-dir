@@ -16,7 +16,7 @@ if [ "$dirpoint" != "" ]; then
 		fi
 	fi
 else
-	run="dialog --menu "aaa" 0 100 30 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
+	run="dialog --menu "Please Select DirPoint" 0 100 30 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
 	eval $run
 
 	result=`cat /tmp/dirpoint.tmp`

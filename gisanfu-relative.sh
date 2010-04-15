@@ -43,11 +43,23 @@ else
 	
 		# if no duplicate dirname then print them
 		if [ $Success == "0" ]; then
-			func_statusbar 'PLEASE-SELECT-ONE-ITEM'
+			dialogitems=''
 			for echothem in ${itemList[@]}
 			do
-				echo $echothem
+				dialogitems=" $dialogitems $echothem '' "
 			done
+			dialogcmd="dialog --menu 'Please Select Item' 0 70 30 $dialogitems 2> /tmp/dialog.txt"
+			eval $dialogcmd
+			result=`cat /tmp/dialog.txt`
+			if [ "$result" == "" ]; then
+				func_statusbar 'PLEASE-SELECT-ONE-ITEM'
+				for echothem in ${itemList[@]}
+				do
+					echo $echothem
+				done
+			else
+				relativeitem=$result
+			fi
 		fi
 	else
 		relativeitem=''
