@@ -16,5 +16,16 @@ if [ "$dirpoint" != "" ]; then
 		fi
 	fi
 else
-	echo '[ERROR] dirpoint is empty'
+	run="dialog --menu "aaa" 0 100 30 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
+	eval $run
+
+	result=`cat /tmp/dirpoint.tmp`
+
+	if [ "$result" == "" ]; then
+		echo '[ERROR] dirpoint is empty'
+	else
+		dv $result
+	fi
+
+	#cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '
 fi

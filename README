@@ -2,6 +2,7 @@
  * Request environment
  */
 BASH
+dialog
 
 
 /*
