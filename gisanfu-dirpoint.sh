@@ -2,7 +2,10 @@
 
 source 'gisanfu-function.sh'
 
+IFS=$'\012'
+
 dirpoint=$1
+tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
 
 if [ "$groupname" != "" ]; then
 	if [ "$dirpoint" != "" ]; then
@@ -10,9 +13,15 @@ if [ "$groupname" != "" ]; then
 		resultarray=(`grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`)
 
 		if [ "${#resultarray[@]}" -gt "1" ]; then
-			run="dialog --menu 'Please Select DirPoint' 0 100 20 `grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
-			eval $run
-			result=`cat /tmp/dirpoint.tmp`
+			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
+
+			eval $cmd
+			result=`cat $tmpfile`
+
+			if [ -f "$tmpfile" ]; then
+				rm -rf $tmpfile
+			fi
+
 			if [ "$result" == "" ]; then
 				echo '[ERROR] dirpoint is empty'
 			else
@@ -25,10 +34,14 @@ if [ "$groupname" != "" ]; then
 			echo '[ERROR] dirpoint is not exist!!'
 		fi
 	else
-		run="dialog --menu 'Please Select DirPoint' 0 100 20 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
-		eval $run
+		cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` $tmpfile )
+		eval $cmd
 
-		result=`cat /tmp/dirpoint.tmp`
+		result=`cat $tmpfile`
+
+		if [ -f "$tmpfile" ]; then
+			rm -rf $tmpfile
+		fi
 
 		if [ "$result" == "" ]; then
 			echo '[ERROR] dirpoint is empty'
@@ -39,3 +52,5 @@ if [ "$groupname" != "" ]; then
 else
 	echo '[ERROR] groupname is empty, please use GA command'
 fi
+
+tmpfile=''

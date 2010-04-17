@@ -4,6 +4,7 @@ source 'gisanfu-function.sh'
 
 relativeitem=''
 Success=0
+tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
 
 # if empty of variable, then go back directory
 if [ "$nextRelativeItem" == "" ]; then
@@ -48,9 +49,15 @@ else
 			do
 				dialogitems=" $dialogitems $echothem '' "
 			done
-			dialogcmd="dialog --menu 'Please Select Item' 0 70 20 $dialogitems 2> /tmp/dialog.txt"
-			eval $dialogcmd
-			result=`cat /tmp/dialog.txt`
+
+			cmd=$( func_dialog_menu 'Please Select Item' 70 "$dialogitems" "$tmpfile" )
+
+			eval $cmd
+			result=`cat $tmpfile`
+
+			if [ -f "$tmpfile" ]; then
+				rm -rf $tmpfile
+			fi
 			if [ "$result" == "" ]; then
 				func_statusbar 'PLEASE-SELECT-ONE-ITEM'
 				for echothem in ${itemList[@]}
@@ -67,3 +74,4 @@ else
 	fi
 fi
 
+tmpfile=''

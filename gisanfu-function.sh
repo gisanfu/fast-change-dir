@@ -28,3 +28,14 @@ func_checkfilecount()
 	fi
 }
 
+func_dialog_menu()
+{
+	text=$1
+	width=$2
+	content=$3
+	tmp=$4
+
+	cmd="dialog --menu '$text' 0 $width 20 $content 2> $tmp"
+	echo  $cmd
+
+}
