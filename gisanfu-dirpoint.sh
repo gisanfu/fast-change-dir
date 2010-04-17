@@ -4,28 +4,38 @@ source 'gisanfu-function.sh'
 
 dirpoint=$1
 
-if [ "$dirpoint" != "" ]; then
-	if [ "$groupname" != "" ]; then
-		result=`grep $dirpoint ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`
-		if [ "$result" != "" ]; then
+if [ "$groupname" != "" ]; then
+	if [ "$dirpoint" != "" ]; then
+		result=`grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`
+		resultarray=(`grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`)
+
+		if [ "${#resultarray[@]}" -gt "1" ]; then
+			run="dialog --menu 'Please Select DirPoint' 0 100 30 `grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
+			eval $run
+			result=`cat /tmp/dirpoint.tmp`
+			if [ "$result" == "" ]; then
+				echo '[ERROR] dirpoint is empty'
+			else
+				dv $result
+			fi
+		elif [ "${#resultarray[@]}" == "1" ]; then
 			cd $result
-			# check file count and ls action
 			func_checkfilecount
 		else
 			echo '[ERROR] dirpoint is not exist!!'
 		fi
+	else
+		run="dialog --menu 'Please Select DirPoint' 0 100 30 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
+		eval $run
+
+		result=`cat /tmp/dirpoint.tmp`
+
+		if [ "$result" == "" ]; then
+			echo '[ERROR] dirpoint is empty'
+		else
+			dv $result
+		fi
 	fi
 else
-	run="dialog --menu 'Please Select DirPoint' 0 100 30 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` 2> /tmp/dirpoint.tmp"
-	eval $run
-
-	result=`cat /tmp/dirpoint.tmp`
-
-	if [ "$result" == "" ]; then
-		echo '[ERROR] dirpoint is empty'
-	else
-		dv $result
-	fi
-
-	#cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '
+	echo '[ERROR] groupname is empty, please use GA command'
 fi
