@@ -4,22 +4,30 @@ action=$1
 groupname=$2
 
 if [ "$action" == "select" ]; then
-	count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
-	if [ "$count" == "0" ]; then
-		export groupname=""
-		echo "[ERROR] groupname is not exist by $groupname"
+	if [ "$groupname" != "" ]; then
+		count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
+		if [ "$count" == "0" ]; then
+			export groupname=""
+			echo "[ERROR] groupname is not exist by $groupname"
+		else
+			export groupname=$groupname
+			echo '[OK] export groupname success'
+		fi
 	else
-		export groupname=$groupname
-		echo '[OK] export groupname success'
+		echo "[ERROR] please fill groupname field by select action"
 	fi
 elif [ "$action" == "append" ]; then
-	count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
-	if [ "$count" == "0" ]; then
-		echo $groupname >> ~/gisanfu-groupname.txt
-		export groupname=$groupname
-		echo '[OK] append and export groupname success'
+	if [ "$groupname" != "" ]; then
+		count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
+		if [ "$count" == "0" ]; then
+			echo $groupname >> ~/gisanfu-groupname.txt
+			export groupname=$groupname
+			echo '[OK] append and export groupname success'
+		else
+			echo "[ERROR] groupname is exist by $groupname"
+		fi
 	else
-		echo "[ERROR] groupname is exist by $groupname"
+		echo "[ERROR] please fill groupname field by append action"
 	fi
 elif [ "$action" == "edit" ]; then
 	vim ~/gisanfu-groupname.txt
