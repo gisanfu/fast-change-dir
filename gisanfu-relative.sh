@@ -48,7 +48,7 @@ else
 			do
 				dialogitems=" $dialogitems $echothem '' "
 			done
-			dialogcmd="dialog --menu 'Please Select Item' 0 70 30 $dialogitems 2> /tmp/dialog.txt"
+			dialogcmd="dialog --menu 'Please Select Item' 0 70 20 $dialogitems 2> /tmp/dialog.txt"
 			eval $dialogcmd
 			result=`cat /tmp/dialog.txt`
 			if [ "$result" == "" ]; then
