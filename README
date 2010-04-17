@@ -93,6 +93,12 @@ $ vf
 vim argument list buffer (vim -p aaa.txt bbb.txt ....)
 $ vff
 
+vimdiff
+$ vff vimdiff
+
+rm buffer file
+$ vff "rm -rf"
+
 edit ~/gisanfu-vimlist-${groupname}.txt file
 $ vfff
 

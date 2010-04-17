@@ -1,8 +1,13 @@
 #!/bin/bash
 
+program=$1
+
+if [ "$program" == "" ]; then
+	program="vim -p"
+fi
 
 if [ "$groupname" != "" ]; then
-	vim -p `cat ~/gisanfu-vimlist-$groupname.txt | tr "\n" " "`
+	$program `cat ~/gisanfu-vimlist-$groupname.txt | tr "\n" " "`
 else
 	echo '[ERROR] groupname is empty'
 fi
