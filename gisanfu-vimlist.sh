@@ -9,5 +9,5 @@ fi
 if [ "$groupname" != "" ]; then
 	$program `cat ~/gisanfu-vimlist-$groupname.txt | tr "\n" " "`
 else
-	echo '[ERROR] groupname is empty'
+	echo '[ERROR] groupname is empty, please use GA cmd'
 fi

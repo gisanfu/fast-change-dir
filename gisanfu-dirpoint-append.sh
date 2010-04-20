@@ -37,7 +37,7 @@ if [ "$dirpoint" != "" ]; then
 		echo "$dirpoint,`pwd`/$relativeitem" >> ~/gisanfu-dirpoint-$groupname.txt
 		cat ~/gisanfu-dirpoint-$groupname.txt
 	elif [ "$groupname" == "" ]; then
-		echo '[ERROR] groupname is empty'
+		echo '[ERROR] groupname is empty, please use GA cmd'
 	fi
 else
 	echo '[ERROR] "dirpoint-arg01" "nextRelativeItem-arg01" "secondCondition"'
