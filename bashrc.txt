@@ -27,6 +27,12 @@ alias v=". /bin/gisanfu-editfile.sh"
 alias vf=". /bin/gisanfu-vimlist-append.sh"
 alias vff="/bin/gisanfu-vimlist.sh"
 alias vfff=". /bin/gisanfu-vimlist-edit.sh"
+alias vfe=". /bin/gisanfu-pos-vimlist-append.sh 1"
+alias vfee=". /bin/gisanfu-pos-vimlist-append.sh 2"
+alias vfeee=". /bin/gisanfu-pos-vimlist-append.sh 3"
+alias vfeeee=". /bin/gisanfu-pos-vimlist-append.sh 4"
+alias vfeeeee=". /bin/gisanfu-pos-vimlist-append.sh 5"
+alias vfeeeeee=". /bin/gisanfu-pos-vimlist-append.sh 6"
 
 #
 # back cd dir
