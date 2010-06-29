@@ -35,18 +35,25 @@ alias vfeeeee=". /bin/gisanfu-pos-vimlist-append.sh 5"
 alias vfeeeeee=". /bin/gisanfu-pos-vimlist-append.sh 6"
 
 #
-# back cd dir
+# back, and cd dir
 #
 alias g=". /bin/gisanfu-backdir.sh"
-# back layer dir
-alias ge=". /bin/gisanfu-pos-backdir.sh 1"
-alias gee=". /bin/gisanfu-pos-backdir.sh 2"
-alias geee=". /bin/gisanfu-pos-backdir.sh 3"
-alias geeee=". /bin/gisanfu-pos-backdir.sh 4"
-alias geeeee=". /bin/gisanfu-pos-backdir.sh 5"
-alias geeeeee=". /bin/gisanfu-pos-backdir.sh 6"
+# back back... layer dir
+alias ge=". /bin/gisanfu-back-backdir.sh 1"
+alias gee=". /bin/gisanfu-back-backdir.sh 2"
+alias geee=". /bin/gisanfu-back-backdir.sh 3"
+alias geeee=". /bin/gisanfu-back-backdir.sh 4"
+alias geeeee=". /bin/gisanfu-back-backdir.sh 5"
+alias geeeeee=". /bin/gisanfu-back-backdir.sh 6"
+# back and cd dir, use position
+alias gde=". /bin/gisanfu-pos-backdir.sh 1"
+alias gdee=". /bin/gisanfu-pos-backdir.sh 2"
+alias gdeee=". /bin/gisanfu-pos-backdir.sh 3"
+alias gdeeee=". /bin/gisanfu-pos-backdir.sh 4"
+alias gdeeeee=". /bin/gisanfu-pos-backdir.sh 5"
+alias gdeeeeee=". /bin/gisanfu-pos-backdir.sh 6"
 
-# fast-change-dir: cd dir use position
+# fast-change-dir: cd dir, use position
 alias de=". /bin/gisanfu-pos-cddir.sh 1"
 alias dee=". /bin/gisanfu-pos-cddir.sh 2"
 alias deee=". /bin/gisanfu-pos-cddir.sh 3"
@@ -54,7 +61,7 @@ alias deeee=". /bin/gisanfu-pos-cddir.sh 4"
 alias deeeee=". /bin/gisanfu-pos-cddir.sh 5"
 alias deeeeee=". /bin/gisanfu-pos-cddir.sh 6"
 
-# fast-change-dir: vim file use position
+# fast-change-dir: vim file, use position
 alias ve=". /bin/gisanfu-pos-editfile.sh 1"
 alias vee=". /bin/gisanfu-pos-editfile.sh 2"
 alias veee=". /bin/gisanfu-pos-editfile.sh 3"
