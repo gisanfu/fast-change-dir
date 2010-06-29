@@ -28,6 +28,7 @@ func_checkfilecount()
 	fi
 }
 
+# 這個是Dialog指令的選單功能
 func_dialog_menu()
 {
 	text=$1
@@ -36,6 +37,16 @@ func_dialog_menu()
 	tmp=$4
 
 	cmd="dialog --menu '$text' 0 $width 20 $content 2> $tmp"
-	echo  $cmd
+	echo $cmd
+}
 
+# 這個是Dialog指令的YesNo功能
+func_dialog_yesno()
+{
+	title=$1
+	text=$2
+	width=$3
+
+	cmd="dialog --title '$title' --yesno '$text' 7 $width"
+	echo $cmd
 }
