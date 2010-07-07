@@ -8,7 +8,7 @@
 func_statusbar()
 {
 	echo "[ACT]=>$1"
-	echo "[PWD]=>`pwd`"
+	#echo "[PWD]=>`pwd`"
 }
 
 # +--------+----------------------+
@@ -18,6 +18,7 @@ func_statusbar()
 # +--------+----------------------+
 func_checkfilecount()
 {
+	echo "[PWD]=>`pwd`"
 	filecount=`ls | wc -l`
 	if [ "$filecount" == "0" ]; then
 		echo "[EMPTY]"

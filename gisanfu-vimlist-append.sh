@@ -41,6 +41,9 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		255) echo "Canceled by user by pressing [ESC] key";;
 	esac
 
+	# 最後，顯示目前目錄的檔案
+	func_checkfilecount
+
 elif [ "$groupname" == "" ]; then
 	echo '[ERROR] groupname is empty'
 fi
