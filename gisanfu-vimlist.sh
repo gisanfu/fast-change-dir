@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source 'gisanfu-function.sh'
+
 program=$1
 
 if [ "$program" == "" ]; then
