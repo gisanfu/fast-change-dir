@@ -1,6 +1,9 @@
 # fast-change-dir: use relative keyword
 alias ll="ls -la"
 
+# Svn
+alias svnn="/bin/gisanfu-svn.sh"
+
 #
 # GroupName
 #
