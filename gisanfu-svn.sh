@@ -6,7 +6,7 @@ source 'gisanfu-function.sh'
 
 tmpfile=/tmp/gisanfu_svn.log
 
-svnitems="'svn status|grep -e ^M -e ^A' '狀態' 'svn update' '更新' 'svn commit -m fixbug' '提交'"
+svnitems="'svn status|grep -e ^M -e ^A' '狀態' 'svn update' '更新' 'svn commit -m fixbug && svn update' '提交'"
 
 cmd=$( func_dialog_menu '請選擇Svn指令' 70 "$svnitems" "$tmpfile" )
 
