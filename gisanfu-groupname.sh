@@ -1,7 +1,14 @@
 #!/bin/bash
 
+#
+# 這個檔案，是選擇、以及增加專案代碼
+#
+
+source 'gisanfu-function.sh'
+
 action=$1
 groupname=$2
+tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
 
 if [ "$action" == "select" ]; then
 	if [ "$groupname" != "" ]; then
@@ -14,7 +21,20 @@ if [ "$action" == "select" ]; then
 			echo '[OK] export groupname success'
 		fi
 	else
-		echo "[ERROR] please fill groupname field by select action"
+		resultarray=(`grep ^$dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`)
+
+		dialogitems=`cat gisanfu-groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
+		cmd=$( func_dialog_menu '請選擇專案代碼' 70 "$dialogitems" "$tmpfile" )
+
+		eval $cmd
+		result=`cat $tmpfile`
+
+		if [ "$result" == "" ]; then
+			func_statusbar '你不選嗎，別忘了要選才能使用專案功能哦'
+		else
+			export groupname=$result
+			echo '[OK] export groupname success'
+		fi
 	fi
 elif [ "$action" == "append" ]; then
 	if [ "$groupname" != "" ]; then
