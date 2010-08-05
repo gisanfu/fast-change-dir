@@ -21,9 +21,7 @@ if [ "$action" == "select" ]; then
 			echo '[OK] export groupname success'
 		fi
 	else
-		resultarray=(`grep ^$dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`)
-
-		dialogitems=`cat gisanfu-groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
+		dialogitems=`cat ~/gisanfu-groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
 		cmd=$( func_dialog_menu '請選擇專案代碼' 70 "$dialogitems" "$tmpfile" )
 
 		eval $cmd
