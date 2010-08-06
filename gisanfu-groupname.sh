@@ -32,6 +32,8 @@ if [ "$action" == "select" ]; then
 		else
 			export groupname=$result
 			echo '[OK] export groupname success'
+			# 切換到Root的資料夾，預設是root，這是我建立資料夾link的方式，根目錄名稱叫root
+			. /bin/gisanfu-dirpoint.sh root
 		fi
 	fi
 elif [ "$action" == "append" ]; then
