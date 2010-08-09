@@ -6,9 +6,13 @@ source 'gisanfu-function.sh'
 
 tmpfile=/tmp/gisanfu_svn.log
 
-svnitems="'svn status|grep -e ^M -e ^A' '狀態' 'svn update' '更新' 'svn commit -m fixbug && svn update' '提交'"
+svnitems=''
+svnitems="$svnitems 'svn status|grep -e ^M -e ^A' '狀態'"
+svnitems="$svnitems 'svn update' '更新'"
+svnitems="$svnitems 'svn commit -m fixbug && svn update' '提交'"
+svnitems="$svnitems '. /bin/gisanfu-dirpoint.sh root && /bin/gisanfu-svn-edit-revision.sh && cd -' '編輯Svn版本檔案'"
 
-cmd=$( func_dialog_menu '請選擇Svn指令' 70 "$svnitems" "$tmpfile" )
+cmd=$( func_dialog_menu '請選擇Svn指令' 80 "$svnitems" "$tmpfile" )
 
 eval $cmd
 result=`cat $tmpfile`
