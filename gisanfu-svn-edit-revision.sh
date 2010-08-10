@@ -19,7 +19,7 @@ if [ "$revision" == "" ]; then
 	fi
 fi
 
-items=(`svn log -v -r $revision | grep -e "^   M" -e "^   A" | sed  's/^   M \///g' | sed 's/^   A \///g'`)
+items=(`svn log -v -r $revision | grep -e "^   M" -e "^   A" | sed  's/^   M \///g' | sed 's/^   A \///g' | sort -u`)
 
 for item in ${items[@]}
 do
