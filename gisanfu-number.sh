@@ -3,6 +3,13 @@
 ga
 
 listmode='ls -la --color=auto'
+
+# all 顯示所有檔案，含資料夾和檔案
+# dir 只顯示資料夾，並把位置列出來
+# file 跟上面一樣，不過是檔案
+filelist="all"
+
+# 當filelist的值是all的時候，這個數值才會有作用
 filemode='dir'
 
 while [ 1 ];
@@ -11,6 +18,7 @@ do
 	echo '工具列表(/斜線)   列表切換(*星號)   上一層(-減號)   檔案[夾]切換(.點)'
 	echo '================================================='
 	echo "目前顯示模式$listmode"
+	echo "目前列表依據$filelist"
 	echo "目前檔案模式$filemode"
 	echo '================================================='
 	eval $listmode
