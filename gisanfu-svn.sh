@@ -7,7 +7,8 @@ source 'gisanfu-function.sh'
 tmpfile=/tmp/gisanfu_svn.log
 
 svnitems=''
-svnitems="$svnitems 'svn status|grep -e ^M -e ^A' '狀態'"
+#svnitems="$svnitems 'svn status|grep -e ^M -e ^A' '狀態'"
+svnitems="$svnitems 'svn status -q' '狀態'"
 svnitems="$svnitems 'svn update' '更新'"
 svnitems="$svnitems 'svn commit -m fixbug && svn update' '提交'"
 svnitems="$svnitems '. /bin/gisanfu-dirpoint.sh root && svn log -v | more && svn update && /bin/gisanfu-svn-edit-revision.sh && cd -' '以版本號編輯檔案'"
