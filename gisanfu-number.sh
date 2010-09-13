@@ -45,7 +45,9 @@ do
 		elif [ "$cmdslash" == "2" ]; then
 			echo 'blha'
 		fi
-	elif [[ "$cmd" =~ [[:digit:]] ]]; then
+	fi
+
+	if [[ "$cmd" =~ [[:digit:]] ]]; then
 		if [ "$filemode" == "dir" ]; then
 			selectitem=". /bin/gisanfu-pos-cddir.sh $cmd"
 			eval $selectitem
