@@ -1,6 +1,9 @@
 # fast-change-dir: use relative keyword
 alias ll="ls -la"
 
+# number function
+alias num=". /bin/gisanfu-number.sh"
+
 # Svn
 alias svnn="/bin/gisanfu-svn.sh"
 
