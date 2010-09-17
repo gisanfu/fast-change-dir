@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# IDEA
+# 1. 按數字1，可能就顯示跟1有關係的項目，例如1、1N、1NN
+# 2. filelist=all的時候，每一個項目都會加上數字，
+#    當我選數字的時候，會自動去判斷這個項目是資料夾還是檔案
+
 # 3種檔案變數
 # 1.檔案顯示模式(mode)
 #   指的是"ls -A"指令，要不要加上l
@@ -39,6 +44,7 @@ funcGetMode()
 	echo $cmd
 }
 
+# 我想還是不要一開始就選好了
 #ga
 
 # -A 代表不顯示.和..，這個參數不能跟小a一起使用
@@ -92,7 +98,6 @@ do
 	elif [ "$cmd" == "+" ]; then
 		echo '請輸入9以上的數字項目'
 		read cmd
-		filelist='all'
 	elif [ "$cmd" == "*" ]; then
 		if [ "$filemode" == "normal" ]; then
 			filemode='detail'
@@ -111,16 +116,28 @@ do
 		ge
 		filelist='all'
 	elif [ "$cmd" == "/" ]; then
-		echo '(1) dv 顯示虛擬資料夾'
-		echo '(1) vff 將暫存檔案用VIM逐一打開'
-		echo '(1) vfff VIM編輯暫存檔案列表'
+		echo '(1) ga 選擇專案'
+		echo '(2) dv 顯示虛擬資料夾'
+		echo '(3) vff 將暫存檔案用VIM逐一打開'
+		echo '(4) vfff VIM編輯暫存檔案列表'
+		echo '(5) 清除VIM編輯暫存檔案列表'
 		echo '(Enter) 取消'
 		echo '請輸入指令:'
 		read -n 1 cmdslash
 		if [ "$cmdslash" == "1" ]; then
-			dv
+			ga	
+			cmd=''
 		elif [ "$cmdslash" == "2" ]; then
-			echo 'blha'
+			dv
+		elif [ "$cmdslash" == "3" ]; then
+			vff
+		elif [ "$cmdslash" == "4" ]; then
+			vfff
+		elif [ "$cmdslash" == "5" ]; then
+			if [ "$groupname" != '' ]; then
+				rm ~/gisanfu-vimlist-$groupname.txt
+				touch ~/gisanfu-vimlist-$groupname.txt
+			fi
 		fi
 	fi
 
@@ -147,19 +164,15 @@ do
 			eval $selectitem
 			filelist='all'
 		else
-			echo '(1) vim 編輯此檔案(預設)'
-			echo '(2) vf 將此檔案暫存'
-			echo '請輸入指令:'
-			read -n 1 cmdslash
-			if [ "$cmdslash" == "2" ]; then
-				selectitem=". /bin/gisanfu-pos-vimlist-append.sh $cmd"
-				eval $selectitem
-				filelist='all'
-			else
+			# 以groupname(ga)來選擇動作，這樣子可能會比較順
+			if [ "$groupname" == "" ]; then
 				selectitem=". /bin/gisanfu-pos-editfile.sh $cmd"	
 				eval $selectitem
-				filelist='all'
+			else
+				selectitem=". /bin/gisanfu-pos-vimlist-append.sh $cmd"
+				eval $selectitem
 			fi
+			filelist='all'
 		fi
 		
 	fi
