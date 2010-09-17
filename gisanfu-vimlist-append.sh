@@ -25,14 +25,21 @@ fi
 . gisanfu-relative.sh
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
-	echo "`pwd`/$relativeitem" >> ~/gisanfu-vimlist-$groupname.txt
-	cat ~/gisanfu-vimlist-$groupname.txt
-	# 整個動作結束後，問使用者是否要針對這些append進來的東西做編輯
-
-	tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
-	cmd=$( func_dialog_yesno 'Please Choose' 'Disable select Yes, Edit select NO' 70 "$tmpfile" )
+	# 檢查一下，看文字檔裡面有沒有這個內容，如果有，當然就不需要在append
+	selectitem=''
+	selectitem=`pwd`/$relativeitem
+	checkline=`grep "$selectitem" ~/gisanfu-vimlist-$groupname.txt | wc -l`
+	selectitem=''
+	if [ "$checkline" -lt 1 ]; then
+		echo "`pwd`/$relativeitem" >> ~/gisanfu-vimlist-$groupname.txt
+		cat ~/gisanfu-vimlist-$groupname.txt
+	else
+		echo '[NOTICE] File is exist'
+	fi
 
 	# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
+	tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
+	cmd=$( func_dialog_yesno 'Please Choose' 'Disable select Yes, Edit select NO' 70 "$tmpfile" )
 	eval $cmd
 	sel=$?
 	case $sel in
@@ -45,7 +52,7 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	func_checkfilecount
 
 elif [ "$groupname" == "" ]; then
-	echo '[ERROR] groupname is empty'
+	echo '[ERROR] Argument or $groupname is empty'
 fi
 
 relativeitem=''
