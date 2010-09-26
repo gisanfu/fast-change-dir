@@ -1,0 +1,62 @@
+123
+
+# update: 2010-09-25
+
+ls 指令研究
+
+-I [ignore file or dir name]
+--ignore
+另外，--hide好像有相反的結果
+範例
+-I .svn -I *.txt -I *.as
+
+-Gg
+其實是分成-G和-g，我只是寫在一起而以
+ignore owner and group
+
+-1
+一般預設的ls，會顯示橫的
+而這個指令讓它變成直的
+
+-A
+不顯示.和..
+
+-F
+資料夾後面加斜線
+執行檔後面加上星號
+symlink後面加上小老鼠(@)
+
+--file-type
+跟-A加上-F(也就是-AF)的結果是一樣的
+
+-R
+每一個資料夾都跑一下
+
+-Q
+--quote-name
+在每個項目都加上雙引號，
+這對有空白的項目是有幫助的
+
+-m
+每個項目，都用逗點隔開
+這個選項會去replace其它的設定
+
+-x
+--format=h
+--format=horizontal
+如果是純ls的指令，加上-x，
+那就會是下面的顯示方式
+1 4 7
+2 5 8
+3 6 9
+如果是-C(vertical)
+就會是下面的樣子
+1 2 3
+4 5 6
+7 8 9
+
+--quoting-style=(literal|shell|shell-always|c|c-maybe|escape|locale|clocale)
+如果是c，就會加上雙引，如果是escape，就會在需要的時候，加上跳脫字元
+
+--width=COLS
+可以指定寬度，讓純ls橫向顯示的檔案，能夠依照固定的寬度來的顯示

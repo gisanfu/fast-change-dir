@@ -9,7 +9,9 @@ if [ "$program" == "" ]; then
 fi
 
 if [ "$groupname" != "" ]; then
-	$program `cat ~/gisanfu-vimlist-$groupname.txt | tr "\n" " "`
+	cmdlist=`cat ~/gisanfu-vimlist-$groupname.txt | tr "\n" " "`
+	cmd="$program $cmdlist"
+	eval $cmd
 	func_checkfilecount
 else
 	echo '[ERROR] groupname is empty, please use GA cmd'
