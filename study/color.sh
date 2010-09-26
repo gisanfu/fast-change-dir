@@ -35,5 +35,5 @@ bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 NC='\e[0m' # No Color
 
-echo -e "${bldblu}dir${NC}"
+echo -e "${bldgrn}dir${NC}"
 
