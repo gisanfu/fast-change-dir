@@ -38,7 +38,7 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	fi
 
 	# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
-	echo '[WAIT] 確定，是編輯暫存檔案'
+	echo '[WAIT] 確定，是編輯暫存檔案[Nf0,yj1]'
 	read -n 1 inputchar
 	if [[ "$inputchar" == 'y' || "$inputchar" == 'j' || "$inputchar" == "1" ]]; then
 		/bin/gisanfu-vimlist.sh
