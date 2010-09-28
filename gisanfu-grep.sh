@@ -9,6 +9,7 @@ tmpfile=/tmp/`whoami`-grep-$( date +%Y%m%d-%H%M ).txt
 nowpath=`pwd`
 
 unset condition
+unset count
 
 while [ 1 ];
 do
@@ -22,19 +23,22 @@ do
 	if [ "$condition" == 'quit' ]; then
 		break
 	elif [ "$condition" != '' ]; then
-		grep -ir $condition * --exclude-dir Zend --exclude-dir .svn --no-messages | sort --unique | nl -s: -w1 > $tmpfile
-		cat $tmpfile
-		#rm -rf $tmpfile
+		if [ "${#condition}" -gt 2 ]; then
+			grep -ir $condition * --exclude-dir Zend --exclude-dir .svn --no-messages | sort --unique | nl -s: -w1 > $tmpfile
+			cat $tmpfile
+		fi
 	fi
 
-	read -s -n 1 inputvar
+	echo '輸入完請按Enter，或者是輸入一個單引號，來選擇搜尋出來的編號'
 
-	condition="$condition$inputvar"
+	read inputvar
+
+	condition="$inputvar"
 
 	if [ "$inputvar" == '/' ]; then
 		unset condition
 		continue
-	elif [[ "$inputvar" == "'" && "$condition" != "'" ]]; then
+	elif [[ "$inputvar" == "'" ]]; then
 		echo '請輸入編號，輸入完請按Enter，輸入0是取消'
 		read inputvar2
 		selectfile=`grep "^$inputvar2:" $tmpfile | sed "s/^$inputvar2://" | cut -d: -f1`
