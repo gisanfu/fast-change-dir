@@ -2,6 +2,7 @@
 alias ll="ls -la"
 
 # number function
+alias gre=". /bin/gisanfu-grep.sh"
 alias sear=". /bin/gisanfu-search.sh"
 alias num=". /bin/gisanfu-number3.sh"
 

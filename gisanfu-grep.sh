@@ -1,14 +1,10 @@
 #!/bin/bash
 
-# IDEA
-# 本程式想要寫搜尋專案裡面的檔案
-# 然後，編輯搜尋到的結果
-
 if [ "$groupname" != '' ]; then
 	dv root
 fi
 
-tmpfile=/tmp/`whoami`-search-$( date +%Y%m%d-%H%M ).txt
+tmpfile=/tmp/`whoami`-grep-$( date +%Y%m%d-%H%M ).txt
 
 nowpath=`pwd`
 
@@ -17,16 +13,16 @@ unset condition
 while [ 1 ];
 do
 	clear
-	echo '即時搜尋檔案名稱'
+	echo '即時搜尋檔案內容'
 	echo '================================================='
 	echo "現行資料夾: $nowpath"
-	echo "目前您所輸入的搜尋檔案名稱的條件: $condition"
+	echo "目前您所輸入的搜尋關鍵字的條件: $condition"
 	echo '================================================='
 
 	if [ "$condition" == 'quit' ]; then
 		break
 	elif [ "$condition" != '' ]; then
-		find . -iname \*$condition\* | grep -v "\.svn" | grep -v "\.git" | grep -v "Zend" | nl -s: -w1 > $tmpfile
+		grep -ir $condition * --exclude-dir Zend --exclude-dir .svn --no-messages | sort --unique | nl -s: -w1 > $tmpfile
 		cat $tmpfile
 		#rm -rf $tmpfile
 	fi
@@ -41,7 +37,7 @@ do
 	elif [[ "$inputvar" == "'" && "$condition" != "'" ]]; then
 		echo '請輸入編號，輸入完請按Enter，輸入0是取消'
 		read inputvar2
-		selectfile=`grep "^$inputvar2:" $tmpfile | sed "s/^$inputvar2:\.\///"`
+		selectfile=`grep "^$inputvar2:" $tmpfile | sed "s/^$inputvar2://" | cut -d: -f1`
 		
 		if [[ "$groupname" == '' && "$inputvar2" != '0' ]]; then
 			run="vim $selectfile"
