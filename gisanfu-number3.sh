@@ -89,11 +89,15 @@ declare -a item_dir_array
 while [ 1 ];
 do
 	clear
+	echo '即時切換資料夾'
+	echo '================================================='
 	echo "現行資料夾: `pwd`"
 	echo '================================================='
 	ls -AF -I .svn -I .git --color=auto
 
-	if [ "$condition" != '' ]; then
+	if [ "$condition" == 'quit' ]; then
+		break
+	elif [ "$condition" != '' ]; then
 		echo '================================================='
 		echo "目前您所輸入的搜尋條件: $condition"
 	fi

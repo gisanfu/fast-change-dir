@@ -29,13 +29,13 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	selectitem=''
 	selectitem=`pwd`/$relativeitem
 	checkline=`grep "$selectitem" ~/gisanfu-vimlist-$groupname.txt | wc -l`
-	selectitem=''
 	if [ "$checkline" -lt 1 ]; then
-		echo "\"`pwd`/$relativeitem\"" >> ~/gisanfu-vimlist-$groupname.txt
+		echo "\"$selectitem\"" >> ~/gisanfu-vimlist-$groupname.txt
 		cat ~/gisanfu-vimlist-$groupname.txt
 	else
 		echo '[NOTICE] File is exist'
 	fi
+	selectitem=''
 
 	# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
 	echo '[WAIT] 確定，是編輯暫存檔案[Nf0,yj1]'
