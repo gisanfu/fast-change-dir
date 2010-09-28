@@ -2,7 +2,7 @@
 alias ll="ls -la"
 
 # number function
-alias num=". /bin/gisanfu-number.sh"
+alias num=". /bin/gisanfu-number3.sh"
 
 # Svn
 alias svnn="/bin/gisanfu-svn.sh"
