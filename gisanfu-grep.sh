@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ "$groupname" != '' ]; then
-	dv root
-fi
+#if [ "$groupname" != '' ]; then
+#	dv root
+#fi
 
 tmpfile=/tmp/`whoami`-grep-$( date +%Y%m%d-%H%M ).txt
 
@@ -23,10 +23,8 @@ do
 	if [ "$condition" == 'quit' ]; then
 		break
 	elif [ "$condition" != '' ]; then
-		if [ "${#condition}" -gt 2 ]; then
-			grep -ir $condition * --exclude-dir Zend --exclude-dir .svn --no-messages | sort --unique | nl -s: -w1 > $tmpfile
-			cat $tmpfile
-		fi
+		grep -ir $condition * --exclude-dir Zend --exclude-dir .svn --no-messages | sort --unique | nl -s: -w1 > $tmpfile
+		cat $tmpfile
 	fi
 
 	echo '輸入完請按Enter，或者是輸入一個單引號，來選擇搜尋出來的編號'

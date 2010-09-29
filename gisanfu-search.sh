@@ -4,9 +4,9 @@
 # 本程式想要寫搜尋專案裡面的檔案
 # 然後，編輯搜尋到的結果
 
-if [ "$groupname" != '' ]; then
-	dv root
-fi
+#if [ "$groupname" != '' ]; then
+#	dv root
+#fi
 
 tmpfile=/tmp/`whoami`-search-$( date +%Y%m%d-%H%M ).txt
 

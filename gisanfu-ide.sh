@@ -11,9 +11,9 @@ do
 	echo '================================================='
 	echo -e "${color_txtgrn}檔案工具類:${color_none}"
 	echo ''
-	echo 'a. Search By File (sear)'
-	echo 'b. Searcy By Keyword (gre)'
-	echo 'c. Operation Item By Keyword (num)'
+	echo 'a. Operation Item By Keyword (num)'
+	echo 'b. Search By File (sear)'
+	echo 'c. Searcy By Keyword (gre)'
 	echo 'd. File Explorer (nautilus .)'
 	echo '================================================='
 	echo -e "${color_txtgrn}專案捷徑類:${color_none}"
@@ -35,11 +35,11 @@ do
 	if [ "$inputvar" == 'q' ]; then
 		break
 	elif [ "$inputvar" == 'a' ]; then
-		sear
-	elif [ "$inputvar" == 'b' ]; then
-		gre
-	elif [ "$inputvar" == 'c' ]; then
 		num
+	elif [ "$inputvar" == 'b' ]; then
+		sear
+	elif [ "$inputvar" == 'c' ]; then
+		gre
 	elif [ "$inputvar" == 'd' ]; then
 		nautilus .
 	elif [ "$inputvar" == 'e' ]; then
