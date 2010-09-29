@@ -128,7 +128,10 @@ do
 
 	read -s -n 1 inputvar
 
-	if [ "$inputvar" == '/' ]; then
+	if [ "$inputvar" == '?' ]; then
+		# 離開
+		break
+	elif [ "$inputvar" == '/' ]; then
 		unset condition
 		unset item_file_array
 		unset item_dir_array

@@ -35,7 +35,10 @@ do
 
 	condition="$condition$inputvar"
 
-	if [ "$inputvar" == '/' ]; then
+	if [ "$inputvar" == '?' ]; then
+		# 離開
+		break
+	elif [ "$inputvar" == '/' ]; then
 		unset condition
 		continue
 	elif [[ "$inputvar" == "'" && "$condition" != "'" ]]; then

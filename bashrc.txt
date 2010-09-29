@@ -1,6 +1,9 @@
 # fast-change-dir: use relative keyword
 alias ll="ls -la"
 
+# main function
+alias ide=". /bin/gisanfu-ide.sh"
+
 # number function
 alias gre=". /bin/gisanfu-grep.sh"
 alias sear=". /bin/gisanfu-search.sh"
@@ -35,6 +38,7 @@ alias v=". /bin/gisanfu-editfile.sh"
 alias vf=". /bin/gisanfu-vimlist-append.sh"
 alias vff="/bin/gisanfu-vimlist.sh"
 alias vfff=". /bin/gisanfu-vimlist-edit.sh"
+alias vffff=". /bin/gisanfu-vimlist-clear.sh"
 alias vfe=". /bin/gisanfu-pos-vimlist-append.sh 1"
 alias vfee=". /bin/gisanfu-pos-vimlist-append.sh 2"
 alias vfeee=". /bin/gisanfu-pos-vimlist-append.sh 3"
