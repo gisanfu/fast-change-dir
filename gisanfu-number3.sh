@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# default ifs value
+default_ifs=$' \t\n'
+
 # 在這裡，優先權最高的(我指的是按.優先選擇的項目)
 # 是檔案(^D) > 資料夾(^F) > 上一層的檔案(^A) > 上一層的資料夾(^S)
 
@@ -22,9 +25,11 @@ func_relative()
 
 	declare -a itemList
 	declare -a itemList2
+	declare -a relativeitem
 
 	# ignore file or dir
 	ignorelist=$(func_getlsignore)
+	Success="0"
 
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
@@ -34,8 +39,7 @@ func_relative()
 		filetype_grep_arg='-v'
 	fi
 
-	IFS=" "
-	itemList=(`ls -AF $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | tr -s "\n" " "` )
+	itemList=(`ls -AF $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
 
 	# use (^) grep fast, if no match, then remove (^)
 	if [ "${#itemList[@]}" -lt "1" ]; then
@@ -46,14 +50,9 @@ func_relative()
 	elif [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
 		itemList2=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
 	fi
-	IFS=""
-
 
 	# if empty of variable, then go back directory
-	if [ "$nextRelativeItem" == "" ]; then
-		#func_statusbar 'LOSS-ARG-RELATIVE'
-		relativeitem=''
-	else
+	if [ "$nextRelativeItem" != "" ]; then
 		if [ "${#itemList[@]}" == "1" ]; then
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
@@ -61,7 +60,6 @@ func_relative()
 
 			if [ "$secondCondition" == '' ]; then
 				# if have duplicate dirname then CHDIR
-				Success="0"
 				for dirDuplicatelist in ${itemList[@]}
 				do
 					# to match file or dir rule
@@ -82,15 +80,28 @@ func_relative()
 					#func_statusbar 'USE-LUCK-ITEM-BY-SECOND-CONDITION'
 		
 					Success="1"
+				elif [ "${#itemList2[@]}" -gt "1" ]; then 
+					relativeitem=${itemList2[@]}
+					#relativeitem=$itemList2
+					Success="1"
 				fi
 			fi
-		else
-			relativeitem=''
-			#func_statusbar 'NOT-FOUND-OR-NOT-EXIST'
+
+			# if no duplicate dirname then print them
+			if [ $Success == "0" ]; then
+				if [ "${#itemList2[@]}" -gt 0 ]; then
+					relativeitem=${itemList2[@]}
+				else
+					relativeitem=${itemList[@]}
+				fi
+			fi
 		fi
 	fi
 
-	echo $relativeitem
+	# return array的標準用法
+	if [ "$relativeitem" != '' ]; then
+		echo ${relativeitem[@]}
+	fi
 }
 
 unset condition
@@ -98,13 +109,14 @@ unset cmd1
 unset cmd2
 unset item_file_array
 unset item_dir_array
-
-declare -a item_file_array
-declare -a item_dir_array
+unset item_parent_file_array
+unset item_parent_dir_array
 
 while [ 1 ];
 do
 	clear
+	echo $condition
+	echo $cmd2
 	echo '即時切換資料夾'
 	echo '================================================='
 	echo "現行資料夾: `pwd`"
@@ -166,7 +178,10 @@ do
 		echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
 	fi
 
+	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
+	IFS=$'\012'
 	read -s -n 1 inputvar
+	IFS=$default_ifs
 
 	if [ "$inputvar" == '?' ]; then
 		# 離開
@@ -211,7 +226,7 @@ do
 			continue
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			if [ "$groupname" != '' ]; then
-				run="vf ../${item_parent_file_array[0]}"
+				run="cd .. && vf ${item_parent_file_array[0]}"
 			else
 				run="vim ../${item_parent_file_array[0]}"
 			fi
@@ -282,22 +297,14 @@ do
 	condition="$condition$inputvar"
 
 	if [[ "$condition" =~ [[:alnum:]] ]]; then
-		IFS=" "
-		declare -a cmds
-		cmds=(`echo $condition`)
+		cmds=($condition)
 		cmd1=${cmds[0]}
 		cmd2=${cmds[1]}
-		IFS=""
 
-		item_file=$( func_relative "$cmd1" "$cmd2" "" "file" )
-		item_dir=$( func_relative "$cmd1" "$cmd2" "" "dir" )
-		item_parent_file=$( func_relative "$cmd1" "$cmd2" ".." "file" )
-		item_parent_dir=$( func_relative "$cmd1" "$cmd2" ".." "dir" )
-
-		item_file_array=(`echo $item_file`)
-		item_dir_array=(`echo $item_dir`)
-		item_parent_file_array=(`echo $item_parent_file`)
-		item_parent_dir_array=(`echo $item_parent_dir`)
+		item_file_array=( `func_relative "$cmd1" "$cmd2" "" "file"` )
+		item_dir_array=( `func_relative "$cmd1" "$cmd2" "" "dir"` )
+		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" ".." "file"` )
+		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" ".." "dir"` )
 	fi
 
 done

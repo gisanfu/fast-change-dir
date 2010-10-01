@@ -2,6 +2,9 @@
 
 source 'gisanfu-function.sh'
 
+# default ifs value
+default_ifs=$' \t\n'
+
 # fix space to effect array result
 IFS=$'\012'
 
@@ -45,3 +48,4 @@ fi
 
 relativeitem=''
 itemList=''
+IFS=$default_ifs

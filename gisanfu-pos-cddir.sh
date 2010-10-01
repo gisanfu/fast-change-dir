@@ -2,6 +2,9 @@
 
 source 'gisanfu-function.sh'
 
+# default ifs value
+default_ifs=$' \t\n'
+
 # fix space to effect array result
 IFS=$'\012'
 
@@ -23,3 +26,5 @@ if [ "$dirPosition" != "" ]; then
 else
 	func_statusbar 'PLEASE-INPUT-ARG01'
 fi
+
+IFS=$default_ifs

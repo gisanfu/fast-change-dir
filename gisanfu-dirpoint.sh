@@ -2,6 +2,10 @@
 
 source 'gisanfu-function.sh'
 
+# default ifs value
+default_ifs=$' \t\n'
+
+# fix space to effect array result
 IFS=$'\012'
 
 dirpoint=$1
@@ -66,3 +70,4 @@ else
 fi
 
 tmpfile=''
+IFS=$default_ifs
