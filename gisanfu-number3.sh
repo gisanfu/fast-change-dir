@@ -115,8 +115,6 @@ unset item_parent_dir_array
 while [ 1 ];
 do
 	clear
-	echo $condition
-	echo $cmd2
 	echo '即時切換資料夾'
 	echo '================================================='
 	echo "現行資料夾: `pwd`"
