@@ -256,7 +256,8 @@ do
 		continue
 	elif [[ "$inputvar" == 'S' && "${#item_parent_file_array[@]}" == 1 ]]; then
 		if [ "$groupname" != '' ]; then
-			run="cd && vf ${item_parent_file_array[0]}"
+			# 會這樣子寫，是因為我的底層並沒有這個功能
+			run="cd .. && vf ${item_parent_file_array[0]}"
 		else
 			run="vim ../${item_parent_file_array[0]}"
 		fi
