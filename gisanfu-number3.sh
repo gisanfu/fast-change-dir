@@ -256,7 +256,7 @@ do
 		continue
 	elif [[ "$inputvar" == 'S' && "${#item_parent_file_array[@]}" == 1 ]]; then
 		if [ "$groupname" != '' ]; then
-			run="vf ../${item_parent_file_array[0]}"
+			run="cd && vf ${item_parent_file_array[0]}"
 		else
 			run="vim ../${item_parent_file_array[0]}"
 		fi
@@ -268,7 +268,7 @@ do
 		unset item_parent_dir_array
 		continue
 	elif [[ "$inputvar" == 'A' && "${#item_parent_dir_array[@]}" == 1 ]]; then
-		run="cd ../${item_parent_dir_array[0]}"
+		run="g ${item_parent_dir_array[0]}"
 		eval $run
 		unset condition
 		unset item_file_array
