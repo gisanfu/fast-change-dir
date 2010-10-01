@@ -3,6 +3,12 @@
 # 在這裡，優先權最高的(我指的是按.優先選擇的項目)
 # 是檔案(^D) > 資料夾(^F) > 上一層的檔案(^A) > 上一層的資料夾(^S)
 
+# 單純的把ls的忽略清單回傳而以
+func_getlsignore()
+{
+	echo '-I .svn -I .git'
+}
+
 func_relative()
 {
 	nextRelativeItem=$1
@@ -17,6 +23,9 @@ func_relative()
 	declare -a itemList
 	declare -a itemList2
 
+	# ignore file or dir
+	ignorelist=$(func_getlsignore)
+
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
 		filetype_grep_arg=''
@@ -26,16 +35,16 @@ func_relative()
 	fi
 
 	IFS=" "
-	itemList=(`ls -AF -I .svn -I .git $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | tr -s "\n" " "` )
+	itemList=(`ls -AF $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | tr -s "\n" " "` )
 
 	# use (^) grep fast, if no match, then remove (^)
 	if [ "${#itemList[@]}" -lt "1" ]; then
-		itemList=(`ls -AF -I .svn -I .git $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
+		itemList=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
 		if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
-			itemList2=(`ls -AF -I .svn -I .git $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			itemList2=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		fi
 	elif [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
-		itemList2=(`ls -AF -I .svn -I .git $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+		itemList2=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
 	fi
 	IFS=""
 
@@ -100,7 +109,9 @@ do
 	echo '================================================='
 	echo "現行資料夾: `pwd`"
 	echo '================================================='
-	ls -AF -I .svn -I .git --color=auto
+	ignorelist=$(func_getlsignore)
+	cmd="ls -AF $ignorelist --color=auto"
+	eval $cmd
 
 	if [ "$condition" == 'quit' ]; then
 		break
@@ -119,7 +130,7 @@ do
 			echo $bbb
 		done
 	elif [ "${#item_file_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆哦: ${item_file_array[0]}"
+		echo "檔案有找到一筆哦[F]: ${item_file_array[0]}"
 	fi
 
 	# 顯示重覆資料夾
@@ -130,7 +141,7 @@ do
 			echo $bbb
 		done
 	elif [ "${#item_dir_array[@]}" -eq 1 ]; then 
-		echo "資料夾有找到一筆哦: ${item_dir_array[0]}"
+		echo "資料夾有找到一筆哦[D]: ${item_dir_array[0]}"
 	fi
 
 	# 顯示重覆檔案(上一層)
@@ -141,7 +152,7 @@ do
 			echo $bbb
 		done
 	elif [ "${#item_parent_file_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆哦(上一層): ${item_parent_file_array[0]}"
+		echo "檔案有找到一筆哦(上一層)[S]: ${item_parent_file_array[0]}"
 	fi
 
 	# 顯示重覆資料夾(上一層)
@@ -152,7 +163,7 @@ do
 			echo $bbb
 		done
 	elif [ "${#item_parent_dir_array[@]}" -eq 1 ]; then 
-		echo "資料夾有找到一筆哦(上一層): ${item_parent_dir_array[0]}"
+		echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
 	fi
 
 	read -s -n 1 inputvar
