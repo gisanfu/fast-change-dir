@@ -206,6 +206,16 @@ do
 		echo "資料夾有找到一筆哦[D]: ${item_dir_array[0]}"
 	fi
 
+	# 為了直覺上，能夠快速的區分類別
+	if [[ "${#item_file_array[@]}" -eq 0 && "${#item_dir_array[@]}" -eq 0 && "$condition" != '' ]]; then
+		echo 'X 本層無符合的項目 X'
+	fi
+
+	# 為了直覺上，能夠快速的區分類別
+	if [[ "${#item_parent_file_array[@]}" -gt 0 || "${#item_parent_dir_array[@]}" -gt 0 ]]; then
+		echo '================================================='
+	fi
+
 	# 顯示重覆檔案(上一層)
 	if [ "${#item_parent_file_array[@]}" -gt 1 ]; then
 		echo "重覆的檔案數量(上一層): ${#item_parent_file_array[@]}"
@@ -365,6 +375,13 @@ do
 		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
 		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
 		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
+	elif [ "$condition" == '' ]; then
+		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
 	fi
 
 done
