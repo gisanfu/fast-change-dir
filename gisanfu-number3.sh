@@ -12,20 +12,58 @@ func_getlsignore()
 	echo '-I .svn -I .git'
 }
 
+# 把英文變成數字，例如er就是12
+func_entonum()
+{
+	en=$1
+
+	return=$en
+
+	for i in ${en[@]}
+	do
+		return=`echo $return | sed 's/e/1/'`
+		return=`echo $return | sed 's/r/2/'`
+		return=`echo $return | sed 's/s/3/'`
+		return=`echo $return | sed 's/f/4/'`
+		return=`echo $return | sed 's/w/5/'`
+		return=`echo $return | sed 's/l/6/'`
+		return=`echo $return | sed 's/c/7/'`
+		return=`echo $return | sed 's/b/8/'`
+		return=`echo $return | sed 's/k/9/'`
+
+		# 零
+		return=`echo $return | sed 's/o/0/'`
+		return=`echo $return | sed 's/z/0/'`
+	done
+
+	echo $return
+}
+
 func_relative()
 {
 	nextRelativeItem=$1
 	secondCondition=$2
 
+	# 檔案的位置
+	fileposition=$3
+
 	# 要搜尋哪裡的路徑，空白代表現行目錄
-	lspath=$3
+	lspath=$4
 
 	# dir or file
-	filetype=$4
+	filetype=$5
 
 	declare -a itemList
 	declare -a itemList2
 	declare -a relativeitem
+
+	# 先把英文轉成數字，如果這個欄位有資料的話
+	fileposition=( `func_entonum "$fileposition"` )
+
+	if [ "$fileposition" != '' ]; then
+		newposition=$(($fileposition - 1))
+		relativeitem=${relativeitem[$newposition]}
+	fi
 
 	# ignore file or dir
 	ignorelist=$(func_getlsignore)
@@ -100,7 +138,14 @@ func_relative()
 
 	# return array的標準用法
 	if [ "$relativeitem" != '' ]; then
-		echo ${relativeitem[@]}
+		if [ "$newposition" == '' ]; then
+			echo ${relativeitem[@]}
+		else
+			# 先把含空格的文字，轉成陣列
+			aaa=(${relativeitem[@]})
+			# 然後在指定位置輸出
+			echo ${aaa[$newposition]}
+		fi
 	fi
 }
 
@@ -111,6 +156,9 @@ unset item_file_array
 unset item_dir_array
 unset item_parent_file_array
 unset item_parent_dir_array
+
+# 倒退鍵
+backspace=$(echo -e \\b\\c)
 
 while [ 1 ];
 do
@@ -127,7 +175,7 @@ do
 		break
 	elif [ "$condition" != '' ]; then
 		echo '================================================='
-		echo "目前您所輸入的搜尋條件: $condition"
+		echo "目前您所輸入的搜尋條件: \"$condition\""
 	fi
 
 	echo '================================================='
@@ -135,9 +183,11 @@ do
 	# 顯示重覆檔案
 	if [ "${#item_file_array[@]}" -gt 1 ]; then
 		echo "重覆的檔案數量: ${#item_file_array[@]}"
+		number=1
 		for bbb in ${item_file_array[@]}
 		do
-			echo $bbb
+			echo "$number. $bbb"
+			number=$((number + 1))
 		done
 	elif [ "${#item_file_array[@]}" -eq 1 ]; then 
 		echo "檔案有找到一筆哦[F]: ${item_file_array[0]}"
@@ -146,9 +196,11 @@ do
 	# 顯示重覆資料夾
 	if [ "${#item_dir_array[@]}" -gt 1 ]; then
 		echo "重覆的檔案數量: ${#item_dir_array[@]}"
+		number=1
 		for bbb in ${item_dir_array[@]}
 		do
-			echo $bbb
+			echo "$number. $bbb"
+			number=$((number + 1))
 		done
 	elif [ "${#item_dir_array[@]}" -eq 1 ]; then 
 		echo "資料夾有找到一筆哦[D]: ${item_dir_array[0]}"
@@ -157,9 +209,11 @@ do
 	# 顯示重覆檔案(上一層)
 	if [ "${#item_parent_file_array[@]}" -gt 1 ]; then
 		echo "重覆的檔案數量(上一層): ${#item_parent_file_array[@]}"
+		number=1
 		for bbb in ${item_parent_file_array[@]}
 		do
-			echo $bbb
+			echo "$number. $bbb"
+			number=$((number + 1))
 		done
 	elif [ "${#item_parent_file_array[@]}" -eq 1 ]; then 
 		echo "檔案有找到一筆哦(上一層)[S]: ${item_parent_file_array[0]}"
@@ -168,9 +222,11 @@ do
 	# 顯示重覆資料夾(上一層)
 	if [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
 		echo "重覆的檔案數量(上一層): ${#item_parent_dir_array[@]}"
+		number=1
 		for bbb in ${item_parent_dir_array[@]}
 		do
-			echo $bbb
+			echo "$number. $bbb"
+			number=$((number + 1))
 		done
 	elif [ "${#item_parent_dir_array[@]}" -eq 1 ]; then 
 		echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
@@ -290,6 +346,10 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		continue
+	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
+	elif [ "$inputvar" == $backspace ]; then
+		condition="${condition:0:(${#condition} - 1)}"
+		inputvar=''
 	fi
 
 	condition="$condition$inputvar"
@@ -298,11 +358,13 @@ do
 		cmds=($condition)
 		cmd1=${cmds[0]}
 		cmd2=${cmds[1]}
+		# 第三個引數，是位置
+		cmd3=${cmds[2]}
 
-		item_file_array=( `func_relative "$cmd1" "$cmd2" "" "file"` )
-		item_dir_array=( `func_relative "$cmd1" "$cmd2" "" "dir"` )
-		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" ".." "file"` )
-		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" ".." "dir"` )
+		item_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
+		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
+		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
+		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
 	fi
 
 done
