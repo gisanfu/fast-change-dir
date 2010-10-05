@@ -66,3 +66,8 @@ do
 		fi
 	fi
 done
+
+# 離開後，顯示現在所在資料夾的檔案
+echo 'Bye Bye ~'
+echo ''
+ls
