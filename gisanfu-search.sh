@@ -17,19 +17,30 @@ unset condition
 while [ 1 ];
 do
 	clear
-	echo '即時搜尋檔案名稱'
-	echo '================================================='
-	echo "現行資料夾: $nowpath"
-	echo "目前您所輸入的搜尋檔案名稱的條件: $condition"
-	echo '================================================='
+
+	if [ "$condition" == '' ]; then
+		echo '即時搜尋檔案名稱'
+		echo '================================================='
+		echo "現行資料夾: $nowpath"
+		echo '================================================='
+	fi
 
 	if [ "$condition" == 'quit' ]; then
 		break
 	elif [ "$condition" != '' ]; then
+		echo "目前您所輸入的搜尋檔案名稱的條件: $condition"
+		echo '================================================='
 		find . -iname \*$condition\* | grep -v "\.svn" | grep -v "\.git" | grep -v "Zend" | nl -s: -w1 > $tmpfile
 		cat $tmpfile
-		#rm -rf $tmpfile
+	elif [ "$condition" == '' ]; then
+		echo '快速鍵:'
+		echo ' 倒退鍵 (Ctrl + H)'
+		echo ' 重新輸入條件 (/)'
+		echo ' 以數字選擇項目 (單引號)'
+		echo ' 離開 (?)'
+		echo '================================================='
 	fi
+
 
 	read -s -n 1 inputvar
 

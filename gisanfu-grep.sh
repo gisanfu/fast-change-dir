@@ -14,17 +14,29 @@ unset count
 while [ 1 ];
 do
 	clear
-	echo '即時搜尋檔案內容'
-	echo '================================================='
-	echo "現行資料夾: $nowpath"
-	echo "目前您所輸入的搜尋關鍵字的條件: $condition"
-	echo '================================================='
+
+	if [ "$condition" == '' ]; then
+		echo '即時搜尋檔案內容'
+		echo '================================================='
+		echo "現行資料夾: $nowpath"
+		echo '================================================='
+	fi
 
 	if [ "$condition" == 'quit' ]; then
 		break
 	elif [ "$condition" != '' ]; then
+		echo "目前您所輸入的搜尋關鍵字的條件: $condition"
+		echo '================================================='
 		grep -ir $condition * --exclude-dir Zend --exclude-dir .svn --no-messages | sort --unique | nl -s: -w1 > $tmpfile
+		# 這裡建議加上顯色，比較好懂
 		cat $tmpfile
+	elif [ "$condition" == '' ]; then
+		echo '快速鍵:'
+		echo ' 倒退鍵 (Ctrl + H)'
+		echo ' 重新輸入條件 (/)'
+		echo ' 以數字選擇項目 (單引號)'
+		echo ' 離開 (?)'
+		echo '================================================='
 	fi
 
 	echo '輸入完請按Enter，或者是輸入一個單引號，來選擇搜尋出來的編號'
