@@ -165,7 +165,7 @@ do
 	clear
 
 	if [ "$condition" == '' ]; then
-		echo '即時切換資料夾'
+		echo '即時切換資料夾 (關鍵字)'
 		echo '================================================='
 		echo "現行資料夾: `pwd`"
 		echo '================================================='
@@ -186,6 +186,7 @@ do
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (.)'
+		echo " 到數字切換資料夾功能 (')"
 		echo ' 離開 (?)'
 		echo '選擇用的快速鍵:'
 		echo ' 選取單項檔案 (F)'
@@ -267,6 +268,7 @@ do
 
 	if [ "$inputvar" == '?' ]; then
 		# 離開
+		clear
 		break
 	elif [ "$inputvar" == '/' ]; then
 		unset condition
@@ -378,6 +380,13 @@ do
 	elif [ "$inputvar" == $backspace ]; then
 		condition="${condition:0:(${#condition} - 1)}"
 		inputvar=''
+	elif [ "$inputvar" == "'" ]; then
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		break
 	fi
 
 	condition="$condition$inputvar"
@@ -406,3 +415,7 @@ done
 
 # 離開前，在顯示一下現在資料夾裡面的東西
 eval $cmd
+
+if [ "$inputvar" == "'" ]; then
+	123
+fi

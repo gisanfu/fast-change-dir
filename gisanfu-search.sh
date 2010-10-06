@@ -26,6 +26,7 @@ do
 	fi
 
 	if [ "$condition" == 'quit' ]; then
+		clear
 		break
 	elif [ "$condition" != '' ]; then
 		echo "目前您所輸入的搜尋檔案名稱的條件: $condition"
@@ -48,6 +49,7 @@ do
 
 	if [ "$inputvar" == '?' ]; then
 		# 離開
+		clear
 		break
 	elif [ "$inputvar" == '/' ]; then
 		unset condition

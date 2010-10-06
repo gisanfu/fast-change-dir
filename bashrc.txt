@@ -7,7 +7,8 @@ alias ide=". /bin/gisanfu-ide.sh"
 # number function
 alias gre=". /bin/gisanfu-grep.sh"
 alias sear=". /bin/gisanfu-search.sh"
-alias num=". /bin/gisanfu-abc-3.sh"
+alias abc=". /bin/gisanfu-abc-3.sh"
+alias 123=". /bin/gisanfu-123.sh"
 
 # Svn
 alias svnn="/bin/gisanfu-svn.sh"

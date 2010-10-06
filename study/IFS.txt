@@ -1,5 +1,3 @@
-123
-
 http://fvue.nl/wiki/Bash:_Show_IFS_value
 
  Problem

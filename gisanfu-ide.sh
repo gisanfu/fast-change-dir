@@ -11,21 +11,22 @@ do
 	echo '================================================='
 	echo -e "${color_txtgrn}檔案工具類:${color_none}"
 	echo ''
-	echo 'a. Operation Item By Keyword (num)'
-	echo 'b. Search By File (sear)'
-	echo 'c. Searcy By Keyword (gre)'
-	echo 'd. File Explorer (nautilus .)'
+	echo 'a. Operation Item By Keyword (abc)'
+	echo 'b. Operation Item By Number (123)'
+	echo 'c. Search By File (sear)'
+	echo 'd. Searcy By Keyword (gre)'
+	echo 'e. File Explorer (nautilus .)'
 	echo '================================================='
 	echo -e "${color_txtgrn}專案捷徑類:${color_none}"
 	echo ''
-	echo 'e. Select Project (ga)'
-	echo 'f. Select Shortcut (dv)'
+	echo 'g. Select Project (ga)'
+	echo 'h. Select Shortcut (dv)'
 	echo '================================================='
 	echo -e "${color_txtgrn}檔案操作類:${color_none}"
 	echo ''
-	echo 'g. Show Groupfile (vff)'
-	echo 'h. Vim Groupfile (vfff)'
-	echo 'i. Clear Groupfile (vffff)'
+	echo 'i. Show Groupfile (vff)'
+	echo 'j. Vim Groupfile (vfff)'
+	echo 'k. Clear Groupfile (vffff)'
 	echo '================================================='
 
 	echo -e "請輸入指令編號，或按${color_txtred}q${color_none}離開:"
@@ -35,22 +36,24 @@ do
 	if [ "$inputvar" == 'q' ]; then
 		break
 	elif [ "$inputvar" == 'a' ]; then
-		num
+		abc	
 	elif [ "$inputvar" == 'b' ]; then
-		sear
+		123	
 	elif [ "$inputvar" == 'c' ]; then
-		gre
+		sear
 	elif [ "$inputvar" == 'd' ]; then
-		nautilus .
+		gre
 	elif [ "$inputvar" == 'e' ]; then
-		ga
-	elif [ "$inputvar" == 'f' ]; then
-		dv
+		nautilus .
 	elif [ "$inputvar" == 'g' ]; then
-		vff
+		ga
 	elif [ "$inputvar" == 'h' ]; then
-		vfff
+		dv
 	elif [ "$inputvar" == 'i' ]; then
+		vff
+	elif [ "$inputvar" == 'j' ]; then
+		vfff
+	elif [ "$inputvar" == 'k' ]; then
 		echo '你確定要清空vim暫存群組檔嗎?[nf0,Yj1]'
 		read -s -n 1 inputvar
 		if [[ "$inputvar" == 'y' || "$inputvar" == 'j' || "$inputvar" == "1" ]]; then
@@ -68,6 +71,5 @@ do
 done
 
 # 離開後，顯示現在所在資料夾的檔案
-echo 'Bye Bye ~'
-echo ''
+clear
 ls
