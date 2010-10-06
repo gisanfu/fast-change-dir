@@ -4,8 +4,6 @@
 # 不會像英文模式一樣，檢查本層，同時也檢查上一層
 # 顯示檔案，也會以ls -la來顯示
 
-# default ifs value
-default_ifs=$' \t\n'
 
 # 在這裡，優先權最高的(我指的是按.優先選擇的項目)
 # 是檔案(^D) > 資料夾(^F) > 上一層的檔案(^A) > 上一層的資料夾(^S)
@@ -30,8 +28,6 @@ func_lsItemAndNumber()
 	color_bldred='\e[1;31m' # Red
 	color_bldgrn='\e[1;32m' # Green
 	color_none='\e[0m' # No Color
-
-	default_ifs=$' \t\n'
 
 	declare -a value_color 
 	declare -a value_nocolor 
@@ -116,6 +112,9 @@ unset other
 unset condition
 unset item_array
 
+# default ifs value
+default_ifs=$' \t\n'
+
 while [ 1 ];
 do
 	clear
@@ -130,9 +129,6 @@ do
 	# 避免現行資料夾裡面，只有一個item的狀況發生
 	if [ "$condition" == '' ]; then
 		item_array=( `func_lsItemAndNumber "" ""` )
-		IFS=$'\n'
-		echo -e "${item_array[*]}"
-		IFS=$default_ifs
 	else
 		item_array=( `func_lsItemAndNumber "" "$condition" "$other"` )
 
@@ -164,10 +160,11 @@ do
 			fi
 		fi
 
-		IFS=$'\n'
-		echo -e "${item_array[*]}"
-		IFS=$default_ifs
 	fi
+
+	IFS=$'\n'
+	echo -e "${item_array[*]}"
+	IFS=$default_ifs
 
 	if [ "$condition" == 'quit' ]; then
 		break
