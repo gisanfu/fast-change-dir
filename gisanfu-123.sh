@@ -82,9 +82,21 @@ func_lsItemAndNumber()
 	regex_splitNumByFullSpace="^(.*)　(.*)$"
 
 	if [ "${#value_color[@]}" == 1 ]; then
-		if [[ "${value_nocolor[@]}" =~ $regex_splitNumByFullSpace ]]; then
-			echo ${BASH_REMATCH[2]}
+		if [ "$other" == '0' ]; then
+			for i in ${value_nocolor[@]}
+			do
+				if [[ "$i" =~ $regex_splitNumByFullSpace ]]; then
+					echo ${BASH_REMATCH[2]}
+					break
+				fi
+			done
+		else
+			echo ${value_color[@]}
 		fi
+
+		#if [[ "${value_nocolor[@]}" =~ $regex_splitNumByFullSpace ]]; then
+		#	echo ${BASH_REMATCH[2]}
+		#fi
 	else
 		if [ "$other" == '0' ]; then
 			for i in ${value_nocolor[@]}
@@ -125,6 +137,11 @@ do
 		item_array=( `func_lsItemAndNumber "" "$condition" "$other"` )
 
 		if [ "${#item_array[@]}" == '1' ]; then
+			# 如果是一筆，就重抓一次沒有顏色的一筆
+			if [ "$other" == '' ]; then
+				item_array=( `func_lsItemAndNumber "" "$condition" "0"` )
+			fi
+
 			regex_isdir="^(.*)/$"
 			if [[ "${item_array[@]}" =~ $regex_isdir ]]; then
 				run="cd ${BASH_REMATCH[1]}"
