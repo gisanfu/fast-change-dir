@@ -54,7 +54,9 @@ func_relative()
 	filetype=$5
 
 	declare -a itemList
+	declare -a itemListTmp
 	declare -a itemList2
+	declare -a itemList2Tmp
 	declare -a relativeitem
 
 	# 先把英文轉成數字，如果這個欄位有資料的話
@@ -77,16 +79,58 @@ func_relative()
 		filetype_grep_arg='-v'
 	fi
 
-	itemList=(`ls -AF $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
+	# default ifs value
+	default_ifs=$' \t\n'
+
+	IFS=$'\n'
+	declare -i num
+	itemListTmp=(`ls -AF $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
+	for i in ${itemListTmp[@]}
+	do
+		# 為了要解決空白檔名的問題
+		itemList[$num]=`echo $i|sed 's/ /___/g'`
+		num=$num+1
+	done
+	IFS=$default_ifs
+	num=0
 
 	# use (^) grep fast, if no match, then remove (^)
 	if [ "${#itemList[@]}" -lt "1" ]; then
-		itemList=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
+
+		IFS=$'\n'
+		itemListTmp=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
+		for i in ${itemListTmp[@]}
+		do
+			# 為了要解決空白檔名的問題
+			itemList[$num]=`echo $i|sed 's/ /___/g'`
+			num=$num+1
+		done
+		IFS=$default_ifs
+		num=0
+
 		if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
-			itemList2=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			IFS=$'\n'
+			itemList2Tmp=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			for i in ${itemList2Tmp[@]}
+			do
+				# 為了要解決空白檔名的問題
+				itemList2[$num]=`echo $i|sed 's/ /___/g'`
+				num=$num+1
+			done
+			IFS=$default_ifs
+			num=0
 		fi
 	elif [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
-		itemList2=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+		IFS=$'\n'
+		itemList2Tmp=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+		for i in ${itemList2Tmp[@]}
+		do
+			# 為了要解決空白檔名的問題
+			itemList2[$num]=`echo $i|sed 's/ /___/g'`
+			num=$num+1
+		done
+		IFS=$default_ifs
+		num=0
 	fi
 
 	# if empty of variable, then go back directory
@@ -287,10 +331,11 @@ do
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_file_array[@]} -eq 1 ]; then
+			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
-				run="vf ${item_file_array[0]}"
+				run="vf \"$match\""
 			else
-				run="vim ${item_file_array[0]}"
+				run="vim \"$match\""
 			fi
 			eval $run
 			unset condition
@@ -300,7 +345,8 @@ do
 			unset item_parent_dir_array
 			continue
 		elif [ ${#item_dir_array[@]} -eq 1 ]; then
-			run="cd ${item_dir_array[0]}"
+			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
+			run="cd \"$match\""
 			eval $run
 			unset condition
 			unset item_file_array
@@ -309,10 +355,11 @@ do
 			unset item_parent_dir_array
 			continue
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
+			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
-				run="cd .. && vf ${item_parent_file_array[0]}"
+				run="cd .. && vf \"$match\""
 			else
-				run="vim ../${item_parent_file_array[0]}"
+				run="vim ../\"$match\""
 			fi
 			eval $run
 			unset condition
@@ -322,7 +369,8 @@ do
 			unset item_parent_dir_array
 			continue
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
-			run="cd ../${item_parent_dir_array[0]}"
+			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
+			run="cd ../\"$match\""
 			eval $run
 			unset condition
 			unset item_file_array
@@ -332,10 +380,11 @@ do
 			continue
 		fi
 	elif [[ "$inputvar" == 'F' && "${#item_file_array[@]}" == 1 ]]; then
+		match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
 		if [ "$groupname" != '' ]; then
-			run="vf ${item_file_array[0]}"
+			run="vf \"$match\""
 		else
-			run="vim ${item_file_array[0]}"
+			run="vim \"$match\""
 		fi
 		eval $run
 		unset condition
@@ -345,7 +394,8 @@ do
 		unset item_parent_dir_array
 		continue
 	elif [[ "$inputvar" == 'D' && "${#item_dir_array[@]}" == 1 ]]; then
-		run="cd ${item_dir_array[0]}"
+		match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
+		run="cd \"$match\""
 		eval $run
 		unset condition
 		unset item_file_array
@@ -354,11 +404,12 @@ do
 		unset item_parent_dir_array
 		continue
 	elif [[ "$inputvar" == 'S' && "${#item_parent_file_array[@]}" == 1 ]]; then
+		match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
 		if [ "$groupname" != '' ]; then
 			# 會這樣子寫，是因為我的底層並沒有這個功能
-			run="cd .. && vf ${item_parent_file_array[0]}"
+			run="cd .. && vf \"$match\""
 		else
-			run="vim ../${item_parent_file_array[0]}"
+			run="vim ../\"$match\""
 		fi
 		eval $run
 		unset condition
@@ -368,7 +419,8 @@ do
 		unset item_parent_dir_array
 		continue
 	elif [[ "$inputvar" == 'A' && "${#item_parent_dir_array[@]}" == 1 ]]; then
-		run="g ${item_parent_dir_array[0]}"
+		match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
+		run="g \"$match\""
 		eval $run
 		unset condition
 		unset item_file_array

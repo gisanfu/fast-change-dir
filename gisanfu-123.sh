@@ -47,6 +47,7 @@ func_lsItemAndNumber()
 	list=(`eval $cmd`)
 	for i in ${list[@]}
 	do
+		# 為了要解決空白檔名的問題
 		list2[$loop_array_num]=`echo $i|sed 's/ /___/g'`
 		loop_array_num=$loop_array_num+1
 	done
