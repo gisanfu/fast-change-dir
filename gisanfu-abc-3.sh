@@ -84,7 +84,7 @@ func_relative()
 
 	IFS=$'\n'
 	declare -i num
-	itemListTmp=(`ls -AF $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
+	itemListTmp=(`ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
 	for i in ${itemListTmp[@]}
 	do
 		# 為了要解決空白檔名的問題
@@ -98,7 +98,7 @@ func_relative()
 	if [ "${#itemList[@]}" -lt "1" ]; then
 
 		IFS=$'\n'
-		itemListTmp=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
+		itemListTmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
 		for i in ${itemListTmp[@]}
 		do
 			# 為了要解決空白檔名的問題
@@ -110,7 +110,7 @@ func_relative()
 
 		if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
 			IFS=$'\n'
-			itemList2Tmp=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 			for i in ${itemList2Tmp[@]}
 			do
 				# 為了要解決空白檔名的問題
@@ -122,7 +122,7 @@ func_relative()
 		fi
 	elif [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
 		IFS=$'\n'
-		itemList2Tmp=(`ls -AF $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+		itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
 		for i in ${itemList2Tmp[@]}
 		do
 			# 為了要解決空白檔名的問題

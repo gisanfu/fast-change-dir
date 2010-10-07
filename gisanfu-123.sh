@@ -37,7 +37,7 @@ func_lsItemAndNumber()
 
 	ignorelist=$(func_getLsIgnore)
 
-	cmd="ls -AF1 $ignorelist $lspath"
+	cmd="ls -AFL1 $ignorelist $lspath"
 
 	# default ifs value
 	default_ifs=$' \t\n'
