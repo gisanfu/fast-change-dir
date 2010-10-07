@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# default ifs value
+# default ifs value 
 default_ifs=$' \t\n'
 
 # 在這裡，優先權最高的(我指的是按.優先選擇的項目)
