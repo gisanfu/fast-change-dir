@@ -39,13 +39,24 @@ func_lsItemAndNumber()
 
 	cmd="ls -AF1 $ignorelist $lspath"
 
+	# default ifs value
+	default_ifs=$' \t\n'
+
 	# 先取得沒有顏色的列表
+	IFS=$'\n'
 	list=(`eval $cmd`)
+	for i in ${list[@]}
+	do
+		list2[$loop_array_num]=`echo $i|sed 's/ /___/g'`
+		loop_array_num=$loop_array_num+1
+	done
+	IFS=$default_ifs
+	loop_array_num=0
 
 	# 看是不是資料夾
 	regex_isdir="^(.*)/$"
 
-	for i in ${list[@]}
+	for i in ${list2[@]}
 	do
 		# 如果開始的數字不符合，就會是0
 		position_regex_match=''
@@ -106,6 +117,8 @@ func_lsItemAndNumber()
 			echo ${value_color[@]}
 		fi
 	fi
+
+	IFS=$default_ifs
 }
 
 unset other 
@@ -140,17 +153,19 @@ do
 
 			regex_isdir="^(.*)/$"
 			if [[ "${item_array[@]}" =~ $regex_isdir ]]; then
-				run="cd ${BASH_REMATCH[1]}"
+				match=`echo ${BASH_REMATCH[1]} | sed 's/___/ /g'`
+				run="cd \"$match\""
 				eval $run
 				unset other 
 				unset condition
 				unset item_array
 				continue
 			else
+				match=`echo ${item_array[@]} | sed 's/___/ /g'`
 				if [ "$groupname" == '' ]; then
-					run="vim ${item_array[@]}"
+					run="vim \"$match\""
 				else
-					run="vf ${item_array[@]}"
+					run="vf \"$match\""
 				fi
 				eval $run
 				unset other 
@@ -159,7 +174,6 @@ do
 				continue
 			fi
 		fi
-
 	fi
 
 	IFS=$'\n'
