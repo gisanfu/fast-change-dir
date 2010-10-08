@@ -191,9 +191,9 @@ do
 		echo '快速鍵:'
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (.)'
-		echo ' 上一層 (-)'
-		echo ' 到關鍵字切換資料夾功能 (+)'
-		echo ' 離開 (*)'
+		echo ' 上一層 (-,)'
+		echo " 到關鍵字切換資料夾功能 (+')"
+		echo ' 離開 (*?)'
 	fi
 
 	echo '================================================='
@@ -211,20 +211,20 @@ do
 	elif [ "$inputvar" == '.' ]; then
 		other='0'
 		continue
-	elif [ "$inputvar" == '-' ]; then
+	elif [[ "$inputvar" == '-' || "$inputvar" == ',' ]]; then
 		cd ..
 		unset other 
 		unset condition
 		unset item_array
 		continue
-	elif [ "$inputvar" == '*' ]; then
+	elif [[ "$inputvar" == '*' || "$inputvar" == '?' ]]; then
 		unset other 
 		unset condition
 		unset item_array
 		# 離開
 		clear
 		break
-	elif [ "$inputvar" == '+' ]; then
+	elif [[ "$inputvar" == '+' || "$inputvar" == "'" ]]; then
 		unset other 
 		unset condition
 		unset item_array
@@ -239,6 +239,6 @@ done
 # 離開前，在顯示一下現在資料夾裡面的東西
 ls -AF
 
-if [ "$inputvar" == '+' ]; then
+if [[ "$inputvar" == '+' || "$inputvar" == "'" ]]; then
 	abc
 fi
