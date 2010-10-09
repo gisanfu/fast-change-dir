@@ -126,6 +126,9 @@ unset other
 unset condition
 unset item_array
 
+# 只有第一次是1，有些只會執行一次，例如help
+first='1'
+
 # default ifs value
 default_ifs=$' \t\n'
 
@@ -186,7 +189,9 @@ do
 	elif [ "$condition" != '' ]; then
 		echo '================================================='
 		echo "目前您所輸入的搜尋條件: \"$condition\""
-	elif [ "$condition" == '' ]; then
+	fi
+
+	if [ "$first" == '1' ]; then
 		echo '================================================='
 		echo '快速鍵:'
 		echo ' 重新輸入條件 (/)'
@@ -194,6 +199,7 @@ do
 		echo ' 上一層 (-,)'
 		echo " 到關鍵字切換資料夾功能 (+')"
 		echo ' 離開 (*?)'
+		first=''
 	fi
 
 	echo '================================================='

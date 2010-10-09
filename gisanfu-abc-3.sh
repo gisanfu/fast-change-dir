@@ -201,6 +201,9 @@ unset item_dir_array
 unset item_parent_file_array
 unset item_parent_dir_array
 
+# 只有第一次是1，有些只會執行一次，例如help
+first='1'
+
 # 倒退鍵
 backspace=$(echo -e \\b\\c)
 
@@ -224,7 +227,9 @@ do
 	elif [ "$condition" != '' ]; then
 		echo '================================================='
 		echo "目前您所輸入的搜尋條件: \"$condition\""
-	elif [ "$condition" == '' ]; then
+	fi
+
+	if [ "$first" == '1' ]; then
 		echo '================================================='
 		echo '基本快速鍵:'
 		echo ' 倒退鍵 (Ctrl + H)'
@@ -239,6 +244,7 @@ do
 		echo ' 選取上一層單項資料夾 (A)'
 		echo '輸入條件的結構:'
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
+		first=''
 	fi
 
 	echo '================================================='
