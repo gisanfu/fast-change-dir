@@ -68,6 +68,8 @@ do
 			echo '己取消清空vim暫存群組檔'
 			sleep 1
 		fi
+	elif [ "$inputvar" == 'l' ]; then
+		vff2
 	fi
 done
 
