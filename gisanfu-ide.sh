@@ -25,8 +25,9 @@ do
 	echo -e "${color_txtgrn}檔案操作類:${color_none}"
 	echo ''
 	echo 'i. Show Groupfile (vff)'
-	echo 'j. Vim Groupfile (vfff)'
+	echo 'j. Edit Groupfile (vfff)'
 	echo 'k. Clear Groupfile (vffff)'
+	echo 'l. Loop Groupfile (vff2)'
 	echo '================================================='
 
 	echo -e "請輸入指令編號，或按${color_txtred}q${color_none}離開:"
