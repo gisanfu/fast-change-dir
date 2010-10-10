@@ -375,7 +375,7 @@ do
 			unset item_parent_dir_array
 			continue
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
-			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
+			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
 			eval $run
 			unset condition
