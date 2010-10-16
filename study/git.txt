@@ -1,1 +1,15 @@
-123
+# update: 2020-10-16
+
+如果要使用git status -s(short)的功能
+必需要git 1.7.1以上(可能)，因為我剛開始是拿ubuntu 10.10來試的
+
+因為ubuntu 9.10所裝的，是1.6.3.3
+所以必需要自己compile
+
+depend package:
+zlib
+http://sourceforge.net/projects/libpng/files/zlib/1.2.5/zlib-1.2.5.tar.gz/download
+
+main package:
+git 1.7.1
+http://www.kernel.org/pub/software/scm/git/git-1.7.1.1.tar.gz

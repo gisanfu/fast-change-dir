@@ -27,6 +27,13 @@ dialog
  */
 ubuntu 9.10
 
+/*
+ * 己使用過ok的環境
+ */
+centos 5.2+
+ubuntu 9.04
+ubuntu 9.10
+ubuntu 10.10
 
 /*
  * EXAMPLE
