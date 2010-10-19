@@ -29,6 +29,10 @@ do
 	echo 'k. Clear Groupfile (vffff)'
 	echo 'l. Loop Groupfile (vff2)'
 	echo '================================================='
+	echo -e "${color_txtgrn}版本控制類:${color_none}"
+	echo ''
+	echo 's. SVN (svnn)'
+	echo '================================================='
 
 	echo -e "請輸入指令編號，或按${color_txtred}q${color_none}離開:"
 
@@ -70,6 +74,8 @@ do
 		fi
 	elif [ "$inputvar" == 'l' ]; then
 		vff2
+	elif [ "$inputvar" == 's' ]; then
+		svnn
 	fi
 done
 
