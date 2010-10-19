@@ -1,4 +1,4 @@
-# update: 2020-10-16
+# update: 2020-10-19
 
 如果要使用git status -s(short)的功能
 必需要git 1.7.1以上(可能)，因為我剛開始是拿ubuntu 10.10來試的
@@ -13,3 +13,21 @@ http://sourceforge.net/projects/libpng/files/zlib/1.2.5/zlib-1.2.5.tar.gz/downlo
 main package:
 git 1.7.1
 http://www.kernel.org/pub/software/scm/git/git-1.7.1.1.tar.gz
+
+接下來，是git status的應用
+輸入git status -s，就會出現以下的狀況
+
+如果是這樣子，代表是新增加的檔案，而還未加入到index的狀態
+?? study/123.sh
+
+如果是這樣子，代表是新增加的檔案，己經加入到index裡面
+A  study/123.sh
+
+如果是這樣，代表是修改過後，但等待加入index裡面
+ M bashrc.txt
+
+如果是這樣，代表己加入到index裡面
+M  bashrc.txt
+
+以下這個指令，可以把加入到index裡面的項目，變更成未加入
+git reset [filepath and filename]
