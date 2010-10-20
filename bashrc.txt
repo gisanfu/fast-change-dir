@@ -10,8 +10,9 @@ alias sear=". /bin/gisanfu-search.sh"
 alias abc=". /bin/gisanfu-abc-3.sh"
 alias 123=". /bin/gisanfu-123.sh"
 
-# Svn
+# Version Controll 
 alias svnn="/bin/gisanfu-svn-2.sh"
+alias gitt="/bin/gisanfu-git.sh"
 
 #
 # GroupName

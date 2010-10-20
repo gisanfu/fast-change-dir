@@ -32,6 +32,7 @@ do
 	echo -e "${color_txtgrn}版本控制類:${color_none}"
 	echo ''
 	echo 's. SVN (svnn)'
+	echo 't. GIT (gitt)'
 	echo '================================================='
 
 	echo -e "請輸入指令編號，或按${color_txtred}q${color_none}離開:"
@@ -76,6 +77,8 @@ do
 		vff2
 	elif [ "$inputvar" == 's' ]; then
 		svnn
+	elif [ "$inputvar" == 't' ]; then
+		gitt
 	fi
 done
 

@@ -1,22 +1,23 @@
 #!/bin/bash
 
+gitpath='/usr/local/git/bin/git'
+
 while [ 1 ];
 do
 	clear
 
-	echo 'SVN (英文字母)'
+	echo 'Git (英文字母)'
 	echo '================================================='
 	echo "現行資料夾: `pwd`"
 	echo '================================================='
 	echo '基本快速鍵:'
 	echo ' 離開 (?)'
-	echo 'Svn功能快速鍵:'
-	echo ' a. Status -q'
+	echo 'Git功能快速鍵:'
+	echo ' a. Status -s'
 	echo ' b. Status'
-	echo ' c. Update'
-	echo ' d. Commit'
-	echo '其它相關功能:'
-	echo ' i. 以版本號編輯檔案 (別忘了使用前要先update一下) [需要ga]'
+	echo ' c. Update(Pull)'
+	echo ' d. Commit(keyin changelog, but not send!'
+	echo ' e. Push(send!!)'
 	echo '================================================='
 
 	read -s -n 1 inputvar
@@ -26,28 +27,29 @@ do
 		clear
 		break
 	elif [[ "$inputvar" == 'a' || "$inputvar" == 'A' ]]; then
-		svn status -q
+		cmd="$gitpath status -s"
+		eval $cmd
 		if [ "$?" -eq 0 ]; then
-			echo '顯示本資料夾的SVN狀態，但不顯示問號的動作成功'
+			echo '顯示本資料夾的GIT簡易狀態'
 		fi
 		echo '按任何鍵繼續...'
 		read -n 1
 	elif [[ "$inputvar" == 'b' || "$inputvar" == 'B' ]]; then
-		svn status
+		git status
 		if [ "$?" -eq 0 ]; then
-			echo '顯示本資料夾的SVN狀態成功'
+			echo '顯示本資料夾的GIT簡易狀態'
 		fi
 		echo '按任何鍵繼續...'
 		read -n 1
 	elif [[ "$inputvar" == 'c' || "$inputvar" == 'C' ]]; then
-		svn update
+		git pull
 		if [ "$?" -eq 0 ]; then
-			echo '更新本SVN資料夾成功'
+			echo '更新本GIT資料夾成功'
 		fi
 		echo '按任何鍵繼續...'
 		read -n 1
 	elif [[ "$inputvar" == 'd' || "$inputvar" == 'D' ]]; then
-		echo '要送出了，但是請先輸入changelog，別忘了要大於5個字元，輸入完請按Enter'
+		echo '要送出了，但是請先輸入changelog，輸入完請按Enter'
 		read changelog
 		if [ "$changelog" == '' ]; then
 			echo '為什麼你沒有輸入changelog呢？還是我幫你填上預設值呢？(no comment)好嗎？[Yj1,nf0]'
@@ -64,16 +66,21 @@ do
 			echo '你並沒有輸入changelog，所以下次在見了，本次動作取消，倒數3秒後離開'
 			sleep 3
 		else
-			svn commit -m "$changelog"
+			git commit -m "$changelog"
 			changelog=''
 			if [ "$?" -eq 0 ]; then
-				echo 'Commit成功'
+				echo '設定Changelog成功，別忘了要選擇送出哦'
 			fi
 			echo '按任何鍵繼續...'
 			read -n 1
 		fi
-	elif [[ "$inputvar" == 'i' || "$inputvar" == 'I' ]]; then
-		. /bin/gisanfu-dirpoint.sh root && svn log -v | more && /bin/gisanfu-svn-edit-revision.sh && cd -
+	elif [[ "$inputvar" == 'e' || "$inputvar" == 'E' ]]; then
+		git push
+		if [ "$?" -eq 0 ]; then
+			echo '更新本GIT資料夾成功'
+		fi
+		echo '按任何鍵繼續...'
+		read -n 1
 	fi
 
 done
