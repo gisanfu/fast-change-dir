@@ -9,20 +9,20 @@ dialog
 
 ## 主要特色
 
-平行切換資料夾
-捷徑切換資料夾
-2層式關鍵字定位
-相對名稱定位
-絕對位置定位
-多檔名暫存以及執行
-進入資料夾自動顯示檔案列表
-快速回上N層資料夾
-操作物件(含資料夾與檔案)，目前有定位以及模糊方式
-即時搜尋檔案名稱
-即時搜尋關鍵字
-即時關鍵字操作物件
-即時數字鍵操作物件
-主控台(整合快速鍵)
+平行切換資料夾 
+捷徑切換資料夾 
+2層式關鍵字定位 
+相對名稱定位 
+絕對位置定位 
+多檔名暫存以及執行 
+進入資料夾自動顯示檔案列表 
+快速回上N層資料夾 
+操作物件(含資料夾與檔案)，目前有定位以及模糊方式 
+即時搜尋檔案名稱 
+即時搜尋關鍵字 
+即時關鍵字操作物件 
+即時數字鍵操作物件 
+主控台(整合快速鍵) 
 
 ## Develop environment
 
@@ -30,10 +30,10 @@ ubuntu 9.10
 
 ## 己使用過ok的環境
 
-centos 5.2+
-ubuntu 9.04
-ubuntu 9.10
-ubuntu 10.10
+centos 5.2+ 
+ubuntu 9.04 
+ubuntu 9.10 
+ubuntu 10.10 
 
 ## EXAMPLE
 
@@ -53,31 +53,31 @@ ccc
 
 $ ls -la 
 
-drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX aaa
-drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX abc
-drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX bbb
-drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ccc
-drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX gggg
-drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ggfff
+	drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX aaa
+	drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX abc
+	drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX bbb
+	drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ccc
+	drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX gggg
+	drwxr-xr-x  8 blha blha 4096 200X-XX-XX XX:XX ggfff
 
 ### into bbb
 
-$ deee
+	deee
 
 ### into aaa
 
-$ cd aaa (it's standard, you know)
+	cd aaa (it's standard, you know)
 
 ### goto parent directory
 
-$ cd .. (you know)
+	cd .. (you know)
 
 ### replace cd to d
 
-$ d aaa
+	d aaa
 
-[PWD]=>/aaa
-ddd/
+[PWD]=>/aaa 
+ddd/ 
 
 ### replace cd .. to g
 
@@ -86,7 +86,7 @@ $ g (goto parent directory)
 [PWD]=>/
 aaa/ bbb/ ccc/ abc/
 
-### input several (^)keyword, if duplicate, then show them 
+### input several `^`keyword, if duplicate, then show them 
 
 	d a
 
