@@ -4,8 +4,8 @@ author: gisanfu
 
 ## Request environment
 
-BASH
-dialog
+- BASH
+-dialog
 
 ## 主要特色
 
@@ -39,15 +39,15 @@ ubuntu 9.10
 
 ### if directory is
 
-        aaa
-           +-- dddd
-        abc
-        bbb
-           +-- eeee
-        ccc
-           +-- ffff
-                   +-- ggggg
-        		            +-- hhhhhh
+    aaa
+       +-- dddd
+    abc
+    bbb
+       +-- eeee
+    ccc
+       +-- ffff
+               +-- ggggg
+    		            +-- hhhhhh
 
 ### show list
 
@@ -77,6 +77,7 @@ $ ls -la
 	d aaa
 
 [PWD]=>/aaa 
+
 ddd/ 
 
 ### replace cd .. to g
@@ -84,6 +85,7 @@ ddd/
 $ g (goto parent directory)
 
 [PWD]=>/
+
 aaa/ bbb/ ccc/ abc/
 
 ### input several `^`keyword, if duplicate, then show them 
@@ -91,6 +93,7 @@ aaa/ bbb/ ccc/ abc/
 	d a
 
 aaa/
+
 abc/
 
 ### input no duplicate keyword
@@ -100,8 +103,11 @@ abc/
 ### goto many directory
 
 $ d ccc
+
 $ d ffff
+
 $ d ggggg
+
 $ d hhhhhh
 
 ### return to parent dir for 4 layer
@@ -159,9 +165,12 @@ $ dvvv
 ## INSTALL
 
 1. copy scripts to unix-like /bin directory
+
 $ sudo cp gisanfu-* /bin
 
 2. copy bashrc.txt line to your .bashrc
+
 $ cat bashrc.txt >> ~/.bashrc
 
 3. restart your terminal
+
