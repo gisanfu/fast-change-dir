@@ -9,6 +9,8 @@ do
 	clear
 	echo '選擇指令介面 (ide)'
 	echo '================================================='
+	echo "現行資料夾: `pwd`"
+	echo '================================================='
 	echo -e "${color_txtgrn}檔案工具類:${color_none}"
 	echo ''
 	echo 'a. Operation Item By Keyword (abc)'
