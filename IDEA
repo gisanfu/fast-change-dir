@@ -6,6 +6,8 @@
 假設我輸入mysql，可能下面就會出現sudo /etc/init.d/mysql start，
 然後我只要輸入某些快速鍵，就會讓我用dialog去選擇己存在的指定。
 
+在ide的地方，多顯示groupname的欄位
+
 # 2010-10-19
 
 打算在ide的地方，加上svn(s)

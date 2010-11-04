@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#if [ "$groupname" != '' ]; then
-#	dv root
-#fi
+if [ "$groupname" != '' ]; then
+	dv root
+fi
 
 tmpfile=/tmp/`whoami`-grep-$( date +%Y%m%d-%H%M ).txt
 
@@ -18,7 +18,7 @@ do
 	if [ "$condition" == '' ]; then
 		echo '即時搜尋檔案內容'
 		echo '================================================='
-		echo "現行資料夾: $nowpath"
+		echo "\"$groupname\" || $nowpath"
 		echo '================================================='
 	fi
 
