@@ -211,12 +211,13 @@ while [ 1 ];
 do
 	clear
 
-	if [ "$condition" == '' ]; then
+	if [ "$first" == '1' ]; then
 		echo '即時切換資料夾 (關鍵字)'
 		echo '================================================='
-		echo "\"$groupname\" || `pwd`"
-		echo '================================================='
 	fi
+
+	echo "\"$groupname\" || `pwd`"
+	echo '================================================='
 
 	ignorelist=$(func_getlsignore)
 	cmd="ls -AF $ignorelist --color=auto"
