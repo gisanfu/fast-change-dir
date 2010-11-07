@@ -203,14 +203,24 @@ func_dirpoint()
 	fi
 }
 
+func_groupname()
+{
+	groupname=$1
+
+	resultarray=(`grep $groupname ~/gisanfu-groupname.txt`)
+	echo ${resultarray[@]}
+}
+
 unset condition
 unset cmd1
 unset cmd2
+unset cmd3
 unset item_file_array
 unset item_dir_array
 unset item_parent_file_array
 unset item_parent_dir_array
 unset item_dirpoint_array
+unset item_groupname_array
 
 # 只有第一次是1，有些只會執行一次，例如help
 first='1'
@@ -325,7 +335,7 @@ do
 		echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
 	fi
 
-	# 為了直覺上，能夠快速的區分類別
+	# 為了直覺上，能夠快速的區分捷徑這個類別
 	if [[ "${#item_dirpoint_array[@]}" -gt 0 ]]; then
 		echo '================================================='
 	fi
@@ -341,6 +351,24 @@ do
 		done
 	elif [ "${#item_dirpoint_array[@]}" -eq 1 ]; then 
 		echo "捷徑有找到一筆哦[L]: ${item_dirpoint_array[0]}"
+	fi
+
+	# 為了直覺上，能夠快速的區分群組名稱這個類別
+	if [[ "${#item_groupname_array[@]}" -gt 0 ]]; then
+		echo '================================================='
+	fi
+
+	# 顯示重覆的群組名稱
+	if [ "${#item_groupname_array[@]}" -gt 1 ]; then
+		echo "重覆的捷徑: ${#item_groupname_array[@]}"
+		number=1
+		for bbb in ${item_groupname_array[@]}
+		do
+			echo "$number. $bbb"
+			number=$((number + 1))
+		done
+	elif [ "${#item_groupname_array[@]}" -eq 1 ]; then 
+		echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
@@ -359,6 +387,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	elif [ "$inputvar" == ',' ]; then
 		cd ..	
@@ -368,6 +397,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_file_array[@]} -eq 1 ]; then
@@ -384,6 +414,7 @@ do
 			unset item_parent_file_array
 			unset item_parent_dir_array
 			unset item_dirpoint_array
+			unset item_groupname_array
 			continue
 		elif [ ${#item_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
@@ -395,6 +426,7 @@ do
 			unset item_parent_file_array
 			unset item_parent_dir_array
 			unset item_dirpoint_array
+			unset item_groupname_array
 			continue
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
@@ -410,6 +442,7 @@ do
 			unset item_parent_file_array
 			unset item_parent_dir_array
 			unset item_dirpoint_array
+			unset item_groupname_array
 			continue
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
@@ -421,6 +454,7 @@ do
 			unset item_parent_file_array
 			unset item_parent_dir_array
 			unset item_dirpoint_array
+			unset item_groupname_array
 			continue
 		elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
 			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
@@ -432,6 +466,19 @@ do
 			unset item_parent_file_array
 			unset item_parent_dir_array
 			unset item_dirpoint_array
+			unset item_groupname_array
+			continue
+		elif [ ${#item_groupname_array[@]} -eq 1 ]; then
+			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
+			run="ga \"$match\""
+			eval $run
+			unset condition
+			unset item_file_array
+			unset item_dir_array
+			unset item_parent_file_array
+			unset item_parent_dir_array
+			unset item_dirpoint_array
+			unset item_groupname_array
 			continue
 		fi
 	elif [[ "$inputvar" == 'F' && "${#item_file_array[@]}" == 1 ]]; then
@@ -448,6 +495,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	elif [[ "$inputvar" == 'D' && "${#item_dir_array[@]}" == 1 ]]; then
 		match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
@@ -459,6 +507,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	elif [[ "$inputvar" == 'S' && "${#item_parent_file_array[@]}" == 1 ]]; then
 		match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
@@ -475,6 +524,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	elif [[ "$inputvar" == 'A' && "${#item_parent_dir_array[@]}" == 1 ]]; then
 		match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
@@ -486,6 +536,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	elif [[ "$inputvar" == 'L' && "${#item_dirpoint_array[@]}" == 1 ]]; then
 		match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
@@ -497,6 +548,19 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
+		continue
+	elif [[ "$inputvar" == 'G' && "${#item_groupname_array[@]}" == 1 ]]; then
+		match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
+		run="ga \"$match\""
+		eval $run
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
 		continue
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
 	elif [ "$inputvar" == $backspace ]; then
@@ -509,6 +573,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 		break
 	fi
 
@@ -525,7 +590,15 @@ do
 		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
 		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
 		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
-		item_dirpoint_array=( `func_dirpoint "$cmd1"` )
+
+		# 有些功能，只要看到第2個引數就會失效
+		if [ "$cmd2" == '' ]; then
+			item_dirpoint_array=( `func_dirpoint "$cmd1"` )
+			item_groupname_array=( `func_groupname "$cmd1"` )
+		else
+			unset item_dirpoint_array
+			unset item_groupname_array
+		fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
 		unset condition
@@ -534,6 +607,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_groupname_array
 	fi
 
 done
