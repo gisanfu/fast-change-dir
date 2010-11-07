@@ -1,3 +1,11 @@
+# 2010-11-07
+
+1. 在abc裡面，加上groupname的關連
+2. 在abc裡面，加上bash_history的關連
+3. 在abc裡的dirpoint關連，如果使用者輸入了cmd2，
+那就取消dirpoint功能，
+因為輸入cmd2，很明顯的，使用者不是要使用dirpoint功能。
+
 # 2010-11-06
 
 在abc裡面，加上dirpoint的關鍵，然後快速鍵是(L)
