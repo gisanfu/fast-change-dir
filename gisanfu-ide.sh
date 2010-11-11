@@ -13,8 +13,8 @@ do
 	echo '================================================='
 	echo -e "${color_txtgrn}檔案工具類:${color_none}"
 	echo ''
-	echo 'a. Operation Item By Keyword (abc)'
-	echo 'b. Operation Item By Number (123)'
+	echo 'a. 英文模式 (abc)'
+	echo 'b. 純數字模式 (123)'
 	echo 'c. Search By File (sear)'
 	echo 'd. Searcy By Keyword (gre)'
 	echo 'e. File Explorer (nautilus .)'

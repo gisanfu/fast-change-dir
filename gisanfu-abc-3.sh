@@ -574,7 +574,8 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
-		break
+		. /bin/gisanfu-123-2.sh
+		continue
 	fi
 
 	condition="$condition$inputvar"
@@ -615,6 +616,6 @@ done
 # 離開前，在顯示一下現在資料夾裡面的東西
 eval $cmd
 
-if [ "$inputvar" == "'" ]; then
-	123
-fi
+#if [ "$inputvar" == "'" ]; then
+#	123
+#fi
