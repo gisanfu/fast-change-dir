@@ -41,12 +41,18 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	selectitem=''
 
 	# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
-	echo '[WAIT] 確定，是編輯暫存檔案[Nf0,yj1]'
+	echo '[WAIT] 預設是只暫存所選取的檔案 [N0,y1]'
+	echo '[WAIT] 或是編輯列表 [j]'
+	echo '[WAIT] 還是清空它 [k]'
 	read -n 1 inputchar
-	if [[ "$inputchar" == 'y' || "$inputchar" == 'j' || "$inputchar" == "1" ]]; then
+	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then
 		/bin/gisanfu-vimlist.sh
-	elif [[ "$inputchar" == 'n' || "$inputchar" == "f" || "$inputchar" == "0" ]]; then
+	elif [[ "$inputchar" == 'n' || "$inputchar" == "0" ]]; then
 		echo "Your want append other file"
+	elif [ "$inputchar" == 'j' ]; then
+		vfff
+	elif [ "$inputchar" == 'k' ]; then
+		vffff
 	else
 		echo "Your want append other file"
 	fi
