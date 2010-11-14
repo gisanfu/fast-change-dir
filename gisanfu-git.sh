@@ -52,11 +52,11 @@ do
 		echo '要送出了，但是請先輸入changelog，輸入完請按Enter'
 		read changelog
 		if [ "$changelog" == '' ]; then
-			echo '為什麼你沒有輸入changelog呢？還是我幫你填上預設值呢？(no comment)好嗎？[Yj1,nf0]'
+			echo '為什麼你沒有輸入changelog呢？還是我幫你填上預設值呢？(no comment)好嗎？[Y1,n0]'
 			read inputvar2
-			if [[ "$inputvar2" == 'y' || "$inputvar2" == 'j' || "$inputvar2" == "1" ]]; then
+			if [[ "$inputvar2" == 'y' || "$inputvar2" == "1" ]]; then
 				changelog='no comment'
-			elif [[ "$inputvar2" == 'n' || "$inputvar2" == "f" || "$inputvar2" == "0" ]]; then
+			elif [[ "$inputvar2" == 'n' || "$inputvar2" == "0" ]]; then
 				echo '如果不要預設值，那就算了'
 			else
 				echo '不好意思，不要預設值也不要來亂'

@@ -75,11 +75,11 @@ do
 			selectitem=''
 
 			# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
-			echo '[WAIT] 確定，是編輯暫存檔案[Nf0,yj1]'
+			echo '[WAIT] 確定，是編輯暫存檔案[N0,y1]'
 			read -n 1 inputvar3
-			if [[ "$inputvar3" == 'y' || "$inputvar3" == 'j' || "$inputvar3" == "1" ]]; then
+			if [[ "$inputvar3" == 'y' || "$inputvar3" == "1" ]]; then
 				/bin/gisanfu-vimlist.sh
-			elif [[ "$inputvar3" == 'n' || "$inputvar3" == "f" || "$inputvar3" == "0" ]]; then
+			elif [[ "$inputvar3" == 'n' || "$inputvar3" == "0" ]]; then
 				echo "Your want append other file"
 			else
 				echo "Your want append other file"
