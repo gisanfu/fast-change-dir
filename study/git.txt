@@ -1,4 +1,4 @@
-# update: 2020-10-19
+# update: 2010-11-14
 
 如果要使用git status -s(short)的功能
 必需要git 1.7.1以上(可能)，因為我剛開始是拿ubuntu 10.10來試的
@@ -30,4 +30,8 @@ A  study/123.sh
 M  bashrc.txt
 
 以下這個指令，可以把加入到index裡面的項目，變更成未加入
+這個指令，適用於Modify and Add
 git reset [filepath and filename]
+
+參考網址:
+http://bbs.nkfust.edu.tw/cgi-bin/bbscon?board=linux&file=M.1230247848.A&num=589

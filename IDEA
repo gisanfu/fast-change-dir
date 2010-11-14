@@ -1,3 +1,9 @@
+# 2010-11-14
+
+想要做一個介面，是git add在使用的，
+會顯示Untracked Item，
+然後我可以輸入關鍵字，來append item to index。
+
 # 2010-11-12
 
 打算在cli顯示的訊息，跟在ide顯示的不一樣，
