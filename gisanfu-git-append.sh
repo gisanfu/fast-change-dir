@@ -72,18 +72,18 @@ func_relative_by_git_append()
 
 	gitcmd=/usr/local/git/bin/git
 
-	#IFS=$'\n'
-	#declare -i num
+	IFS=$'\n'
+	declare -i num
 	#itemListTmp=(`ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
-	itemList=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem`)
-	#for i in ${itemListTmp[@]}
-	#do
-	#	# 為了要解決空白檔名的問題
-	#	itemList[$num]=`echo $i|sed 's/ /___/g'`
-	#	num=$num+1
-	#done
-	#IFS=$default_ifs
-	#num=0
+	itemListTmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem`)
+	for i in ${itemListTmp[@]}
+	do
+		# 為了要解決空白檔名的問題
+		itemList[$num]=`echo $i|sed 's/ /___/g'`
+		num=$num+1
+	done
+	IFS=$default_ifs
+	num=0
 
 	# use (^) grep fast, if no match, then remove (^)
 	#if [ "${#itemList[@]}" -lt "1" ]; then
@@ -112,16 +112,16 @@ func_relative_by_git_append()
 	#		num=0
 	#	fi
 	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
-		#IFS=$'\n'
-		itemList2=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
-		#for i in ${itemList2Tmp[@]}
-		#do
-		#	# 為了要解決空白檔名的問題
-		#	itemList2[$num]=`echo $i|sed 's/ /___/g'`
-		#	num=$num+1
-		#done
-		#IFS=$default_ifs
-		#num=0
+		IFS=$'\n'
+		itemList2Tmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+		for i in ${itemList2Tmp[@]}
+		do
+			# 為了要解決空白檔名的問題
+			itemList2[$num]=`echo $i|sed 's/ /___/g'`
+			num=$num+1
+		done
+		IFS=$default_ifs
+		num=0
 	fi
 
 	# if empty of variable, then go back directory
@@ -189,12 +189,8 @@ unset condition
 unset cmd1
 unset cmd2
 unset cmd3
-unset item_file_array
-unset item_dir_array
-unset item_parent_file_array
-unset item_parent_dir_array
-unset item_dirpoint_array
-unset item_groupname_array
+unset item_array
+unset gitstatus 
 
 # 只有第一次是1，有些只會執行一次，例如help
 first='1'
@@ -268,20 +264,17 @@ do
 		break
 	elif [ "$inputvar" == '/' ]; then
 		unset condition
+		unset gitstatus 
 		unset item_array
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_array[@]} -eq 1 ]; then
-			# 請把判斷變數0:2的判斷式寫在這裡
-			# XXXX
-			match=`echo ${item_array[0]} | sed 's/___/ /g'`
-			if [ "$groupname" != '' ]; then
-				run="vf \"$match\""
-			else
-				run="vim \"$match\""
-			fi
-			eval $run
+			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
+			match=`echo ${item_array[0]} | sed 's/___/X/'`
+			match=`echo $match | sed 's/___/ /g'`
+			git add ${match:3}
 			unset condition
+			unset gitstatus 
 			unset item_array
 			continue
 		fi
@@ -300,11 +293,12 @@ do
 		# 第三個引數，是位置
 		cmd3=${cmds[2]}
 
-		item_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
+		item_array=( `func_relative_by_git_append "$cmd1" "$cmd2" "$cmd3" "" "file"` )
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
 		unset condition
-		unset item_file_array
+		unset gitstatus 
+		unset item_array
 	fi
 
 done
