@@ -69,7 +69,14 @@ do
 			git commit -m "$changelog"
 			changelog=''
 			if [ "$?" -eq 0 ]; then
-				echo '設定Changelog成功，別忘了要選擇送出哦'
+				#echo '設定Changelog成功，別忘了要選擇送出哦'
+				echo '要不要送出(git push)呢？[Y1,n0]'
+				read inputvar3
+				if [[ "$inputvar2" == 'n' || "$inputvar2" == "0" ]]; then
+					echo '不要送出的話，那就算了！'
+				else
+					git push
+				fi
 			fi
 			echo '按任何鍵繼續...'
 			read -n 1
