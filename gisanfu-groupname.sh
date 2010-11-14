@@ -10,6 +10,14 @@ action=$1
 groupname=$2
 tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
 
+if [ -f ~/gisanfu-groupname.txt ]; then
+	echo
+else
+	# 如果檔案不存在，就建立文字檔案，以及建立一個預設空白的groupname
+	touch ~/gisanfu-groupname.txt
+	echo '""' >> ~/gisanfu-groupname.txt
+fi
+
 if [ "$action" == "select" ]; then
 	if [ "$groupname" != "" ]; then
 		count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
