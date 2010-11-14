@@ -6,7 +6,7 @@ while [ 1 ];
 do
 	clear
 
-	echo 'Git (英文字母)'
+	echo 'Git指令模式 (英文字母)'
 	echo '================================================='
 	echo "現行資料夾: `pwd`"
 	echo '================================================='
@@ -16,7 +16,7 @@ do
 	echo ' a. Status -s'
 	echo ' b. Status'
 	echo ' c. Update(Pull)'
-	echo ' d. Commit(keyin changelog, but not send!'
+	echo ' d. Commit(keyin changelog, and send by ask!'
 	echo ' e. Push(send!!)'
 	echo '================================================='
 
