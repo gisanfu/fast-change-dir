@@ -5,7 +5,7 @@ source 'gisanfu-function.sh'
 program=$1
 
 if [ "$program" == "" ]; then
-	program="vim -p"
+	program="vim -p ~/gisanfu-vimlist-$groupname.txt"
 fi
 
 if [ "$groupname" != "" ]; then
