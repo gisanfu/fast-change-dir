@@ -162,7 +162,11 @@ do
 	echo '================================================='
 	echo "\"$groupname\" || `pwd`"
 	echo '================================================='
-	echo "Untracked: $untracked"
+	if [ "$untracked" == '1' ]; then
+		echo "Untracked"
+	else
+		echo "Tracked"
+	fi
 	echo '================================================='
 
 	#ignorelist=$(func_getlsignore)
