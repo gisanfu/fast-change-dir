@@ -12,7 +12,7 @@ alias 123=". /bin/gisanfu-123.sh"
 
 # Version Controll 
 alias svnn="/bin/gisanfu-svn-2.sh"
-alias gitt="/bin/gisanfu-git.sh"
+alias gitt="/bin/gisanfu-git-2.sh"
 
 #
 # GroupName

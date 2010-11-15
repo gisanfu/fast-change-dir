@@ -35,11 +35,8 @@ func_relative_by_git_append()
 	# 檔案的位置
 	fileposition=$3
 
-	# 要搜尋哪裡的路徑，空白代表現行目錄
-	#lspath=$4
-
-	# dir or file
-	#filetype=$5
+	# 顯示的方式，可能是untracked or tracked
+	trackstatus=$4
 
 	declare -a itemList
 	declare -a itemListTmp
@@ -52,20 +49,10 @@ func_relative_by_git_append()
 
 	if [ "$fileposition" != '' ]; then
 		newposition=$(($fileposition - 1))
-		#relativeitem=${relativeitem[$newposition]}
 	fi
 
 	# ignore file or dir
-	#ignorelist=$(func_getlsignore)
 	Success="0"
-
-	#if [ "$filetype" == "dir" ]; then
-	#	filetype_ls_arg=''
-	#	filetype_grep_arg=''
-	#else
-	#	filetype_ls_arg='--file-type'
-	#	filetype_grep_arg='-v'
-	#fi
 
 	# default ifs value
 	default_ifs=$' \t\n'
@@ -74,8 +61,13 @@ func_relative_by_git_append()
 
 	IFS=$'\n'
 	declare -i num
-	#itemListTmp=(`ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
-	itemListTmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem`)
+
+	if [ "$trackstatus" == 'untracked' ]; then
+		itemListTmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem`)
+	else
+		itemListTmp=(`$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem`)
+	fi
+
 	for i in ${itemListTmp[@]}
 	do
 		# 為了要解決空白檔名的問題
@@ -85,35 +77,14 @@ func_relative_by_git_append()
 	IFS=$default_ifs
 	num=0
 
-	# use (^) grep fast, if no match, then remove (^)
-	#if [ "${#itemList[@]}" -lt "1" ]; then
-
-	#	IFS=$'\n'
-	#	itemListTmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
-	#	for i in ${itemListTmp[@]}
-	#	do
-	#		# 為了要解決空白檔名的問題
-	#		itemList[$num]=`echo $i|sed 's/ /___/g'`
-	#		num=$num+1
-	#	done
-	#	IFS=$default_ifs
-	#	num=0
-
-	#	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
-	#		IFS=$'\n'
-	#		itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
-	#		for i in ${itemList2Tmp[@]}
-	#		do
-	#			# 為了要解決空白檔名的問題
-	#			itemList2[$num]=`echo $i|sed 's/ /___/g'`
-	#			num=$num+1
-	#		done
-	#		IFS=$default_ifs
-	#		num=0
-	#	fi
 	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
 		IFS=$'\n'
-		itemList2Tmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+
+		if [ "$trackstatus" == 'untracked' ]; then
+			itemList2Tmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+		else
+			itemList2Tmp=(`$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+		fi
 		for i in ${itemList2Tmp[@]}
 		do
 			# 為了要解決空白檔名的問題
@@ -131,21 +102,6 @@ func_relative_by_git_append()
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
 
-			#if [ "$secondCondition" == '' ]; then
-			#	# if have duplicate dirname then CHDIR
-			#	for dirDuplicatelist in ${itemList[@]}
-			#	do
-			#		# to match file or dir rule
-			#		if [ "$dirDuplicatelist" == "$nextRelativeItem" ]; then
-			#			relativeitem=$nextRelativeItem
-
-			#			#func_statusbar 'USE-LUCK-ITEM'
-		
-			#			Success="1"
-			#			break
-			#		fi
-			#	done
-			#else
 			if [ "$secondCondition" != '' ]; then
 				# if have secondCondition, DO secondCheck
 				if [ "${#itemList2[@]}" == "1" ]; then
@@ -192,29 +148,32 @@ unset cmd3
 unset item_array
 unset gitstatus 
 
-# 只有第一次是1，有些只會執行一次，例如help
-first='1'
-
 # 倒退鍵
 backspace=$(echo -e \\b\\c)
+
+# 預設是顯示untracked列表
+untracked='1'
 
 while [ 1 ];
 do
 	clear
 
-	if [ "$first" == '1' ]; then
-		echo 'Git Untracked List'
-		echo '================================================='
-	fi
-
+	echo 'Git (關鍵字)'
+	echo '================================================='
 	echo "\"$groupname\" || `pwd`"
+	echo '================================================='
+	echo "Untracked: $untracked"
 	echo '================================================='
 
 	#ignorelist=$(func_getlsignore)
 	#cmd="ls -AF $ignorelist --color=auto"
 	#eval $cmd
 	gitcmd=/usr/local/git/bin/git
-	cmd="$gitcmd status -s | grep -e '^ ' -e '^??'"
+	if [ "$untracked" == '1' ]; then
+		cmd="$gitcmd status -s | grep -e '^ ' -e '^??'"
+	else
+		cmd="$gitcmd status -s | grep -e '^A' -e '^M' -e '^D"
+	fi
 	eval $cmd
 
 	if [ "$condition" == 'quit' ]; then
@@ -224,17 +183,20 @@ do
 		echo "目前您所輸入的搜尋條件: \"$condition\""
 	fi
 
-	if [ "$first" == '1' ]; then
-		echo '================================================='
-		echo '基本快速鍵:'
-		echo ' 倒退鍵 (Ctrl + H)'
-		echo ' 重新輸入條件 (/)'
-		echo ' 智慧選取單項 (.) 句點'
-		echo ' 離開 (?)'
-		echo '輸入條件的結構:'
-		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
-		first=''
-	fi
+	echo '================================================='
+	echo '基本快速鍵:'
+	echo ' 倒退鍵 (Ctrl + H)'
+	echo ' 重新輸入條件 (/)'
+	echo ' 智慧選取單項 (.) 句點'
+	echo ' 離開 (?)'
+	echo 'Git功能快速鍵:'
+	echo ' (A) Change Untracked or Tracked'
+	echo ' (B)'
+	echo ' (C) Update(Pull)'
+	echo ' (D) Commit(keyin changelog, and send by ask!)'
+	echo ' (E) Push(send!!)'
+	echo '輸入條件的結構:'
+	echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 
 	if [ "${#item_array[@]}" -gt 0 ]; then
 		echo '================================================='
@@ -250,7 +212,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆哦[F]: ${item_array[0]}"
+		echo "檔案有找到一筆: ${item_array[0]}"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
@@ -272,7 +234,12 @@ do
 			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
 			match=`echo ${item_array[0]} | sed 's/___/X/'`
 			match=`echo $match | sed 's/___/ /g'`
-			git add ${match:3}
+
+			if [ "$untracked" == '1' ]; then
+				git add ${match:3}
+			else
+				git reset ${match:3}
+			fi
 			unset condition
 			unset gitstatus 
 			unset item_array
@@ -282,6 +249,74 @@ do
 	elif [ "$inputvar" == $backspace ]; then
 		condition="${condition:0:(${#condition} - 1)}"
 		inputvar=''
+	elif [ "$inputvar" == 'A' ]; then
+		untracked='0'
+		unset condition
+		unset gitstatus 
+		unset item_array
+		continue
+	elif [ "$inputvar" == 'C' ]; then
+		git pull
+		if [ "$?" -eq 0 ]; then
+			echo '更新本GIT資料夾成功'
+		fi
+		echo '按任何鍵繼續...'
+		read -n 1
+
+		unset condition
+		unset gitstatus 
+		unset item_array
+		continue
+	elif [ "$inputvar" == 'D' ]; then
+		echo '要送出了，但是請先輸入changelog，輸入完請按Enter'
+		read changelog
+		if [ "$changelog" == '' ]; then
+			echo '為什麼你沒有輸入changelog呢？還是我幫你填上預設值呢？(no comment)好嗎？[Y1,n0]'
+			read inputvar2
+			if [[ "$inputvar2" == 'y' || "$inputvar2" == "1" ]]; then
+				changelog='no comment'
+			elif [[ "$inputvar2" == 'n' || "$inputvar2" == "0" ]]; then
+				echo '如果不要預設值，那就算了'
+			else
+				echo '不好意思，不要預設值也不要來亂'
+			fi
+		fi
+		if [ "$changelog" == '' ]; then
+			echo '你並沒有輸入changelog，所以下次在見了，本次動作取消，倒數3秒後離開'
+			sleep 3
+		else
+			git commit -m "$changelog"
+			changelog=''
+			if [ "$?" -eq 0 ]; then
+				#echo '設定Changelog成功，別忘了要選擇送出哦'
+				echo '要不要送出(git push)呢？[Y1,n0]'
+				read inputvar3
+				if [[ "$inputvar2" == 'n' || "$inputvar2" == "0" ]]; then
+					echo '不要送出的話，那就算了！'
+				else
+					git push
+				fi
+			fi
+			echo '按任何鍵繼續...'
+			read -n 1
+		fi
+
+		unset condition
+		unset gitstatus 
+		unset item_array
+		continue
+	elif [ "$inputvar" == 'E' ]; then
+		git push
+		if [ "$?" -eq 0 ]; then
+			echo '更新本GIT資料夾成功'
+		fi
+		echo '按任何鍵繼續...'
+		read -n 1
+
+		unset condition
+		unset gitstatus 
+		unset item_array
+		continue
 	fi
 
 	condition="$condition$inputvar"
@@ -293,7 +328,11 @@ do
 		# 第三個引數，是位置
 		cmd3=${cmds[2]}
 
-		item_array=( `func_relative_by_git_append "$cmd1" "$cmd2" "$cmd3" "" "file"` )
+		if [ "$untracked" == '1' ]; then
+			item_array=( `func_relative_by_git_append "$cmd1" "$cmd2" "$cmd3" "untracked"` )
+		else
+			item_array=( `func_relative_by_git_append "$cmd1" "$cmd2" "$cmd3" "tracked"` )
+		fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
 		unset condition
