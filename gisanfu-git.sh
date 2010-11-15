@@ -16,7 +16,7 @@ do
 	echo ' a. Status -s'
 	echo ' b. Status'
 	echo ' c. Update(Pull)'
-	echo ' d. Commit(keyin changelog, and send by ask!'
+	echo ' d. Commit(keyin changelog, and send by ask!)'
 	echo ' e. Push(send!!)'
 	echo '================================================='
 
