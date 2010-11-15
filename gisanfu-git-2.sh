@@ -172,7 +172,7 @@ do
 	if [ "$untracked" == '1' ]; then
 		cmd="$gitcmd status -s | grep -e '^ ' -e '^??'"
 	else
-		cmd="$gitcmd status -s | grep -e '^A' -e '^M' -e '^D"
+		cmd="$gitcmd status -s | grep -e '^A' -e '^M' -e '^D'"
 	fi
 	eval $cmd
 
@@ -183,20 +183,22 @@ do
 		echo "目前您所輸入的搜尋條件: \"$condition\""
 	fi
 
-	echo '================================================='
-	echo '基本快速鍵:'
-	echo ' 倒退鍵 (Ctrl + H)'
-	echo ' 重新輸入條件 (/)'
-	echo ' 智慧選取單項 (.) 句點'
-	echo ' 離開 (?)'
-	echo 'Git功能快速鍵:'
-	echo ' (A) Change Untracked or Tracked'
-	echo ' (B)'
-	echo ' (C) Update(Pull)'
-	echo ' (D) Commit(keyin changelog, and send by ask!)'
-	echo ' (E) Push(send!!)'
-	echo '輸入條件的結構:'
-	echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
+	if [ "$condition" == '' ]; then
+		echo '================================================='
+		echo '基本快速鍵:'
+		echo ' 倒退鍵 (Ctrl + H)'
+		echo ' 重新輸入條件 (/)'
+		echo ' 智慧選取單項 (.) 句點'
+		echo ' 離開 (?)'
+		echo 'Git功能快速鍵:'
+		echo ' (A) Change Untracked or Tracked'
+		echo ' (B)'
+		echo ' (C) Update(Pull)'
+		echo ' (D) Commit(keyin changelog, and send by ask!)'
+		echo ' (E) Push(send!!)'
+		echo '輸入條件的結構:'
+		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
+	fi
 
 	if [ "${#item_array[@]}" -gt 0 ]; then
 		echo '================================================='
@@ -250,7 +252,11 @@ do
 		condition="${condition:0:(${#condition} - 1)}"
 		inputvar=''
 	elif [ "$inputvar" == 'A' ]; then
-		untracked='0'
+		if [ "$untracked" == '1' ]; then
+			untracked='0'
+		else
+			untracked='1'
+		fi
 		unset condition
 		unset gitstatus 
 		unset item_array
