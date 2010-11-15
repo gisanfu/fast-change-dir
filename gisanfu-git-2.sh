@@ -163,9 +163,9 @@ do
 	echo "\"$groupname\" || `pwd`"
 	echo '================================================='
 	if [ "$untracked" == '1' ]; then
-		echo "Untracked"
+		echo "Untracked List"
 	else
-		echo "Tracked"
+		echo "Tracked List"
 	fi
 	echo '================================================='
 

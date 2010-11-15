@@ -19,7 +19,7 @@ do
 	echo 'd. Searcy By Keyword (gre)'
 	echo 'e. File Explorer (nautilus .)'
 	echo '================================================='
-	echo -e "${color_txtgrn}專案捷徑類:${color_none}"
+	echo -e "${color_txtgrn}專案類:${color_none}"
 	echo ''
 	echo 'g. Select Project (ga)'
 	echo 'h. Select Shortcut (dv)'

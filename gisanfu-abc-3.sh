@@ -265,7 +265,15 @@ do
 		echo ' 選取單項資料夾 (D)'
 		echo ' 選取上一層單項檔案 (S)'
 		echo ' 選取上一層單項資料夾 (A)'
+		echo ' 選取專案捷徑名稱 (L)'
 		echo ' 選取群組名稱 (G)'
+		echo "檔案操作類:"
+		echo ' Show Groupfile (I)'
+		echo ' Edit Groupfile (J)'
+		echo ' Clear Groupfile (K)'
+		echo '版本控制類:'
+		echo ' SVN (V)'
+		echo ' GIT (T)'
 		echo '輸入條件的結構:'
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
@@ -556,6 +564,61 @@ do
 		match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 		run="ga \"$match\""
 		eval $run
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		continue
+	elif [ "$inputvar" == 'I' ]; then
+		vff
+
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		continue
+	elif [ "$inputvar" == 'J' ]; then
+		vfff
+
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		continue
+	elif [ "$inputvar" == 'K' ]; then
+		vffff
+
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		continue
+	elif [ "$inputvar" == 'V' ]; then
+		svnn
+
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		continue
+	elif [ "$inputvar" == 'T' ]; then
+		gitt
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
