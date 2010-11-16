@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# default ifs value 
+default_ifs=$' \t\n'
+
 # 把英文變成數字，例如er就是12
 func_entonum()
 {
@@ -78,6 +81,7 @@ func_relative_by_git_append()
 	num=0
 
 	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
+
 		IFS=$'\n'
 
 		if [ "$trackstatus" == 'untracked' ]; then
@@ -85,6 +89,7 @@ func_relative_by_git_append()
 		else
 			itemList2Tmp=(`$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		fi
+
 		for i in ${itemList2Tmp[@]}
 		do
 			# 為了要解決空白檔名的問題
@@ -100,7 +105,7 @@ func_relative_by_git_append()
 		if [ "${#itemList[@]}" == "1" ]; then
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
-		elif [ "${#itemList[@]}" -gt "1" ]; then
+		elif [ "${#itemList[@]}" -gt 1 ]; then
 
 			if [ "$secondCondition" != '' ]; then
 				# if have secondCondition, DO secondCheck
