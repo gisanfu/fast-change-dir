@@ -35,6 +35,19 @@ ubuntu 9.10
 - ubuntu 9.10 
 - ubuntu 10.10 
 
+## INSTALL
+
+1. copy scripts to unix-like /bin directory
+
+$ sudo cp gisanfu-* /bin
+
+2. copy bashrc.txt line to your .bashrc
+
+$ cat bashrc.txt >> ~/.bashrc
+
+3. restart your terminal
+
+
 ## EXAMPLE
 
 ### if directory is
@@ -161,16 +174,4 @@ $ dv library
 ### edit ~/gisanfu-dirpoint-${groupname}.txt file
 
 $ dvvv
-
-## INSTALL
-
-1. copy scripts to unix-like /bin directory
-
-$ sudo cp gisanfu-* /bin
-
-2. copy bashrc.txt line to your .bashrc
-
-$ cat bashrc.txt >> ~/.bashrc
-
-3. restart your terminal
 
