@@ -285,6 +285,9 @@ first='1'
 # 倒退鍵
 backspace=$(echo -e \\b\\c)
 
+color_txtgrn='\e[0;32m' # Green
+color_none='\e[0m' # No Color
+
 while [ 1 ];
 do
 	clear
@@ -308,16 +311,17 @@ do
 		echo "目前您所輸入的搜尋條件: \"$condition\""
 	fi
 
+
 	if [ "$first" == '1' ]; then
 		echo '================================================='
-		echo '基本快速鍵:'
+		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (.) 句點'
 		echo ' 上一層 (,) 逗點'
 		echo " 到數字切換資料夾功能 (') 單引號"
 		echo ' 離開 (?)'
-		echo '選擇用的快速鍵:'
+		echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
 		echo ' 單項檔案 (F) 大寫F shift+f'
 		echo ' 單項資料夾 (D)'
 		echo ' 上一層單項檔案 (S)'
@@ -325,14 +329,14 @@ do
 		echo ' 專案捷徑名稱 (L)'
 		echo ' 群組名稱 (G)'
 		echo ' 搜尋檔案的結果 (H)'
-		echo "檔案操作類:"
+		echo -e "${color_txtgrn}檔案操作類:${color_none}"
 		echo ' Show Groupfile (I)'
 		echo ' Edit Groupfile (J)'
 		echo ' Clear Groupfile (K)'
-		echo '版本控制類:'
+		echo -e "${color_txtgrn}版本控制類:${color_none}"
 		echo ' SVN (V)'
 		echo ' GIT (T)'
-		echo '輸入條件的結構:'
+		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
 	fi
