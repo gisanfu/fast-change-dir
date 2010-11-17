@@ -22,6 +22,7 @@ author: gisanfu
 - 即時搜尋關鍵字 
 - 即時關鍵字操作物件 
 - 即時數字鍵操作物件 
+- 版本控制功能(git, svn)
 - 主控台(整合快速鍵) 
 
 ## Develop environment
