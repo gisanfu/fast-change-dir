@@ -64,7 +64,6 @@ func_relative()
 
 	if [ "$fileposition" != '' ]; then
 		newposition=$(($fileposition - 1))
-		relativeitem=${relativeitem[$newposition]}
 	fi
 
 	# ignore file or dir
@@ -211,6 +210,63 @@ func_groupname()
 	echo ${resultarray[@]}
 }
 
+# 呼叫這個函式的前面，別忘了要加上至少3個字母的判斷式
+func_search()
+{
+	keyword=$1
+	second=$2
+	position=$3
+
+	declare -a resultarray
+	declare -a resultarraytmp
+
+	# 先把英文轉成數字，如果這個欄位有資料的話
+	position=( `func_entonum "$position"` )
+
+	if [ "$position" != '' ]; then
+		newposition=$(($position - 1))
+	fi
+
+	if [ "$keyword" != '' ]; then
+		if [ "$groupname" != '' ]; then
+			# 先取得root資料夾位置
+			dirpoint_roots=(`cat ~/gisanfu-dirpoint-$groupname.txt | grep ^root | head -n 1 | tr "," " "`)
+			path=${dirpoint_roots[1]}
+		else
+			path='.'
+		fi
+
+		cmd="find $path -iname \*$keyword\*"
+
+		if [ "$second" != '' ]; then
+			cmd="$cmd | grep $second"
+		fi
+
+		num=0
+		IFS=$'\n'
+		resultarraytmp=(`eval $cmd`)
+		for i in ${resultarraytmp[@]}
+		do
+			# 為了要解決空白檔名的問題
+			resultarray[$num]=`echo $i|sed 's/ /___/g'`
+			num=$num+1
+		done
+		IFS=$default_ifs
+		num=0
+
+		if [ "${#resultarray[@]}" -gt 0 ]; then
+			if [ "$newposition" == '' ]; then
+				echo ${resultarray[@]:0:5}
+			else
+				# 先把含空格的文字，轉成陣列
+				aaa=(${resultarray[@]:0:5})
+				# 然後在指定位置輸出
+				echo ${aaa[$newposition]}
+			fi
+		fi
+	fi
+}
+
 unset condition
 unset cmd1
 unset cmd2
@@ -221,6 +277,7 @@ unset item_parent_file_array
 unset item_parent_dir_array
 unset item_dirpoint_array
 unset item_groupname_array
+unset item_search_array
 
 # 只有第一次是1，有些只會執行一次，例如help
 first='1'
@@ -261,12 +318,13 @@ do
 		echo " 到數字切換資料夾功能 (') 單引號"
 		echo ' 離開 (?)'
 		echo '選擇用的快速鍵:'
-		echo ' 選取單項檔案 (F) 大寫F shift+f'
-		echo ' 選取單項資料夾 (D)'
-		echo ' 選取上一層單項檔案 (S)'
-		echo ' 選取上一層單項資料夾 (A)'
-		echo ' 選取專案捷徑名稱 (L)'
-		echo ' 選取群組名稱 (G)'
+		echo ' 單項檔案 (F) 大寫F shift+f'
+		echo ' 單項資料夾 (D)'
+		echo ' 上一層單項檔案 (S)'
+		echo ' 上一層單項資料夾 (A)'
+		echo ' 專案捷徑名稱 (L)'
+		echo ' 群組名稱 (G)'
+		echo ' 搜尋檔案的結果 (H)'
 		echo "檔案操作類:"
 		echo ' Show Groupfile (I)'
 		echo ' Edit Groupfile (J)'
@@ -370,7 +428,7 @@ do
 
 	# 顯示重覆的群組名稱
 	if [ "${#item_groupname_array[@]}" -gt 1 ]; then
-		echo "重覆的捷徑: ${#item_groupname_array[@]}"
+		echo "重覆的群組名稱: ${#item_groupname_array[@]}"
 		number=1
 		for bbb in ${item_groupname_array[@]}
 		do
@@ -379,6 +437,19 @@ do
 		done
 	elif [ "${#item_groupname_array[@]}" -eq 1 ]; then 
 		echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
+	fi
+
+	# 顯示重覆的搜尋結果項目
+	if [ "${#item_search_array[@]}" -gt 1 ]; then
+		echo "重覆的搜尋結果: ${#item_search_array[@]}"
+		number=1
+		for bbb in ${item_search_array[@]}
+		do
+			echo "$number. $bbb"
+			number=$((number + 1))
+		done
+	elif [ "${#item_search_array[@]}" -eq 1 ]; then 
+		echo "搜尋結果有找到一筆哦[H]: ${item_search_array[0]}"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
@@ -398,6 +469,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == ',' ]; then
 		cd ..	
@@ -408,6 +480,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_file_array[@]} -eq 1 ]; then
@@ -425,6 +498,7 @@ do
 			unset item_parent_dir_array
 			unset item_dirpoint_array
 			unset item_groupname_array
+			unset item_search_array
 			continue
 		elif [ ${#item_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
@@ -437,6 +511,7 @@ do
 			unset item_parent_dir_array
 			unset item_dirpoint_array
 			unset item_groupname_array
+			unset item_search_array
 			continue
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
@@ -453,6 +528,7 @@ do
 			unset item_parent_dir_array
 			unset item_dirpoint_array
 			unset item_groupname_array
+			unset item_search_array
 			continue
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
@@ -465,6 +541,7 @@ do
 			unset item_parent_dir_array
 			unset item_dirpoint_array
 			unset item_groupname_array
+			unset item_search_array
 			continue
 		elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
 			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
@@ -477,6 +554,7 @@ do
 			unset item_parent_dir_array
 			unset item_dirpoint_array
 			unset item_groupname_array
+			unset item_search_array
 			continue
 		elif [ ${#item_groupname_array[@]} -eq 1 ]; then
 			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
@@ -489,6 +567,7 @@ do
 			unset item_parent_dir_array
 			unset item_dirpoint_array
 			unset item_groupname_array
+			unset item_search_array
 			continue
 		fi
 	elif [[ "$inputvar" == 'F' && "${#item_file_array[@]}" == 1 ]]; then
@@ -506,6 +585,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [[ "$inputvar" == 'D' && "${#item_dir_array[@]}" == 1 ]]; then
 		match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
@@ -518,6 +598,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [[ "$inputvar" == 'S' && "${#item_parent_file_array[@]}" == 1 ]]; then
 		match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
@@ -535,6 +616,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [[ "$inputvar" == 'A' && "${#item_parent_dir_array[@]}" == 1 ]]; then
 		match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
@@ -547,6 +629,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [[ "$inputvar" == 'L' && "${#item_dirpoint_array[@]}" == 1 ]]; then
 		match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
@@ -559,11 +642,13 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [[ "$inputvar" == 'G' && "${#item_groupname_array[@]}" == 1 ]]; then
 		match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 		run="ga \"$match\""
 		eval $run
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -571,6 +656,25 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
+		continue
+	elif [[ "$inputvar" == 'H' && "${#item_search_array[@]}" == 1 ]]; then
+		match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
+		if [ "${match:0:1}" == '.' ]; then
+			run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+		else
+			run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+		fi
+		eval $run
+
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == 'I' ]; then
 		vff
@@ -582,6 +686,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == 'J' ]; then
 		vfff
@@ -593,6 +698,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == 'K' ]; then
 		vffff
@@ -604,6 +710,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == 'V' ]; then
 		svnn
@@ -615,6 +722,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	elif [ "$inputvar" == 'T' ]; then
 		gitt
@@ -626,6 +734,7 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 		continue
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
 	elif [ "$inputvar" == $backspace ]; then
@@ -639,6 +748,8 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
+
 		. /bin/gisanfu-123-2.sh
 		continue
 	fi
@@ -657,6 +768,11 @@ do
 		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
 		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
 
+		# 長度大於3的關鍵字才能做搜尋的動作
+		if [ "${#cmd1}" -gt 3 ]; then
+			item_search_array=( `func_search "$cmd1" "$cmd2" "$cmd3" ` )
+		fi
+
 		# 有些功能，只要看到第2個引數就會失效
 		if [ "$cmd2" == '' ]; then
 			item_dirpoint_array=( `func_dirpoint "$cmd1"` )
@@ -674,13 +790,10 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset item_search_array
 	fi
 
 done
 
 # 離開前，在顯示一下現在資料夾裡面的東西
 eval $cmd
-
-#if [ "$inputvar" == "'" ]; then
-#	123
-#fi
