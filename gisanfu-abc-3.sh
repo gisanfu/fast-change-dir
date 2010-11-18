@@ -347,7 +347,7 @@ do
 
 	# 顯示重覆檔案
 	if [ "${#item_file_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量: ${#item_file_array[@]}"
+		echo "重覆的檔案數量(有多項的功能)[F]: 有${#item_file_array[@]}筆"
 		number=1
 		for bbb in ${item_file_array[@]}
 		do
@@ -360,7 +360,7 @@ do
 
 	# 顯示重覆資料夾
 	if [ "${#item_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量: ${#item_dir_array[@]}"
+		echo "重覆的檔案數量: 有${#item_dir_array[@]}筆"
 		number=1
 		for bbb in ${item_dir_array[@]}
 		do
@@ -372,18 +372,13 @@ do
 	fi
 
 	# 為了直覺上，能夠快速的區分類別
-	#if [[ "${#item_file_array[@]}" -eq 0 && "${#item_dir_array[@]}" -eq 0 && "$condition" != '' ]]; then
-	#	echo 'X 本層無符合的項目 X'
-	#fi
-
-	# 為了直覺上，能夠快速的區分類別
 	if [[ "${#item_parent_file_array[@]}" -gt 0 || "${#item_parent_dir_array[@]}" -gt 0 ]]; then
 		echo '================================================='
 	fi
 
 	# 顯示重覆檔案(上一層)
 	if [ "${#item_parent_file_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量(上一層): ${#item_parent_file_array[@]}"
+		echo "重覆的檔案數量 (有多項的功能) (上一層)[S]: 有${#item_parent_file_array[@]}筆"
 		number=1
 		for bbb in ${item_parent_file_array[@]}
 		do
@@ -396,7 +391,7 @@ do
 
 	# 顯示重覆資料夾(上一層)
 	if [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量(上一層): ${#item_parent_dir_array[@]}"
+		echo "重覆的資料夾數量(上一層): 有${#item_parent_dir_array[@]}筆"
 		number=1
 		for bbb in ${item_parent_dir_array[@]}
 		do
@@ -414,7 +409,7 @@ do
 
 	# 顯示重覆的捷徑
 	if [ "${#item_dirpoint_array[@]}" -gt 1 ]; then
-		echo "重覆的捷徑: ${#item_dirpoint_array[@]}"
+		echo "重覆的捷徑: 有${#item_dirpoint_array[@]}筆"
 		number=1
 		for bbb in ${item_dirpoint_array[@]}
 		do
@@ -432,7 +427,7 @@ do
 
 	# 顯示重覆的群組名稱
 	if [ "${#item_groupname_array[@]}" -gt 1 ]; then
-		echo "重覆的群組名稱: ${#item_groupname_array[@]}"
+		echo "重覆的群組名稱: 有${#item_groupname_array[@]}筆"
 		number=1
 		for bbb in ${item_groupname_array[@]}
 		do
@@ -443,9 +438,13 @@ do
 		echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
 	fi
 
+	if [[ "${#item_search_array[@]}" -gt 0 ]]; then
+		echo '================================================='
+	fi
+
 	# 顯示重覆的搜尋結果項目
 	if [ "${#item_search_array[@]}" -gt 1 ]; then
-		echo "重覆的搜尋結果: ${#item_search_array[@]}"
+		echo "重覆的搜尋結果(有多項的功能)[H]: 有${#item_search_array[@]}筆"
 		number=1
 		for bbb in ${item_search_array[@]}
 		do
@@ -495,6 +494,7 @@ do
 				run="vim \"$match\""
 			fi
 			eval $run
+
 			unset condition
 			unset item_file_array
 			unset item_dir_array
@@ -508,6 +508,7 @@ do
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
 			eval $run
+
 			unset condition
 			unset item_file_array
 			unset item_dir_array
@@ -525,6 +526,7 @@ do
 				run="vim ../\"$match\""
 			fi
 			eval $run
+
 			unset condition
 			unset item_file_array
 			unset item_dir_array
@@ -538,6 +540,7 @@ do
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
 			eval $run
+
 			unset condition
 			unset item_file_array
 			unset item_dir_array
@@ -551,6 +554,7 @@ do
 			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
 			run="dv \"$match\""
 			eval $run
+
 			unset condition
 			unset item_file_array
 			unset item_dir_array
@@ -564,6 +568,25 @@ do
 			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 			run="ga \"$match\""
 			eval $run
+
+			unset condition
+			unset item_file_array
+			unset item_dir_array
+			unset item_parent_file_array
+			unset item_parent_dir_array
+			unset item_dirpoint_array
+			unset item_groupname_array
+			unset item_search_array
+			continue
+		elif [ ${#item_search_array[@]} -eq 1 ]; then
+			match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
+			if [ "${match:0:1}" == '.' ]; then
+				run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+			else
+				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+			fi
+			eval $run
+
 			unset condition
 			unset item_file_array
 			unset item_dir_array
@@ -574,14 +597,24 @@ do
 			unset item_search_array
 			continue
 		fi
-	elif [[ "$inputvar" == 'F' && "${#item_file_array[@]}" == 1 ]]; then
-		match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
-		if [ "$groupname" != '' ]; then
-			run="vf \"$match\""
-		else
-			run="vim \"$match\""
+	elif [ "$inputvar" == 'F' ]; then
+		if [ "${#item_file_array[@]}" -eq 1 ]; then
+			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
+			if [ "$groupname" != '' ]; then
+				run="vf \"$match\""
+			else
+				run="vim \"$match\""
+			fi
+		elif [ "${#item_file_array[@]}" -gt 1 ]; then
+			run=". /bin/gisanfu-vimlist-append-files.sh "
+			for bbb in ${item_file_array[@]}
+			do
+				match=`echo $bbb | sed 's/___/ /g'`
+				run="$run \"$match\""
+			done
 		fi
 		eval $run
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -595,6 +628,7 @@ do
 		match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 		run="cd \"$match\""
 		eval $run
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -604,15 +638,25 @@ do
 		unset item_groupname_array
 		unset item_search_array
 		continue
-	elif [[ "$inputvar" == 'S' && "${#item_parent_file_array[@]}" == 1 ]]; then
-		match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
-		if [ "$groupname" != '' ]; then
-			# 會這樣子寫，是因為我的底層並沒有這個功能
-			run="cd .. && vf \"$match\""
-		else
-			run="vim ../\"$match\""
+	elif [ "$inputvar" == 'S' ]; then
+		if [ "${#item_parent_file_array[@]}" -eq 1 ]; then
+			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
+			if [ "$groupname" != '' ]; then
+				# 會這樣子寫，是因為我的底層並沒有這個功能
+				run="cd .. && vf \"$match\""
+			else
+				run="vim ../\"$match\""
+			fi
+		elif [ "${#item_parent_file_array[@]}" -gt 1 ]; then
+			run=". /bin/gisanfu-vimlist-append-files.sh "
+			for bbb in ${item_parent_file_array[@]}
+			do
+				match=`echo $bbb | sed 's/___/ /g'`
+				run="$run \"../$match\""
+			done
 		fi
 		eval $run
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -626,6 +670,7 @@ do
 		match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 		run="g \"$match\""
 		eval $run
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -639,6 +684,7 @@ do
 		match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
 		run="dv \"$match\""
 		eval $run
+
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -662,12 +708,21 @@ do
 		unset item_groupname_array
 		unset item_search_array
 		continue
-	elif [[ "$inputvar" == 'H' && "${#item_search_array[@]}" == 1 ]]; then
-		match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
-		if [ "${match:0:1}" == '.' ]; then
-			run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
-		else
-			run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+	elif [ "$inputvar" == 'H' ]; then
+		if [ "${#item_search_array[@]}" -eq 1 ]; then
+			match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
+			if [ "${match:0:1}" == '.' ]; then
+				run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+			else
+				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+			fi
+		elif [ "${#item_search_array[@]}" -gt 1 ]; then
+			run=". /bin/gisanfu-vimlist-append-files.sh "
+			for bbb in ${item_search_array[@]}
+			do
+				match=`echo $bbb | sed 's/___/ /g'`
+				run="$run \"$match\""
+			done
 		fi
 		eval $run
 

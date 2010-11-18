@@ -49,9 +49,6 @@ else
 	fi
 fi
 
-# 最後，顯示目前目錄的檔案
-func_checkfilecount
-
 # 結束前，把這裡所用到的變數給清空
 relativeitem_path=''
 absoluteitem_path=''
