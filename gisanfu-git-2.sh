@@ -254,6 +254,26 @@ do
 			unset item_array
 			continue
 		fi
+	elif [ "$inputvar" == '*' ]; then
+		if [ "${#item_array[@]}" -ge 1 ]; then
+			for bbb in ${item_array[@]}
+			do
+				# 不分兩次做，會出現前面少了一個空白，不知道為什麼
+				match=`echo $bbb | sed 's/___/X/'`
+				match=`echo $match | sed 's/___/ /g'`
+
+				if [ "$untracked" == '1' ]; then
+					git add ${match:3}
+				else
+					git reset ${match:3}
+				fi
+			done
+
+			unset condition
+			unset gitstatus 
+			unset item_array
+			continue
+		fi
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
 	elif [ "$inputvar" == $backspace ]; then
 		condition="${condition:0:(${#condition} - 1)}"
