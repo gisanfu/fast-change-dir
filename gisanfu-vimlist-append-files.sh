@@ -27,7 +27,7 @@ if [ "$groupname" != '' ]; then
 	read -n 1 inputchar
 	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then
 		# 取得最後append的檔案位置，這樣子vim -p以後就可以直接跳過該位置，就不用一直在gt..gt..gt..gt...
-		checklinenumber=`cat ~/gisanfu-vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
+		checklinenumber=`cat ~/gisanfu-vimlist-$groupname.txt | nl -w1 -s: | grep "$absoluteitem_path" | head -n 1 | awk -F: '{print $1}'`
 		cmd='vff "vim'
 		for i in `seq 1 $checklinenumber`
 		do
@@ -53,6 +53,5 @@ files=''
 file=''
 inputvar=''
 checkline=''
-selectitem=''
 cmd=''
 checklinenumber=''
