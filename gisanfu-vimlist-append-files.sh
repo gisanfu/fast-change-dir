@@ -26,7 +26,15 @@ if [ "$groupname" != '' ]; then
 	echo '[WAIT] 還是清空它 [k]'
 	read -n 1 inputchar
 	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then
-		/bin/gisanfu-vimlist.sh
+		# 取得最後append的檔案位置，這樣子vim -p以後就可以直接跳過該位置，就不用一直在gt..gt..gt..gt...
+		checklinenumber=`cat ~/gisanfu-vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
+		cmd='vff "vim'
+		for i in `seq 1 $checklinenumber`
+		do
+			cmd="$cmd +tabnext"
+		done
+		cmd="$cmd -p ~/gisanfu-vimlist-$groupname.txt\""
+		eval $cmd
 	elif [[ "$inputchar" == 'n' || "$inputchar" == "0" ]]; then
 		echo "Your want append other file"
 	elif [ "$inputchar" == 'j' ]; then
@@ -46,3 +54,5 @@ file=''
 inputvar=''
 checkline=''
 selectitem=''
+cmd=''
+checklinenumber=''

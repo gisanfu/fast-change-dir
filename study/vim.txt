@@ -3,7 +3,7 @@
 Q: vim如何跳到最後append進來的檔案
 
 A: 假設最後append進來的是bbb.txt檔案，那就執行以下的指令
-   vim -p aaa.txt bbb.txt +tablast
+   vim -p aaa.txt bbb.txt +tabnext
 
    如果是3個檔案，然後要移到第3個檔案，那就下以下的指令
-   vim -p aaa.txt bbb.txt ccc.txt +tablast +tablast
+   vim -p aaa.txt bbb.txt ccc.txt +tabnext +tabnext
