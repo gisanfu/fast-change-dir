@@ -267,20 +267,15 @@ func_search()
 	fi
 }
 
-unset condition
 unset cmd1
 unset cmd2
 unset cmd3
-unset item_file_array
-unset item_dir_array
-unset item_parent_file_array
-unset item_parent_dir_array
-unset item_dirpoint_array
-unset item_groupname_array
-unset item_search_array
 
 # 只有第一次是1，有些只會執行一次，例如help
 first='1'
+
+# 當符合某些條件以後，所以動作都要重來，這時需要清除掉某一些變數的內容
+clear_var_all=''
 
 # 倒退鍵
 backspace=$(echo -e \\b\\c)
@@ -291,6 +286,18 @@ color_none='\e[0m' # No Color
 while [ 1 ];
 do
 	clear
+
+	if [[ "$first" == '1' || "$clear_var_all" == '1' ]]; then
+		unset condition
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		unset item_search_array
+		clear_var_all=''
+	fi
 
 	if [ "$first" == '1' ]; then
 		echo '即時切換資料夾 (關鍵字)'
@@ -470,25 +477,11 @@ do
 		clear
 		break
 	elif [ "$inputvar" == '/' ]; then
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == ',' ]; then
 		cd ..	
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_file_array[@]} -eq 1 ]; then
@@ -499,29 +492,13 @@ do
 				run="vim \"$match\""
 			fi
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
@@ -531,57 +508,25 @@ do
 				run="vim ../\"$match\""
 			fi
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
 			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
 			run="dv \"$match\""
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_groupname_array[@]} -eq 1 ]; then
 			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 			run="ga \"$match\""
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_search_array[@]} -eq 1 ]; then
 			match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
@@ -591,15 +536,7 @@ do
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
 			eval $run
-
-			unset condition
-			unset item_file_array
-			unset item_dir_array
-			unset item_parent_file_array
-			unset item_parent_dir_array
-			unset item_dirpoint_array
-			unset item_groupname_array
-			unset item_search_array
+			clear_var_all='1'
 			continue
 		fi
 	elif [ "$inputvar" == 'F' ]; then
@@ -619,29 +556,13 @@ do
 			done
 		fi
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'D' && "${#item_dir_array[@]}" == 1 ]]; then
 		match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 		run="cd \"$match\""
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'S' ]; then
 		if [ "${#item_parent_file_array[@]}" -eq 1 ]; then
@@ -661,57 +582,25 @@ do
 			done
 		fi
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'A' && "${#item_parent_dir_array[@]}" == 1 ]]; then
 		match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 		run="g \"$match\""
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'L' && "${#item_dirpoint_array[@]}" == 1 ]]; then
 		match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
 		run="dv \"$match\""
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'G' && "${#item_groupname_array[@]}" == 1 ]]; then
 		match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 		run="ga \"$match\""
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'H' ]; then
 		if [ "${#item_search_array[@]}" -eq 1 ]; then
@@ -730,91 +619,35 @@ do
 			done
 		fi
 		eval $run
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'I' ]; then
 		vff
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'J' ]; then
 		vfff
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'K' ]; then
 		vffff
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'V' ]; then
 		svnn
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'T' ]; then
 		gitt
-
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
 		continue
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
 	elif [ "$inputvar" == $backspace ]; then
 		condition="${condition:0:(${#condition} - 1)}"
 		inputvar=''
 	elif [ "$inputvar" == "'" ]; then
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
-
 		. /bin/gisanfu-123-2.sh
+		clear_var_all='1'
 		continue
 	fi
 
@@ -847,14 +680,8 @@ do
 		fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
-		unset condition
-		unset item_file_array
-		unset item_dir_array
-		unset item_parent_file_array
-		unset item_parent_dir_array
-		unset item_dirpoint_array
-		unset item_groupname_array
-		unset item_search_array
+		clear_var_all='1'
+		continue
 	fi
 
 done

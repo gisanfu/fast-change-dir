@@ -204,8 +204,9 @@ do
 		echo ' (A) Change Untracked or Tracked'
 		echo ' (B)'
 		echo ' (C) Commit(keyin changelog, and send by ask!)'
-		echo ' (D) Update(Pull)'
+		echo ' (D)'
 		echo ' (E) Push(send!!)'
+		echo ' (U) Update(Pull)'
 		echo '輸入條件的結構:'
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 	fi
@@ -327,7 +328,7 @@ do
 		unset gitstatus 
 		unset item_array
 		continue
-	elif [ "$inputvar" == 'D' ]; then
+	elif [ "$inputvar" == 'U' ]; then
 		git pull
 		if [ "$?" -eq 0 ]; then
 			echo '更新本GIT資料夾成功'
