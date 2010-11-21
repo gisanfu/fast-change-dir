@@ -203,8 +203,8 @@ do
 		echo 'Git功能快速鍵:'
 		echo ' (A) Change Untracked or Tracked'
 		echo ' (B)'
-		echo ' (C) Update(Pull)'
-		echo ' (D) Commit(keyin changelog, and send by ask!)'
+		echo ' (C) Commit(keyin changelog, and send by ask!)'
+		echo ' (D) Update(Pull)'
 		echo ' (E) Push(send!!)'
 		echo '輸入條件的結構:'
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
@@ -290,18 +290,6 @@ do
 		unset item_array
 		continue
 	elif [ "$inputvar" == 'C' ]; then
-		git pull
-		if [ "$?" -eq 0 ]; then
-			echo '更新本GIT資料夾成功'
-		fi
-		echo '按任何鍵繼續...'
-		read -n 1
-
-		unset condition
-		unset gitstatus 
-		unset item_array
-		continue
-	elif [ "$inputvar" == 'D' ]; then
 		echo '要送出了，但是請先輸入changelog，輸入完請按Enter'
 		read changelog
 		if [ "$changelog" == '' ]; then
@@ -334,6 +322,18 @@ do
 			echo '按任何鍵繼續...'
 			read -n 1
 		fi
+
+		unset condition
+		unset gitstatus 
+		unset item_array
+		continue
+	elif [ "$inputvar" == 'D' ]; then
+		git pull
+		if [ "$?" -eq 0 ]; then
+			echo '更新本GIT資料夾成功'
+		fi
+		echo '按任何鍵繼續...'
+		read -n 1
 
 		unset condition
 		unset gitstatus 

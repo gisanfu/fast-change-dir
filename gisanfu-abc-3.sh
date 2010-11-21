@@ -236,7 +236,7 @@ func_search()
 			path='.'
 		fi
 
-		cmd="find $path -iname \*$keyword\*"
+		cmd="find $path -iname \*$keyword\* -type f"
 
 		if [ "$second" != '' ]; then
 			cmd="$cmd | grep $second"
