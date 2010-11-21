@@ -341,7 +341,7 @@ do
 		first=''
 	fi
 
-	if [[ "${#item_file_array[@]}" -gt 0 || "${#item_dir_array[@]}" -gt 0 ]]; then
+	if [ "${#item_file_array[@]}" -gt 0 ]; then
 		echo '================================================='
 	fi
 
@@ -358,6 +358,10 @@ do
 		echo "檔案有找到一筆哦[F]: ${item_file_array[0]}"
 	fi
 
+	if [ "${#item_dir_array[@]}" -gt 0 ]; then
+		echo '================================================='
+	fi
+
 	# 顯示重覆資料夾
 	if [ "${#item_dir_array[@]}" -gt 1 ]; then
 		echo "重覆的檔案數量: 有${#item_dir_array[@]}筆"
@@ -371,8 +375,7 @@ do
 		echo "資料夾有找到一筆哦[D]: ${item_dir_array[0]}"
 	fi
 
-	# 為了直覺上，能夠快速的區分類別
-	if [[ "${#item_parent_file_array[@]}" -gt 0 || "${#item_parent_dir_array[@]}" -gt 0 ]]; then
+	if [ "${#item_parent_file_array[@]}" -gt 0 ]; then
 		echo '================================================='
 	fi
 
@@ -389,6 +392,10 @@ do
 		echo "檔案有找到一筆哦(上一層)[S]: ${item_parent_file_array[0]}"
 	fi
 
+	if [ "${#item_parent_dir_array[@]}" -gt 0 ]; then
+		echo '================================================='
+	fi
+
 	# 顯示重覆資料夾(上一層)
 	if [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
 		echo "重覆的資料夾數量(上一層): 有${#item_parent_dir_array[@]}筆"
@@ -402,8 +409,7 @@ do
 		echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
 	fi
 
-	# 為了直覺上，能夠快速的區分捷徑這個類別
-	if [[ "${#item_dirpoint_array[@]}" -gt 0 ]]; then
+	if [ "${#item_dirpoint_array[@]}" -gt 0 ]; then
 		echo '================================================='
 	fi
 
@@ -420,8 +426,7 @@ do
 		echo "捷徑有找到一筆哦[L]: ${item_dirpoint_array[0]}"
 	fi
 
-	# 為了直覺上，能夠快速的區分群組名稱這個類別
-	if [[ "${#item_groupname_array[@]}" -gt 0 ]]; then
+	if [ "${#item_groupname_array[@]}" -gt 0 ]; then
 		echo '================================================='
 	fi
 
@@ -438,7 +443,7 @@ do
 		echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
 	fi
 
-	if [[ "${#item_search_array[@]}" -gt 0 ]]; then
+	if [ "${#item_search_array[@]}" -gt 0 ]; then
 		echo '================================================='
 	fi
 
@@ -828,7 +833,7 @@ do
 		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
 
 		# 長度大於3的關鍵字才能做搜尋的動作
-		if [ "${#cmd1}" -gt 3 ]; then
+		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'local' ]]; then
 			item_search_array=( `func_search "$cmd1" "$cmd2" "$cmd3" ` )
 		fi
 
