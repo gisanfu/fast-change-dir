@@ -175,5 +175,3 @@ $ dv library
 ### edit ~/gisanfu-dirpoint-${groupname}.txt file
 
 $ dvvv
-
-- prof_petercurson_safety_enc.jpg
