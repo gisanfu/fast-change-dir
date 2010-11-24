@@ -215,7 +215,7 @@ do
 
 	# 顯示重覆檔案
 	if [ "${#item_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量: ${#item_array[@]}"
+		echo "重覆的檔案數量: ${#item_array[@]} [*]"
 		number=1
 		for bbb in ${item_array[@]}
 		do
@@ -223,7 +223,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆: ${item_array[0]}"
+		echo "檔案有找到一筆: ${item_array[0]} [.]"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
