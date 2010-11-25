@@ -57,6 +57,7 @@ ubuntu 9.10
 
 - 滑鼠用的機率會少很多
 - 鍵盤會很常用
+- 有兩種主要的使用方式，CLI和IDE，可以依照狀況來選擇您要的方式，例如網管可以使用CLI方式，加速CLI的操作速度，如果是程式設計師，可以使用IDE的方式
 
 ## INSTALL
 
@@ -71,7 +72,7 @@ $ cat bashrc.txt >> ~/.bashrc
 3. restart your terminal
 
 
-## EXAMPLE
+## CLI部份使用方式
 
 ### if directory is
 
@@ -197,3 +198,25 @@ $ dv library
 ### edit ~/gisanfu-dirpoint-${groupname}.txt file
 
 $ dvvv
+
+## IDE部份使用方式
+
+會有IDE的方式，剛開始的想法，主要是要擺脫CLI的一些先天的缺點，
+
+例如我要進入一個資料夾，就必需要輸入`cd dir01` [Enter]，
+
+如果輸入錯誤，當下是不知道的，當你打錯成`cd dir02`，這時你是必需要重打指令的，
+
+不然你就是要輸入cd di<tab><tab>r<tab><tab>0<tab><tab>，
+
+如果使用IDE裡面的英文選擇功能的話(abc)，就可以輸入dir02[.點]，
+
+當你在輸入的時候，程式就會告訴你是否能直接選擇這個項目、這個項目是dir or file、等等，
+
+另外，IDE目前己經整合大部份CLI的指令，而且做了所多的改版。
+
+### 啟動IDE功能
+
+*這個是舊版的IDE，大部份的功能己經納入到abc的功能裡面，會做這樣子的分類，因為後來發現，英文選擇功能(abc)，才是這個專案的精神所在
+
+	ide
