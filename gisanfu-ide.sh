@@ -29,7 +29,6 @@ do
 	echo 'i. Show Groupfile (vff)'
 	echo 'j. Edit Groupfile (vfff)'
 	echo 'k. Clear Groupfile (vffff)'
-	echo 'l. Loop Groupfile (vff2)'
 	echo '================================================='
 	echo -e "${color_txtgrn}版本控制類:${color_none}"
 	echo ''
@@ -63,8 +62,6 @@ do
 		vfff
 	elif [ "$inputvar" == 'k' ]; then
 		vffff
-	elif [ "$inputvar" == 'l' ]; then
-		vff2
 	elif [ "$inputvar" == 's' ]; then
 		svnn
 	elif [ "$inputvar" == 't' ]; then
