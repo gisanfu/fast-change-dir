@@ -207,7 +207,7 @@ $ dvvv
 
 如果輸入錯誤，當下是不知道的，當你打錯成`cd dir02`，這時你是必需要重打指令的，
 
-不然你就是要輸入cd di<tab><tab>r<tab><tab>0<tab><tab>，
+不然你就是要輸入cd di`<tab>``<tab>`r`<tab>``<tab>`0`<tab>``<tab>`，
 
 如果使用IDE裡面的英文選擇功能的話(abc)，就可以輸入dir02[.點]，
 
