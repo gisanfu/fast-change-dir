@@ -221,4 +221,4 @@ $ dvvv
 
 	ide
 
-![Alt text](/path/to/img.jpg)
+![ide](http://pic.pimg.tw/gisanfu/12c500d85a46ac89431feecca8cedd88.png)
