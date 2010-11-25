@@ -25,6 +25,10 @@ author: gisanfu
 - 版本控制功能(git, svn)
 - 主控台(整合快速鍵) 
 
+## 簡易影片介紹
+
+<http://www.youtube.com/watch?v=t1zYZF0UzMw>
+
 ## Develop environment
 
 ubuntu 9.10
