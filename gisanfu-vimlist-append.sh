@@ -48,10 +48,19 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		# 取得最後append的檔案位置，這樣子vim -p以後就可以直接跳過該位置，就不用一直在gt..gt..gt..gt...
 		checklinenumber=`cat ~/gisanfu-vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
 		cmd='vff "vim'
-		for i in `seq 1 $checklinenumber`
-		do
-			cmd="$cmd +tabnext"
-		done
+
+		# 不知道為什麼不能超過10，超過會出現以下的錯誤訊息
+		# 太多 "+command" 、 "-c command" 或 "--cmd command" 參數
+		# 查詢更多資訊請執行: "vim -h"
+		if [ "$checklinenumber" -lt 10 ]; then
+			for i in `seq 1 $checklinenumber`
+			do
+				cmd="$cmd +tabnext"
+			done
+		else
+			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
+		fi
+
 		cmd="$cmd -p ~/gisanfu-vimlist-$groupname.txt\""
 		eval $cmd
 	elif [[ "$inputchar" == 'n' || "$inputchar" == "0" ]]; then
