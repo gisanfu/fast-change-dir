@@ -222,3 +222,9 @@ $ dvvv
 	ide
 
 ![ide](http://pic.pimg.tw/gisanfu/12c500d85a46ac89431feecca8cedd88.png)
+
+*選擇a，或是輸入以下指令，啟動英文選擇模式
+
+	abc
+
+![abc](http://pic.pimg.tw/gisanfu/4569bf373a01ac17f245e9cf392035ae.png)
