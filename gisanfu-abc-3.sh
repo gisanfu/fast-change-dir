@@ -666,7 +666,7 @@ do
 		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
 
 		# 長度大於3的關鍵字才能做搜尋的動作
-		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' ]]; then
+		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != '' ]]; then
 			item_search_array=( `func_search "$cmd1" "$cmd2" "$cmd3" ` )
 		fi
 
