@@ -1,3 +1,28 @@
+# 2010-11-30
+
+在想要不要增加一些系統的元素進來，
+例如:
+sudo
+edit hosts
+edit php.ini
+edit apache conf(s)
+start restart service
+search bash history
+
+以上這個話題，可以分一些思考點出來
+1. 編輯檔案的部份，可以參考dirpoint的作法
+2. 搜尋檔案內容的部份，就比較單純
+3. sudo 可能就要在想一下了，可能就下sudo的指令，然後我可能不要打密碼，
+接下來會切換到root，這時會自動用root來執行ide或是abc。
+4. start restart service，可能需要搭配dialog來做
+
+關於上述第1點，
+可以設定檔案的virtual徑捷，例如我輸入config，這時可能會出現aaa.xml出來，
+可能要想一下，這一點是否真的實用才做。
+
+有些功能，我在想，可能不需要，或是不能用.(點)來做選擇，
+一定要用所指定的快速鍵來選擇該功能，這樣可能比較不會有誤動作。
+
 # 2010-11-24
 
 我新增了一個study，是可以自動切換到指定的視窗，然後送指令. 
