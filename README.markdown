@@ -29,6 +29,41 @@ author: gisanfu
 
 <http://www.youtube.com/watch?v=t1zYZF0UzMw>
 
+來看看我輸入了哪些指令
+
+
+	ide<cr>
+	a
+	git.
+	fast.
+	dirF
+	gtgtgt
+	<f4>
+	homeG
+	desktopL
+	,
+	git.
+	fast.
+	stu.
+	find.y
+	<f4>
+	bash.y
+	gt
+	dd
+	<f4>
+	I
+	gt
+	<f4>
+	,
+	cdF
+	gt
+	dd
+	<f4>
+	I
+	<f4>
+	?
+	q
+
 ## Develop environment
 
 ubuntu 9.10
