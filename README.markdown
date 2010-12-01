@@ -71,6 +71,7 @@ author: gisanfu
 	cd git<cr>
 	ls<cr>
 	cd fast-change-dir<cr>
+	ls<cr>
 	vim -p *dir*<cr>
 	gtgtgt
 	:qa<cr>
