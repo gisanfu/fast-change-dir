@@ -17,7 +17,8 @@ ssh remote server
 3. sudo 可能就要在想一下了，可能就下sudo的指令，然後我可能不要打密碼，
 接下來會切換到root，這時會自動用root來執行ide或是abc。
 4. start restart service, 可能需要搭配dialog來做。
-5. ssh remote server, 這可能會蠻實用的，我可能會先寫入一個文字檔列表。
+5. ssh remote server, 這可能會蠻實用的，我可能會先寫入一個文字檔列表，
+這個功能應該很單純，然後是全域的，不會被groupname所區分。
 
 關於上述第1點，
 可以設定檔案的virtual徑捷，例如我輸入config，這時可能會出現aaa.xml出來，
