@@ -2,10 +2,11 @@
 
 在想要不要增加一些系統的元素進來，
 例如:
-sudo
+sudo or leave sudo
 edit hosts
 edit php.ini
 edit apache conf(s)
+edit or tail message, dmesg
 start restart service
 search bash history
 
