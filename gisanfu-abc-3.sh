@@ -210,6 +210,63 @@ func_groupname()
 	echo ${resultarray[@]}
 }
 
+# 會去搜尋home裡面的gisanfu-ssh.txt檔案內容
+# 如果有找到，就會用ssh連線過去
+# 檔案內容如下:
+# servername1
+# servername2
+# ...
+func_ssh()
+{
+	keyword=$1
+	second=$2
+	position=$3
+
+	declare -a resultarray
+	declare -a resultarraytmp
+
+	# 先把英文轉成數字，如果這個欄位有資料的話
+	position=( `func_entonum "$position"` )
+
+	if [ "$position" != '' ]; then
+		newposition=$(($position - 1))
+	fi
+
+	if [ ! -f "~/gisanfu-ssh.txt" ]; then
+		touch ~/gisanfu-ssh.txt
+	fi
+
+	if [ "$keyword" != '' ]; then
+		cmd="cat ~/gisanfu-ssh.txt | grep $keyword"
+		if [ "$second" != '' ]; then
+			cmd="$cmd | grep $second"
+		fi
+
+		num=0
+		IFS=$'\n'
+		resultarraytmp=(`eval $cmd`)
+		for i in ${resultarraytmp[@]}
+		do
+			# 為了要解決空白的問題
+			resultarray[$num]=`echo $i|sed 's/ /___/g'`
+			num=$num+1
+		done
+		IFS=$default_ifs
+		num=0
+
+		if [ "${#resultarray[@]}" -gt 0 ]; then
+			if [ "$newposition" == '' ]; then
+				echo ${resultarray[@]}
+			else
+				# 先把含空格的文字，轉成陣列
+				aaa=(${resultarray[@]})
+				# 然後在指定位置輸出
+				echo ${aaa[$newposition]}
+			fi
+		fi
+	fi
+}
+
 # 呼叫這個函式的前面，別忘了要加上至少3個字母的判斷式
 func_search()
 {
@@ -296,6 +353,7 @@ do
 		unset item_dirpoint_array
 		unset item_groupname_array
 		unset item_search_array
+		unset item_ssh_array
 		clear_var_all=''
 	fi
 
@@ -343,6 +401,8 @@ do
 		echo -e "${color_txtgrn}版本控制類:${color_none}"
 		echo ' SVN (V)'
 		echo ' GIT (T)'
+		echo -e "${color_txtgrn}系統類:${color_none}"
+		echo ' SSH (P)'
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
@@ -467,6 +527,19 @@ do
 		echo "搜尋結果有找到一筆哦[H]: ${item_search_array[0]}"
 	fi
 
+	# 顯示重覆的SSH清單
+	if [ "${#item_ssh_array[@]}" -gt 1 ]; then
+		echo "重覆的SSH清單列表: 有${#item_ssh_array[@]}筆"
+		number=1
+		for bbb in ${item_ssh_array[@]}
+		do
+			echo "$number. $bbb"
+			number=$((number + 1))
+		done
+	elif [ "${#item_ssh_array[@]}" -eq 1 ]; then 
+		echo "SSH目標有找到一筆哦[P]: ${item_ssh_array[0]}"
+	fi
+
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
 	IFS=$'\012'
 	read -s -n 1 inputvar
@@ -535,6 +608,12 @@ do
 			else
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
+			eval $run
+			clear_var_all='1'
+			continue
+		elif [ ${#item_ssh_array[@]} -eq 1 ]; then
+			match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
+			run="ssh \"$match\""
 			eval $run
 			clear_var_all='1'
 			continue
@@ -621,6 +700,12 @@ do
 		eval $run
 		clear_var_all='1'
 		continue
+	elif [[ "$inputvar" == 'P' && "${#item_ssh_array[@]}" == 1 ]]; then
+		match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
+		run="ssh \"$match\""
+		eval $run
+		clear_var_all='1'
+		continue
 	elif [ "$inputvar" == 'I' ]; then
 		vff
 		clear_var_all='1'
@@ -664,6 +749,7 @@ do
 		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
 		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
 		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
+		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3"` )
 
 		# 長度大於3的關鍵字才能做搜尋的動作
 		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != '' ]]; then
