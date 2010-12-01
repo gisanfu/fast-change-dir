@@ -31,7 +31,6 @@ author: gisanfu
 
 來看看我輸入了哪些指令
 
-
 	ide<cr>
 	a
 	git.
@@ -63,6 +62,38 @@ author: gisanfu
 	<f4>
 	?
 	q
+
+對照一般的CLI，我其實輸入以下的指令
+這還不包含列入給vim所使用的暫存指令
+
+	cd ~<cr>
+	cd git<cr>
+	ls<cr>
+	cd fast-change-dir<cr>
+	vim -p *dir*<cr>
+	gtgtgt
+	:qa<cr>
+	cd ~<cr>
+	ls<cr>
+	cd 桌面<cr>
+	ls<cr>
+	cd ..<cr>
+	ls<cr>
+	cd git<cr>
+	ls<cr>
+	cd fast-change-dir<cr>
+	ls<cr>
+	cd study<cr>
+	ls<cr>
+	vim -p *find*<cr>
+	:qa<cr>
+	vim -p *bash*<cr>
+	:qa<cr>
+	ls<cr>
+	cd ..<cr>
+	ls<cr>
+	vim -p *cd*<cr>
+	:qa<cr>
 
 ## Develop environment
 
