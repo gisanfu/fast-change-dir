@@ -362,7 +362,7 @@ do
 		echo '================================================='
 	fi
 
-	echo "\"$groupname\" || `pwd`"
+	echo "`whoami` || \"$groupname\" || `pwd`"
 	echo '================================================='
 
 	ignorelist=$(func_getlsignore)
@@ -403,6 +403,8 @@ do
 		echo ' GIT (T)'
 		echo -e "${color_txtgrn}系統類:${color_none}"
 		echo ' SSH (P)'
+		echo ' Sudo Root (Y)'
+		echo ' 離開EXIT (X)(Q)'
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
@@ -726,6 +728,12 @@ do
 		gitt
 		clear_var_all='1'
 		continue
+	elif [ "$inputvar" == 'Y' ]; then
+		sudo su -
+		clear_var_all='1'
+		continue
+	elif [[ "$inputvar" == 'X' || "$inputvar" == 'Q' ]]; then
+		exit
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
 	elif [ "$inputvar" == $backspace ]; then
 		condition="${condition:0:(${#condition} - 1)}"
