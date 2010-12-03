@@ -83,5 +83,5 @@ alias veeee=". /bin/gisanfu-pos-editfile.sh 4"
 alias veeeee=". /bin/gisanfu-pos-editfile.sh 5"
 alias veeeeee=". /bin/gisanfu-pos-editfile.sh 6"
 
-# 最後，啟動abc英文模式，讓它變成預設的CLI介面
-abc
+# 最後，啟動ide
+ide
