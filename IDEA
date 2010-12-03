@@ -76,7 +76,7 @@ ssh remote server
 
 想要在clear vimlist的時候，寫入history，
 這個history是要查詢用的，這樣子如果剛才需修改的檔案，
-可以在重新承現在vimlist裡面。
+可以在重新呈現在vimlist裡面。
 
 # 2010-11-15
 
