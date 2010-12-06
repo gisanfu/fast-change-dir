@@ -17,7 +17,7 @@ edit php.ini
 edit apache conf(s)
 edit or tail message, dmesg
 start restart service
-search bash history
+search bash history(只是有些指令在cli下執行會卡住)
 ssh remote server
 
 以上這個話題，可以分一些思考點出來
