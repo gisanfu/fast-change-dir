@@ -1,0 +1,8 @@
+# update: 2010-12-07
+
+使用ubuntu 9.10的時候，有可能會出現Eel-CRITICAL的問題
+
+請照以下的作法來修正
+
+add-apt-repository ppa:erez-volk/nautilus
+apt-get upgrade
