@@ -7,7 +7,8 @@ if [ "$groupname" != '' ]; then
 		echo '己取消清空vim暫存群組檔'
 		sleep 1
 	else
-		echo '' > ~/gisanfu-vimlist-$groupname.txt
+		rm ~/gisanfu-vimlist-$groupname.txt
+		touch ~/gisanfu-vimlist-$groupname.txt
 		echo '己清空'
 		sleep 1
 	fi
