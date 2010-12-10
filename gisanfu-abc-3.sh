@@ -329,14 +329,30 @@ func_search()
 	second=$2
 	position=$3
 
+	# 可能是file, or dir
+	itemtype=$4
+
 	declare -a resultarray
 	declare -a resultarraytmp
+
+	# 預設的find指令搜尋的對像，我設定為檔案
+	findtype='f'
 
 	# 先把英文轉成數字，如果這個欄位有資料的話
 	position=( `func_entonum "$position"` )
 
 	if [ "$position" != '' ]; then
 		newposition=$(($position - 1))
+	fi
+
+	if [ "$itemtype" == '' ]; then
+		itemtype='file'
+	fi
+
+	if [ "$itemtype" == 'file' ]; then
+		findtype='f'
+	elif [ "$itemtype" == 'dir' ]; then
+		findtype='d'
 	fi
 
 	if [ "$keyword" != '' ]; then
@@ -348,7 +364,7 @@ func_search()
 			path='.'
 		fi
 
-		cmd="find $path -iname \*$keyword\* -type f"
+		cmd="find $path -iname \*$keyword\* -type $findtype"
 
 		if [ "$second" != '' ]; then
 			cmd="$cmd | grep $second"
@@ -407,7 +423,8 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
-		unset item_search_array
+		unset item_search_file_array
+		unset item_search_dir_array
 		unset item_ssh_array
 		unset item_search_bash_history_array
 		clear_var_all=''
@@ -450,6 +467,7 @@ do
 		echo ' 專案捷徑名稱 (L)'
 		echo ' 群組名稱 (G)'
 		echo ' 搜尋檔案的結果 (H)'
+		echo ' 搜尋資料夾的結果 (N)'
 		echo -e "${color_txtgrn}檔案操作類:${color_none}"
 		echo ' Show Groupfile (I)'
 		echo ' Edit Groupfile (J)'
@@ -569,21 +587,38 @@ do
 		echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
 	fi
 
-	if [ "${#item_search_array[@]}" -gt 0 ]; then
+	if [ "${#item_search_file_array[@]}" -gt 0 ]; then
 		echo '================================================='
 	fi
 
-	# 顯示重覆的搜尋結果項目
-	if [ "${#item_search_array[@]}" -gt 1 ]; then
-		echo "重覆的搜尋結果(有多項的功能)[H]: 有${#item_search_array[@]}筆"
+	# 顯示重覆的搜尋檔案結果項目
+	if [ "${#item_search_file_array[@]}" -gt 1 ]; then
+		echo "重覆的搜尋檔案結果(有多項的功能)[H]: 有${#item_search_file_array[@]}筆"
 		number=1
-		for bbb in ${item_search_array[@]}
+		for bbb in ${item_search_file_array[@]}
 		do
 			echo "$number. $bbb"
 			number=$((number + 1))
 		done
-	elif [ "${#item_search_array[@]}" -eq 1 ]; then 
-		echo "搜尋結果有找到一筆哦[H]: ${item_search_array[0]}"
+	elif [ "${#item_search_file_array[@]}" -eq 1 ]; then 
+		echo "搜尋檔案的結果有找到一筆哦[H]: ${item_search_file_array[0]}"
+	fi
+
+	if [ "${#item_search_dir_array[@]}" -gt 0 ]; then
+		echo '================================================='
+	fi
+
+	# 顯示重覆的搜尋資料夾結果項目
+	if [ "${#item_search_dir_array[@]}" -gt 1 ]; then
+		echo "重覆的搜尋資料夾結果: 有${#item_search_dir_array[@]}筆"
+		number=1
+		for bbb in ${item_search_dir_array[@]}
+		do
+			echo "$number. $bbb"
+			number=$((number + 1))
+		done
+	elif [ "${#item_search_dir_array[@]}" -eq 1 ]; then 
+		echo "搜尋資料夾的結果有找到一筆哦[N]: ${item_search_dir_array[0]}"
 	fi
 
 	# 顯示重覆的SSH清單
@@ -673,13 +708,19 @@ do
 			eval $run
 			clear_var_all='1'
 			continue
-		elif [ ${#item_search_array[@]} -eq 1 ]; then
-			match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
+		elif [ ${#item_search_file_array[@]} -eq 1 ]; then
+			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
 			else
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
+			eval $run
+			clear_var_all='1'
+			continue
+		elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
+			match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
+			run="cd \"$match\""
 			eval $run
 			clear_var_all='1'
 			continue
@@ -754,21 +795,27 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'H' ]; then
-		if [ "${#item_search_array[@]}" -eq 1 ]; then
-			match=`echo ${item_search_array[0]} | sed 's/___/ /g'`
+		if [ "${#item_search_file_array[@]}" -eq 1 ]; then
+			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
 			else
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
-		elif [ "${#item_search_array[@]}" -gt 1 ]; then
+		elif [ "${#item_search_file_array[@]}" -gt 1 ]; then
 			run=". /bin/gisanfu-vimlist-append-files.sh "
-			for bbb in ${item_search_array[@]}
+			for bbb in ${item_search_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
 				run="$run \"$match\""
 			done
 		fi
+		eval $run
+		clear_var_all='1'
+		continue
+	elif [[ "$inputvar" == 'N' && "${#item_search_dir_array[@]}" == 1 ]]; then
+		match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
+		run="cd \"$match\""
 		eval $run
 		clear_var_all='1'
 		continue
@@ -842,7 +889,8 @@ do
 
 		# 長度大於3的關鍵字才能做搜尋的動作
 		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != '' ]]; then
-			item_search_array=( `func_search "$cmd1" "$cmd2" "$cmd3" ` )
+			item_search_file_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "file" ` )
+			item_search_dir_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "dir" ` )
 		fi
 
 		# 有些功能，只要看到第2個引數就會失效
