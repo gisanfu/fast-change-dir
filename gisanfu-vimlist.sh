@@ -4,13 +4,22 @@ source 'gisanfu-function.sh'
 
 program=$1
 
-if [ "$program" == "" ]; then
-	program="vim -p ~/gisanfu-vimlist-$groupname.txt"
-fi
-
 if [ "$groupname" != "" ]; then
+	if [ "$program" == "" ]; then
+		program="vim -p ~/gisanfu-vimlist-$groupname.txt"
+	fi
+
 	cmdlist=`cat ~/gisanfu-vimlist-$groupname.txt | tr "\n" " "`
 	cmd="$program $cmdlist"
+
+	# 檢查一下數量，如果是一筆的話，那就自動跳到那一筆
+	# 這樣子只有一筆的時候，會比較方便
+	count=`cat ~/gisanfu-vimlist-$groupname.txt | wc -l`
+
+	if [ "$count" == '1' ]; then
+		cmd="$cmd +tabnext"
+	fi
+
 	eval $cmd
 	func_checkfilecount
 else
