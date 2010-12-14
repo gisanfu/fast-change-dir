@@ -40,6 +40,7 @@ else {
         my $content = get("http://ajax.googleapis.com/ajax/services/search/web?v=1.0&start=0&rsz=$result_size&q=$q"); #Get web page in content
                 die "get failed" if (!defined $content);
 
+		$i = 1;
         # ugly result parsing (did not want to depend on a parser lib for this quick hack)
         while($content =~ s/"unescapedUrl":"([^"]*)".*?"titleNoFormatting":"([^"]*)".*?"content":"([^"]*)"//){
 
@@ -50,13 +51,15 @@ else {
 
                 # print result
                 if($use_color){
+				 print colored ['red'], "[$i] ";
                  print colored ['blue'], "$title\n";
-                 print "$desc\n";
+				 print "$desc\n";
                  print colored ['green'], "$url\n\n";
                  print color 'reset';
                 }
                 else{
                  print "$title\n$desc\n$url\n\n";
                 }
+				$i++;
         }
 }
