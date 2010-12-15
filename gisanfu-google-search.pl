@@ -20,8 +20,8 @@ binmode(STDERR, ':encoding(utf8)');
 
 # change this to false for b/w output
 $use_color = 0;
-#result size: large=8, small=4
-$result_size = "small";
+#result size: filtered_cse=10, large=8, small=4
+$result_size = "filtered_cse";
 
 # unescape unicode characters in" content"
 sub unescape {

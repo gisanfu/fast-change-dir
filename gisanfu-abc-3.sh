@@ -786,7 +786,7 @@ do
 			continue
 		# 這一項是固定優先權最低的
 		elif [ $item_search_google_string != '' ]; then
-			run="firefox \"$item_search_google_string\""
+			run="w3m \"$item_search_google_string\""
 			eval $run
 		fi
 	elif [ "$inputvar" == 'F' ]; then
@@ -891,7 +891,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'B' && "$item_search_google_string" != '' ]]; then
-		run="firefox \"$item_search_google_string\""
+		run="w3m \"$item_search_google_string\""
 		eval $run
 		clear_var_all='1'
 		continue
@@ -951,7 +951,7 @@ do
 		fi
 
 		# 長度大於3的關鍵字才能做搜尋的動作
-		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != '' ]]; then
+		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != 'google' && "$groupname" != '' ]]; then
 			item_search_file_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "file" ` )
 			item_search_dir_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "dir" ` )
 		fi
@@ -965,13 +965,13 @@ do
 			unset item_groupname_array
 		fi
 
-		# 這個功能不錯用，但是會拖累整個操作速度，暫時先關掉
-		#if [[ "${#cmd1}" -gt 3 && "${#cmd2}" -le 1 ]]; then
-		#	item_search_google_string=`func_search_google "$cmd1" "$cmd2" `
-		#else
-		#	unset item_search_google_string
-		#	rm /tmp/gisanfu-abc3-google-search-`whoami`.txt
-		#fi
+		# 這個功能不錯用，但是會拖累整個操作速度
+		if [[ "${#cmd1}" -gt 3 && "${#cmd2}" -le 2 && "$groupname" == 'google' ]]; then
+			item_search_google_string=`func_search_google "$cmd1" "$cmd2" `
+		else
+			unset item_search_google_string
+			rm /tmp/gisanfu-abc3-google-search-`whoami`.txt
+		fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
 		clear_var_all='1'
