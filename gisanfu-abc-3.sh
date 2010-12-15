@@ -395,6 +395,36 @@ func_search()
 	fi
 }
 
+# 呼叫這個函式的前面，別忘了要加上至少3個字母的判斷式
+func_search_google()
+{
+	keyword=$1
+	#second=$2
+	position=$2
+
+	# 先把英文轉成數字，如果這個欄位有資料的話
+	position=( `func_entonum "$position"` )
+
+	filename="/tmp/gisanfu-abc3-google-search-`whoami`.txt"
+
+	if [ "$keyword" != '' ]; then
+		cmd="perl /bin/gisanfu-google-search.pl $keyword"
+
+		#if [ "$second" != '' ]; then
+		#	cmd="$cmd $second"
+		#fi
+
+		cmd="$cmd > $filename"
+		eval $cmd
+
+		if [ "$position" -gt 0 ]; then
+			cmd2="sed -n $(($position*3+$position-1))p $filename"
+			eval $cmd2
+		fi
+
+	fi
+}
+
 unset cmd1
 unset cmd2
 unset cmd3
@@ -427,6 +457,8 @@ do
 		unset item_search_dir_array
 		unset item_ssh_array
 		unset item_search_bash_history_array
+		unset item_search_google_string
+		rm -rf /tmp/gisanfu-abc3-google-search-`whoami`.txt
 		clear_var_all=''
 	fi
 
@@ -472,6 +504,8 @@ do
 		echo ' Show Groupfile (I)'
 		echo ' Edit Groupfile (J)'
 		echo ' Clear Groupfile (K)'
+		echo -e "${color_txtgrn}搜尋引擎類:${color_none}"
+		echo ' Google Search (B)'
 		echo -e "${color_txtgrn}版本控制類:${color_none}"
 		echo ' SVN (V)'
 		echo ' GIT (T)'
@@ -621,6 +655,10 @@ do
 		echo "搜尋資料夾的結果有找到一筆哦[N]: ${item_search_dir_array[0]}"
 	fi
 
+	if [ "${#item_ssh_array[@]}" -gt 0 ]; then
+		echo '================================================='
+	fi
+
 	# 顯示重覆的SSH清單
 	if [ "${#item_ssh_array[@]}" -gt 1 ]; then
 		echo "重覆的SSH清單列表: 有${#item_ssh_array[@]}筆"
@@ -634,6 +672,10 @@ do
 		echo "SSH目標有找到一筆哦[P]: ${item_ssh_array[0]}"
 	fi
 
+	if [ "${#item_search_bash_history_array[@]}" -gt 0 ]; then
+		echo '================================================='
+	fi
+
 	# 顯示重覆的Bash History搜尋結果
 	if [ "${#item_search_bash_history_array[@]}" -gt 1 ]; then
 		echo "重覆的Bash History列表: 有${#item_search_bash_history_array[@]}筆"
@@ -645,6 +687,18 @@ do
 		done
 	elif [ "${#item_search_bash_history_array[@]}" -eq 1 ]; then 
 		echo "Bash History有找到一筆哦[U]: ${item_search_bash_history_array[0]}"
+	fi
+
+	# 顯示重覆的Google搜尋結果
+	if [ "$item_search_google_string" == '' ]; then
+		if [ -f "/tmp/gisanfu-abc3-google-search-`whoami`.txt" ]; then
+			echo '================================================='
+			echo "Google有找到資料哦:"
+			cat "/tmp/gisanfu-abc3-google-search-`whoami`.txt"
+		fi
+	else
+		echo '================================================='
+		echo "Google有找到一筆哦[B]: $item_search_google_string"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
@@ -730,6 +784,10 @@ do
 			eval $run
 			clear_var_all='1'
 			continue
+		# 這一項是固定優先權最低的
+		elif [ $item_search_google_string != '' ]; then
+			run="firefox \"$item_search_google_string\""
+			eval $run
 		fi
 	elif [ "$inputvar" == 'F' ]; then
 		if [ "${#item_file_array[@]}" -eq 1 ]; then
@@ -832,6 +890,11 @@ do
 		eval "$match"
 		clear_var_all='1'
 		continue
+	elif [[ "$inputvar" == 'B' && "$item_search_google_string" != '' ]]; then
+		run="firefox \"$item_search_google_string\""
+		eval $run
+		clear_var_all='1'
+		continue
 	elif [ "$inputvar" == 'I' ]; then
 		vff
 		clear_var_all='1'
@@ -901,6 +964,14 @@ do
 			unset item_dirpoint_array
 			unset item_groupname_array
 		fi
+
+		# 這個功能不錯用，但是會拖累整個操作速度，暫時先關掉
+		#if [[ "${#cmd1}" -gt 3 && "${#cmd2}" -le 1 ]]; then
+		#	item_search_google_string=`func_search_google "$cmd1" "$cmd2" `
+		#else
+		#	unset item_search_google_string
+		#	rm /tmp/gisanfu-abc3-google-search-`whoami`.txt
+		#fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
 		clear_var_all='1'

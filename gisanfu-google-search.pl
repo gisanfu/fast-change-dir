@@ -7,8 +7,6 @@
 #
 # 2009 by Stefan Grothkopp, this code is public domain use it as you wish!
 
-# 這個檔案是參考用的，如果要修改，請看上一層的gisanfu-google-search.pl
-
 use LWP::Simple;
 use Term::ANSIColor;
 
@@ -23,7 +21,7 @@ binmode(STDERR, ':encoding(utf8)');
 # change this to false for b/w output
 $use_color = 0;
 #result size: large=8, small=4
-$result_size = "large";
+$result_size = "small";
 
 # unescape unicode characters in" content"
 sub unescape {
@@ -39,8 +37,7 @@ if($numArgs ==0){
         # print usage info if no argument is given
         print "[ERROR] Usage:\n";
         print "$0 <searchterm>\n";
-}
-else {
+} else {
         # use first argument as query string
         $q = $ARGV[0];
         # url encode query string
