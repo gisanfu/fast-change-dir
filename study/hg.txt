@@ -1,0 +1,21 @@
+# update: 2010-12-16
+
+hg status
+這個指令可以看到修改或是沒有新增的檔案等。
+
+hg revert
+將特定的檔案或目錄回復成較早的狀態
+有修改過的檔案，如果之前己送進去過，那狀態會變成M，
+如果這時候下hg revert file的話，會回復之前的狀態，
+然後會變這個修改過後的內容，在回復狀態之前，會複製成file.orig的檔案。
+如果刪除了一個檔案，也可以用這個指令來回復。
+如果你用的是hg remove來刪除的話，一樣可以回復。
+
+hg pull
+http://cb.esast.com/cb/wiki/19277
+以上這個網址，可以看得到pull和update的差異性
+
+
+# 參考文章
+http://inet6.blogspot.com/2010/09/mercurial.html
+http://liluo.org/2010/11/%E5%AD%A6%E4%B9%A0hgmercurial%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/
