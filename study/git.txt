@@ -38,6 +38,7 @@ git reset [filepath and filename]
 
 如果直接刪除online的檔案，會出現Changed but not updated
 如果是用git rm 來刪除檔案，會出現Changes to be committed
+如果不要刪掉那個檔案，想救回來，那就使用git checkout FILE指令
 
 參考網址:
 http://bbs.nkfust.edu.tw/cgi-bin/bbscon?board=linux&file=M.1230247848.A&num=589

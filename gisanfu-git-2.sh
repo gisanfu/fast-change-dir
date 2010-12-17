@@ -194,19 +194,20 @@ do
 
 	if [ "$condition" == '' ]; then
 		echo '================================================='
-		echo '基本快速鍵:'
+		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (.) 句點'
 		echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
-		echo 'Git功能快速鍵:'
-		echo ' (A) Change Untracked or Tracked'
-		echo ' (B)'
-		echo ' (C) Commit(keyin changelog, and send by ask!)'
-		echo ' (D)'
-		echo ' (E) Push(send!!)'
-		echo ' (U) Update(Pull)'
+		echo -e "${color_txtgrn}Git功能快速鍵:${color_none}"
+		echo ' Change Untracked or Tracked (A)'
+		echo ' Commit(keyin changelog, and send by ask!) (C)'
+		echo ' Push(send!!) (E)'
+		echo ' Update(Pull) (U)'
+		#echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
+		#echo ' 是否加入 (B)'
+		#echo ' 是否刪除 (D)'
 		echo '輸入條件的結構:'
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 	fi
@@ -246,10 +247,23 @@ do
 			match=`echo ${item_array[0]} | sed 's/___/X/'`
 			match=`echo $match | sed 's/___/ /g'`
 
+			# 這個變數，存的可能是XD, DX, AX....
+			gitstatus=${match:0:2}
+
 			if [ "$untracked" == '1' ]; then
-				git add ${match:3}
+				if [ "$gitstatus" == 'XD' ]; then
+					# 把檔案救回來
+					git checkout ${match:3}
+				else
+					git add ${match:3}
+				fi
 			else
-				git reset ${match:3}
+				if [ "$gitstatus" == 'DX' ]; then
+					# 把檔案救回來
+					git checkout HEAD ${match:3}
+				else
+					git reset ${match:3}
+				fi
 			fi
 			unset condition
 			unset gitstatus 
@@ -264,10 +278,23 @@ do
 				match=`echo $bbb | sed 's/___/X/'`
 				match=`echo $match | sed 's/___/ /g'`
 
+				# 這個變數，存的可能是XD, DX, AX....
+				gitstatus=${match:0:2}
+
 				if [ "$untracked" == '1' ]; then
-					git add ${match:3}
+					if [ "$gitstatus" == 'XD' ]; then
+						# 把檔案救回來
+						git checkout ${match:3}
+					else
+						git add ${match:3}
+					fi
 				else
-					git reset ${match:3}
+					if [ "$gitstatus" == 'DX' ]; then
+						# 把檔案救回來
+						git checkout HEAD ${match:3}
+					else
+						git reset ${match:3}
+					fi
 				fi
 			done
 
