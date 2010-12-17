@@ -36,5 +36,8 @@ git reset [filepath and filename]
 如果要回復git rm指令的話，
 可以試著用git reset --hard指令，不過這個指令會把所有檔案回到head的版本。
 
+如果直接刪除online的檔案，會出現Changed but not updated
+如果是用git rm 來刪除檔案，會出現Changes to be committed
+
 參考網址:
 http://bbs.nkfust.edu.tw/cgi-bin/bbscon?board=linux&file=M.1230247848.A&num=589
