@@ -151,6 +151,7 @@ unset cmd1
 unset cmd2
 unset cmd3
 unset item_array
+# 這個變數，存的可能是XD, DX, AX....
 unset gitstatus 
 
 # 倒退鍵

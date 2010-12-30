@@ -32,10 +32,17 @@ commit cache的功能，
 4. svn add的功能
 
 這個會比較複雜，會有4種模式(gitv2只有2種)
-1. svn status
-2. svn status, filter by added, or deleted, modify一定會在裡面的
-3. cache list
-4. uncache list(這個還是要有，會比較方便)
+每一個模式都可以下commit的指令
+1. svn status, filter by untracked, or new file, 其它都沒有哦
+2. svn status, filter by added, or deleted, modify一定會在裡面的(我想取commit list)
+3. uncache list(這個還是要有，會比較方便)
+4. cache list
+
+在模式1的時候，可以使用關鍵字來對沒有被svn add的檔案操作，
+然後會忽略掉modify或是己被svn add的檔案，
+commit list反之。
+
+還是把模式1，變成狀態只能是問號的
 
 另外，我想把寫入檔案這個動作，寫成bash function，
 因為這個動作看起來還蠻常用的。
