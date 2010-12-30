@@ -25,6 +25,11 @@ commit cache的功能，
 我打算在送出了之後，就清空這個cache，
 這個cache，我想取名為svnlist(svn commit list)
 
+關於cache的功能，有一些想法:
+1. 全部列入(或取消)cache
+2. 關鍵字選擇單項(或多項)項目列入(或取消)cache
+3. 觀看修改的內容，使用svn diff的指令，跟最後一個版本做比較
+
 另外，我想把寫入檔案這個動作，寫成bash function，
 因為這個動作看起來還蠻常用的。
 
