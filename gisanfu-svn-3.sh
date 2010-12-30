@@ -40,11 +40,11 @@ func_entonum()
 #}
 
 unset condition
+unset cmd
 unset cmd1
 unset cmd2
 unset cmd3
 unset item_array
-unset gitstatus 
 
 # 倒退鍵
 # Ctrl + h
@@ -56,6 +56,9 @@ backspace=$(echo -e \\b\\c)
 # 3. uncache list
 # 4. cache list
 mode='1'
+
+cachefile='~/gisanfu-svn3-cache.txt'
+uncachefile='~/gisanfu-svn3-uncache.txt'
 
 while [ 1 ];
 do
@@ -86,9 +89,17 @@ do
 	elif [ "$mode" == '2' ]; then
 		cmd="svn status | grep -e '^A' -e '^M' -e '^D'"
 	elif [ "$mode" == '3' ]; then
-		echo 'not complete'
+		if [ -f "$uncachefile" ]; then
+			cmd="cat $uncachefile"
+		else
+			cmd="touch $uncachefile"
+		fi
 	elif [ "$mode" == '4' ]; then
-		echo 'not complete'
+		if [ -f "$cachefile" ]; then
+			cmd="cat $cachefile"
+		else
+			cmd="touch $cachefile"
+		fi
 	fi
 	eval $cmd
 
@@ -131,6 +142,7 @@ do
 		clear
 		break
 	elif [ "$inputvar" == '/' ]; then
+		unset cmd
 		unset condition
 		unset item_array
 		continue
@@ -148,6 +160,7 @@ do
 		elif [ "$mode" == '4' ]; then
 			mode='1'
 		fi
+		unset cmd
 		unset condition
 		unset item_array
 		continue
@@ -169,6 +182,7 @@ do
 		#fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
+		unset cmd
 		unset condition
 		unset item_array
 	fi

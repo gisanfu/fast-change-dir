@@ -30,6 +30,8 @@ commit cache的功能，
 2. 關鍵字選擇單項(或多項)項目列入(或取消)cache
 3. 觀看修改的內容，使用svn diff的指令，跟最後一個版本做比較
 4. svn add的功能
+5. 可以選擇清除cache, and uncache file
+6. 可以選擇重新建立uncache file
 
 這個會比較複雜，會有4種模式(gitv2只有2種)
 每一個模式都可以下commit的指令
@@ -41,6 +43,9 @@ commit cache的功能，
 在模式1的時候，可以使用關鍵字來對沒有被svn add的檔案操作，
 然後會忽略掉modify或是己被svn add的檔案，
 commit list反之。
+
+關於模式3，只要模式1有動作，就會重新輸出uncache file，
+會這樣子做，是因為沒有svn-add的檔案(狀態為問號)，是沒有辦法被commit的，請注意!
 
 還是把模式1，變成狀態只能是問號的
 
