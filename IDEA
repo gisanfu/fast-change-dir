@@ -21,7 +21,7 @@ commit cache的功能，
 或是說，有些檔案己經完成了，但其它的檔案還在修改當中。
 
 這個cache，想要寫在一個文字檔裡面，類似vimlist，
-以svn來說，只要commit，就會送出了，
+以svn來說，只要commit，就會送出了，這是與hg不同的地方，
 我打算在送出了之後，就清空這個cache，
 這個cache，我想取名為svnlist(svn commit list)
 
