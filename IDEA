@@ -20,6 +20,14 @@ commit cache的功能，
 是因為有些檔案是我不想要送的檔案，
 或是說，有些檔案己經完成了，但其它的檔案還在修改當中。
 
+這個cache，想要寫在一個文字檔裡面，類似vimlist，
+以svn來說，只要commit，就會送出了，
+我打算在送出了之後，就清空這個cache，
+這個cache，我想取名為svnlist(svn commit list)
+
+另外，我想把寫入檔案這個動作，寫成bash function，
+因為這個動作看起來還蠻常用的。
+
 # 2010-12-15
 
 搜尋google的功能，
