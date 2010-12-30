@@ -29,6 +29,13 @@ commit cache的功能，
 1. 全部列入(或取消)cache
 2. 關鍵字選擇單項(或多項)項目列入(或取消)cache
 3. 觀看修改的內容，使用svn diff的指令，跟最後一個版本做比較
+4. svn add的功能
+
+這個會比較複雜，會有4種模式(gitv2只有2種)
+1. svn status
+2. svn status, filter by added, or deleted, modify一定會在裡面的
+3. cache list
+4. uncache list(這個還是要有，會比較方便)
 
 另外，我想把寫入檔案這個動作，寫成bash function，
 因為這個動作看起來還蠻常用的。
