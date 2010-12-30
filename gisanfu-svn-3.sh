@@ -80,7 +80,11 @@ func_relative_by_svn_append()
 		cmd="cat $uncachefile | grep -ir $nextRelativeItem"
 		itemListTmp=(`eval $cmd`)
 	elif [ "$modestatus" == 'cache' ]; then
-		itemListTmp=(`cat $cachefile | grep -ir $nextRelativeItem`)
+		cmd="cat $cachefile | grep -ir $nextRelativeItem"
+		itemListTmp=(`eval $cmd`)
+	elif [ "$modestatus" == 'get-all-svn-status' ]; then
+		#cmd="cat $uncachefile"
+		itemListTmp=(`svn status | grep -e '^A' -e '^M' -e '^D'`)
 	fi
 
 	for i in ${itemListTmp[@]}
@@ -192,8 +196,18 @@ backspace=$(echo -e \\b\\c)
 # 4. [cache] cache list
 mode='1'
 
-cachefile='~/gisanfu-svn3-cache.txt'
 uncachefile='~/gisanfu-svn3-uncache.txt'
+cachefile='~/gisanfu-svn3-cache.txt'
+
+cmd="rm $uncachefile"
+eval $cmd
+cmd="rm $cachefile"
+eval $cmd
+
+cmd="touch $uncachefile"
+eval $cmd
+cmd="touch $cachefile"
+eval $cmd
 
 while [ 1 ];
 do
@@ -246,7 +260,8 @@ do
 		echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}Svn功能快速鍵:${color_none}"
-		echo ' Change Mode (A)'
+		echo ' Change Normal Mode (A)'
+		echo ' Change Cache Mode (B)'
 		echo ' Commit (C)'
 		echo ' Update (U)'
 		#echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
@@ -336,11 +351,25 @@ do
 		if [ "$mode" == '1' ]; then
 			mode='2'
 		elif [ "$mode" == '2' ]; then
-			mode='3'
-		elif [ "$mode" == '3' ]; then
+			mode='1'
+		else
+			mode='1'
+		fi
+		unset cmd
+		unset condition
+		unset svnstatus
+		unset item_unknow_array
+		unset item_commit_array
+		unset item_uncache_array
+		unset item_cache_array
+		continue
+	elif [ "$inputvar" == 'B' ]; then
+		if [ "$mode" == '3' ]; then
 			mode='4'
 		elif [ "$mode" == '4' ]; then
-			mode='1'
+			mode='3'
+		else
+			mode='3'
 		fi
 		unset cmd
 		unset condition
@@ -421,33 +450,21 @@ do
 			#cmd="svn status | grep -e '^A' -e '^D' -e '^M' > $uncachefile"
 			#eval $cmd
 
-			item_uncache_array=( `func_relative_by_svn_append "$cmd1" "$cmd2" "$cmd3" "uncache" "$uncachefile" "$cachefile"` )
-
-			IFS=$default_ifs
-			num=0
-			for i in ${item_uncache_array[@]}
-			do
-				# 解決狀態與物件間的7個空白
-				# XXXXXXXXXXXXXXXXXXXXXXXX1234567X
-				handle1=`echo $i | sed 's/       /___/'`
-				handle2=`echo $handle1 | sed 's/ /___/g'`
-				# 為了要解決空白檔名的問題
-				item_uncache_array2[$num]=$handle2
-				num=$num+1
-			done
-			IFS=$default_ifs
-			num=0
+			item_uncache_array=( `func_relative_by_svn_append "nothing" "" "" "get-all-svn-status" "$uncachefile" "$cachefile"` )
 
 			cmd="rm $uncachefile"
 			eval $cmd
-			for bbb in ${item_uncache_array2[@]}
+
+			for bbb in ${item_uncache_array[@]}
 			do
 				cmd="echo $bbb >> $uncachefile"
 				eval $cmd
 			done
 
-			rm $cachefile
-			touch $cachefile
+			cmd="rm $cachefile"
+			eval $cmd
+			cmd="touch $cachefile"
+			eval $cmd
 
 			unset cmd
 			unset condition
@@ -475,33 +492,21 @@ do
 			#cmd="svn status | grep -e '^A' -e '^D' -e '^M' > $uncachefile"
 			#eval $cmd
 
-			item_uncache_array=( `func_relative_by_svn_append "$cmd1" "$cmd2" "$cmd3" "uncache" "$uncachefile" "$cachefile"` )
-
-			IFS=$default_ifs
-			num=0
-			for i in ${item_uncache_array[@]}
-			do
-				# 解決狀態與物件間的7個空白
-				# XXXXXXXXXXXXXXXXXXXXXXXX1234567X
-				handle1=`echo $i | sed 's/       /___/'`
-				handle2=`echo $handle1 | sed 's/ /___/g'`
-				# 為了要解決空白檔名的問題
-				item_uncache_array2[$num]=$handle2
-				num=$num+1
-			done
-			IFS=$default_ifs
-			num=0
+			item_uncache_array=( `func_relative_by_svn_append "nothing" "" "" "get-all-svn-status" "$uncachefile" "$cachefile"` )
 
 			cmd="rm $uncachefile"
 			eval $cmd
-			for bbb in ${item_uncache_array2[@]}
+
+			for bbb in ${item_uncache_array[@]}
 			do
 				cmd="echo $bbb >> $uncachefile"
 				eval $cmd
 			done
 
-			rm $cachefile
-			touch $cachefile
+			cmd="rm $cachefile"
+			eval $cmd
+			cmd="touch $cachefile"
+			eval $cmd
 
 			unset cmd
 			unset condition
@@ -512,10 +517,6 @@ do
 			unset item_cache_array
 			continue
 		elif [ ${#item_uncache_array[@]} -eq 1 ]; then
-			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
-			#match=`echo ${item_uncache_array[0]} | sed 's/___/X/'`
-			#match=`echo $match | sed 's/___/ /g'`
-
 			cmd="grep \"${item_uncache_array[0]}\" $cachefile"
 			tmp1=`eval $cmd`
 			if [ "$tmp1" == '' ]; then
@@ -529,6 +530,30 @@ do
 			cmd="cp ${uncachefile}-tmp $uncachefile"
 			eval $cmd
 			cmd="rm ${uncachefile}-tmp"
+			eval $cmd
+
+			unset cmd
+			unset condition
+			unset svnstatus
+			unset item_unknow_array
+			unset item_commit_array
+			unset item_uncache_array
+			unset item_cache_array
+			continue
+		elif [ ${#item_cache_array[@]} -eq 1 ]; then
+			cmd="grep \"${item_cache_array[0]}\" $uncachefile"
+			tmp1=`eval $cmd`
+			if [ "$tmp1" == '' ]; then
+				cmd="echo ${item_cache_array[0]} >> $uncachefile"
+				eval $cmd
+			fi
+
+			# 先寫到暫存，然後在回寫回原來的檔案
+			cmd="sed \"/${item_cache_array[0]}/d\" $cachefile > ${cachefile}-tmp"
+			eval $cmd
+			cmd="cp ${cachefile}-tmp $cachefile"
+			eval $cmd
+			cmd="rm ${cachefile}-tmp"
 			eval $cmd
 
 			unset cmd
