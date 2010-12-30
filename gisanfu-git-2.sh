@@ -272,7 +272,7 @@ do
 			continue
 		fi
 	elif [ "$inputvar" == '*' ]; then
-		if [ "${#item_array[@]}" -ge 1 ]; then
+		if [ "${#item_array[@]}" -gt 1 ]; then
 			for bbb in ${item_array[@]}
 			do
 				# 不分兩次做，會出現前面少了一個空白，不知道為什麼

@@ -1,0 +1,8 @@
+# update: 2010-12-30
+
+如何刪掉一行，使用某一個關鍵字
+使用下面那一個指令，會把123.txt的文字檔倒出來，但是會忽略關鍵字為aaabbbccc
+
+sed "/aaabbbccc/d" 123.txt
+
+http://www.linuxquestions.org/questions/general-10/how-to-delete-a-line-from-a-text-file-with-shell-script-programming-139785/
