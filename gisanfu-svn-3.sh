@@ -35,9 +35,9 @@ func_entonum()
 	echo $return
 }
 
-func_relative_by_svn_append()
-{
-}
+#func_relative_by_svn_append()
+#{
+#}
 
 unset condition
 unset cmd1
@@ -85,6 +85,10 @@ do
 		cmd="svn status | grep -e '^?' -e '^!'"
 	elif [ "$mode" == '2' ]; then
 		cmd="svn status | grep -e '^A' -e '^M' -e '^D'"
+	elif [ "$mode" == '3' ]; then
+		echo 'not complete'
+	elif [ "$mode" == '4' ]; then
+		echo 'not complete'
 	fi
 	eval $cmd
 
