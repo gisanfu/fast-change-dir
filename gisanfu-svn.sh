@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 這個檔案是加上一些常用的SVN指令在裡面
+# 這是第一個版本，主要是用Dialog，然後用上下鍵，好像也可以用數字鍵來操作
 
 source 'gisanfu-function.sh'
 

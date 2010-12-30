@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 這是svn第2個版本，
+# 主要的功能，是用快速鍵來操作
+
 while [ 1 ];
 do
 	clear
