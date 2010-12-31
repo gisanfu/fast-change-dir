@@ -328,7 +328,7 @@ do
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (.) 句點'
-		echo ' 處理多項(*) 星號'
+		#echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}Svn功能快速鍵:${color_none}"
 		echo ' Change Normal Mode (A)'
