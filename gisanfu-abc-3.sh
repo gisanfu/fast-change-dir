@@ -506,9 +506,8 @@ do
 		echo ' Clear Groupfile (K)'
 		echo -e "${color_txtgrn}搜尋引擎類:${color_none}"
 		echo ' Google Search (B)'
-		echo -e "${color_txtgrn}版本控制類:${color_none}"
-		echo ' SVN (V)'
-		echo ' GIT (T)'
+		echo -e "${color_txtgrn}版本控制群:${color_none}"
+		echo ' Versions (V)'
 		echo -e "${color_txtgrn}系統類:${color_none}"
 		echo ' SSH (P)'
 		echo ' Sudo Root (Y)'
@@ -908,11 +907,20 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'V' ]; then
-		svnn
-		clear_var_all='1'
-		continue
-	elif [ "$inputvar" == 'T' ]; then
-		gitt
+		echo "請輸入版本控制名稱的前綴"
+		echo "(G)it"
+		echo "(S)vn"
+		echo "(H)g"
+		read -n 1 inputvar2
+
+		if [ "$inputvar2" == 'G' ]; then
+			gitt
+		elif [ "$inputvar2" == 'S' ]; then
+			svnn
+		elif [ "$inputvar2" == 'H' ]; then
+			hgg
+		fi
+
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'Y' ]; then

@@ -56,12 +56,15 @@ func_cache_controller()
 		generate_uncache='1'
 		# 會清除，是因為是有相依性的
 		clear_cache='1'
-	elif [ "$modestatus" == 'clear-uncache' ]; then
-		clear_uncache='1'
-		clear_cache='1'
 	elif [ "$modestatus" == 'clear-cache' ]; then
 		generate_uncache='1'
 		# 會清除，是因為是有相依性的
+		clear_cache='1'
+	elif [ "$modestatus" == 'clear-uncache' ]; then
+		clear_uncache='1'
+		clear_cache='1'
+	elif [ "$modestatus" == 'clear-all' ]; then
+		clear_uncache='1'
 		clear_cache='1'
 	fi
 
@@ -509,6 +512,8 @@ do
 
 				if [ "$?" -eq 0 ]; then
 					echo '送出成功'
+					func_cache_controller "$uncachefile" "$cachefile" "clear-all"
+					mode=1
 				else
 					echo '送出失敗，請自行做檢查'
 				fi
