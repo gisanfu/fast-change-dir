@@ -34,7 +34,6 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	checkline=`grep "$selectitem" ~/gisanfu-vimlist-$groupname.txt | wc -l`
 	if [ "$checkline" -lt 1 ]; then
 		echo "\"$selectitem\"" >> ~/gisanfu-vimlist-$groupname.txt
-		#cat ~/gisanfu-vimlist-$groupname.txt
 	else
 		echo '[NOTICE] File is exist'
 	fi
@@ -72,17 +71,6 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	else
 		echo "Your want append other file"
 	fi
-
-	# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
-	#tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
-	#cmd=$( func_dialog_yesno 'Please Choose' 'Disable select Yes, Edit select NO' 70 "$tmpfile" )
-	#eval $cmd
-	#sel=$?
-	#case $sel in
-	#	0) echo "Your want append other file";;
-	#	1) /bin/gisanfu-vimlist.sh;;
-	#	255) echo "Canceled by user by pressing [ESC] key";;
-	#esac
 
 	# 最後，顯示目前目錄的檔案
 	func_checkfilecount

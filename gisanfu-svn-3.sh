@@ -35,6 +35,84 @@ func_entonum()
 	echo $return
 }
 
+func_cache_controller()
+{
+	# cache的檔名也是用變數控制
+	uncachefile=$1
+	cachefile=$2
+
+	modestatus=$3
+
+
+	# 預設都是不動作的
+	clear_cache='0'
+	clear_uncache='0'
+	generate_uncache='0'
+
+	# default ifs value
+	default_ifs=$' \t\n'
+
+	if [ "$modestatus" == 'svn-status-to-uncache' ]; then
+		generate_uncache='1'
+		# 會清除，是因為是有相依性的
+		clear_cache='1'
+	elif [ "$modestatus" == 'clear-uncache' ]; then
+		clear_uncache='1'
+		clear_cache='1'
+	elif [ "$modestatus" == 'clear-cache' ]; then
+		generate_uncache='1'
+		# 會清除，是因為是有相依性的
+		clear_cache='1'
+	fi
+
+	if [ "$generate_uncache" == '1' ]; then
+		IFS=$'\n'
+		declare -a itemList
+		declare -a itemListTmp
+		declare -i num
+
+		itemListTmp=(`svn status | grep -e '^A' -e '^M' -e '^D'`)
+
+		cmd="rm $uncachefile"
+		eval $cmd
+
+		for i in ${itemListTmp[@]}
+		do
+			# 解決狀態與物件間的7個空白
+			# XXXXXXXXXXXXXXXXXXXXXXXX1234567X
+			handle1=`echo $i | sed 's/       /___/'`
+			handle2=`echo $handle1 | sed 's/ /___/g'`
+			# 為了要解決空白檔名的問題
+			itemList[$num]=$handle2
+			num=$num+1
+		done
+		num=0
+
+		for bbb in ${itemList[@]}
+		do
+			cmd="echo '\"$bbb\"' >> $uncachefile"
+			eval $cmd
+		done
+
+		IFS=$default_ifs
+	fi
+
+	if [ "$clear_cache" == '1' ]; then
+		cmd="rm $cachefile"
+		eval $cmd
+		cmd="touch $cachefile"
+		eval $cmd
+	fi
+
+	if [ "$clear_uncache" == '1' ]; then
+		cmd="rm $uncachefile"
+		eval $cmd
+		cmd="touch $uncachefile"
+		eval $cmd
+	fi
+
+}
+
 func_relative_by_svn_append()
 {
 	nextRelativeItem=$1
@@ -82,9 +160,6 @@ func_relative_by_svn_append()
 	elif [ "$modestatus" == 'cache' ]; then
 		cmd="cat $cachefile | grep -ir $nextRelativeItem"
 		itemListTmp=(`eval $cmd`)
-	elif [ "$modestatus" == 'get-all-svn-status' ]; then
-		#cmd="cat $uncachefile"
-		itemListTmp=(`svn status | grep -e '^A' -e '^M' -e '^D'`)
 	fi
 
 	for i in ${itemListTmp[@]}
@@ -199,15 +274,8 @@ mode='1'
 uncachefile='~/gisanfu-svn3-uncache.txt'
 cachefile='~/gisanfu-svn3-cache.txt'
 
-cmd="rm $uncachefile"
-eval $cmd
-cmd="rm $cachefile"
-eval $cmd
-
-cmd="touch $uncachefile"
-eval $cmd
-cmd="touch $cachefile"
-eval $cmd
+# 清理uncache的同時，也會一並清除cache，因為它們是有相依性的
+func_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
 
 while [ 1 ];
 do
@@ -263,6 +331,8 @@ do
 		echo ' Change Normal Mode (A)'
 		echo ' Change Cache Mode (B)'
 		echo ' Commit (C)'
+		echo ' Delete Cache/Uncache (D)'
+		echo ' Generate Uncache (G)'
 		echo ' Update (U)'
 		#echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
 		#echo ' 是否加入 (B)'
@@ -355,6 +425,7 @@ do
 		else
 			mode='1'
 		fi
+
 		unset cmd
 		unset condition
 		unset svnstatus
@@ -371,6 +442,7 @@ do
 		else
 			mode='3'
 		fi
+
 		unset cmd
 		unset condition
 		unset svnstatus
@@ -380,33 +452,99 @@ do
 		unset item_cache_array
 		continue
 	elif [ "$inputvar" == 'C' ]; then
-		echo '要送出囉，但是請先輸入changelog，輸入完按Enter後直接送出'
-		read changelog
-		if [ "$changelog" == '' ]; then
-			echo '為什麼你沒有輸入changelog呢？還是我幫你填上預設值呢？(no comment)好嗎？[Y1,n0]'
-			read inputvar2
-			if [[ "$inputvar2" == 'y' || "$inputvar2" == "1" ]]; then
-				changelog='no comment'
-			elif [[ "$inputvar2" == 'n' || "$inputvar2" == "0" ]]; then
-				echo '如果不要預設值，那就算了'
+		if [[ "$mode" == '2' || "$mode" == '4' ]]; then
+			echo '要送出囉，但是請先輸入changelog，輸入完按Enter後直接送出'
+			read changelog
+
+			if [ "$changelog" == '' ]; then
+				echo '為什麼你沒有輸入changelog呢？還是我幫你填上預設值呢？(no comment)好嗎？[Y1,n0]'
+				read inputvar2
+				if [[ "$inputvar2" == 'y' || "$inputvar2" == "1" ]]; then
+					changelog='no comment'
+				elif [[ "$inputvar2" == 'n' || "$inputvar2" == "0" ]]; then
+					echo '如果不要預設值，那就算了'
+				else
+					echo '不好意思，不要預設值也不要來亂'
+				fi
+			fi
+
+			if [ "$changelog" == '' ]; then
+				echo '你並沒有輸入changelog，所以下次在見了，本次動作取消，倒數3秒後離開'
+				sleep 3
 			else
-				echo '不好意思，不要預設值也不要來亂'
+				cmd="svn commit -m \"$changelog\" "
+
+				if [ "$mode" == '4' ]; then
+					cmdcat="cat $cachefile | wc -l"
+					cmdcount=`eval $cmdcat`
+
+					if [ "$cmdcount" -ge 1 ]; then
+						cmdlist="cat $cachefile | tr '\n' ' '"
+						cmdlist2=`eval $cmdlist`
+
+
+						IFS=$'\n'
+						cmdlist="cat $cachefile"
+						cmdlist2=(`eval $cmdlist`)
+						cmdlist3=''
+
+						for i in ${cmdlist2[@]}
+						do
+							# 不分兩次做，會出現前面少了一個空白，不知道為什麼
+							match=`echo ${i} | sed 's/___/X/'`
+							match=`echo $match | sed 's/___/ /g'`
+							cmdlist3="$cmdlist3 \"${match:3}"
+						done
+
+						IFS=$default_ifs
+
+						cmd="$cmd $cmdlist3"
+					else
+						echo '沒有可以送出的檔案，在cache裡面!!'
+					fi
+				fi
+
+				eval $cmd
+				changelog=''
+
+				if [ "$?" -eq 0 ]; then
+					echo '送出成功'
+				else
+					echo '送出失敗，請自行做檢查'
+				fi
+
+				echo '按任何鍵繼續...'
+				read -n 1
 			fi
 		fi
-		if [ "$changelog" == '' ]; then
-			echo '你並沒有輸入changelog，所以下次在見了，本次動作取消，倒數3秒後離開'
-			sleep 3
-		else
-			git commit -m "$changelog"
-			changelog=''
-			if [ "$?" -eq 0 ]; then
-				echo '送出成功'
-			else
-				echo '送出失敗，請自行做檢查'
-			fi
-			echo '按任何鍵繼續...'
-			read -n 1
+
+		unset cmd
+		unset condition
+		unset svnstatus
+		unset item_unknow_array
+		unset item_commit_array
+		unset item_uncache_array
+		unset item_cache_array
+		continue
+	elif [ "$inputvar" == 'D' ]; then
+		if [ "$mode" == '3' ]; then
+			func_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
+		elif [ "$mode" == '4' ]; then
+			func_cache_controller "$uncachefile" "$cachefile" "clear-cache"
 		fi
+
+		unset cmd
+		unset condition
+		unset svnstatus
+		unset item_unknow_array
+		unset item_commit_array
+		unset item_uncache_array
+		unset item_cache_array
+		continue
+	elif [ "$inputvar" == 'G' ]; then
+		# 匯出後，自動跳到模式3，就是Uncache mode
+		func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+		mode='3'
 
 		unset cmd
 		unset condition
@@ -447,24 +585,7 @@ do
 				svn rm ${match:2}
 			fi
 
-			#cmd="svn status | grep -e '^A' -e '^D' -e '^M' > $uncachefile"
-			#eval $cmd
-
-			item_uncache_array=( `func_relative_by_svn_append "nothing" "" "" "get-all-svn-status" "$uncachefile" "$cachefile"` )
-
-			cmd="rm $uncachefile"
-			eval $cmd
-
-			for bbb in ${item_uncache_array[@]}
-			do
-				cmd="echo $bbb >> $uncachefile"
-				eval $cmd
-			done
-
-			cmd="rm $cachefile"
-			eval $cmd
-			cmd="touch $cachefile"
-			eval $cmd
+			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 
 			unset cmd
 			unset condition
@@ -488,25 +609,7 @@ do
 				svn revert ${match:2}
 			fi
 
-
-			#cmd="svn status | grep -e '^A' -e '^D' -e '^M' > $uncachefile"
-			#eval $cmd
-
-			item_uncache_array=( `func_relative_by_svn_append "nothing" "" "" "get-all-svn-status" "$uncachefile" "$cachefile"` )
-
-			cmd="rm $uncachefile"
-			eval $cmd
-
-			for bbb in ${item_uncache_array[@]}
-			do
-				cmd="echo $bbb >> $uncachefile"
-				eval $cmd
-			done
-
-			cmd="rm $cachefile"
-			eval $cmd
-			cmd="touch $cachefile"
-			eval $cmd
+			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 
 			unset cmd
 			unset condition
@@ -517,15 +620,16 @@ do
 			unset item_cache_array
 			continue
 		elif [ ${#item_uncache_array[@]} -eq 1 ]; then
-			cmd="grep \"${item_uncache_array[0]}\" $cachefile"
+			cmd="grep '${item_uncache_array[0]}' $cachefile"
 			tmp1=`eval $cmd`
+
 			if [ "$tmp1" == '' ]; then
-				cmd="echo ${item_uncache_array[0]} >> $cachefile"
+				cmd="echo '${item_uncache_array[0]}' >> $cachefile"
 				eval $cmd
 			fi
 
 			# 先寫到暫存，然後在回寫回原來的檔案
-			cmd="sed \"/${item_uncache_array[0]}/d\" $uncachefile > ${uncachefile}-tmp"
+			cmd="sed '/${item_uncache_array[0]}/d' $uncachefile > ${uncachefile}-tmp"
 			eval $cmd
 			cmd="cp ${uncachefile}-tmp $uncachefile"
 			eval $cmd
@@ -541,15 +645,16 @@ do
 			unset item_cache_array
 			continue
 		elif [ ${#item_cache_array[@]} -eq 1 ]; then
-			cmd="grep \"${item_cache_array[0]}\" $uncachefile"
+			cmd="grep '${item_cache_array[0]}' $uncachefile"
 			tmp1=`eval $cmd`
+
 			if [ "$tmp1" == '' ]; then
-				cmd="echo ${item_cache_array[0]} >> $uncachefile"
+				cmd="echo '${item_cache_array[0]}' >> $uncachefile"
 				eval $cmd
 			fi
 
 			# 先寫到暫存，然後在回寫回原來的檔案
-			cmd="sed \"/${item_cache_array[0]}/d\" $cachefile > ${cachefile}-tmp"
+			cmd="sed '/${item_cache_array[0]}/d' $cachefile > ${cachefile}-tmp"
 			eval $cmd
 			cmd="cp ${cachefile}-tmp $cachefile"
 			eval $cmd
