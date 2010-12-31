@@ -1,9 +1,6 @@
 #!/bin/bash
 
-# 這是svn第3個版本
-# 主要的特色是增加了svnlist的功能
-# 可以只針對某一些檔案做送出
-# 這個版本是不會去處理沖衝的狀態
+# 這是複制svn-v3過來修改的，應該流程是有點類似的
 
 # default ifs value 
 default_ifs=$' \t\n'
@@ -52,7 +49,7 @@ func_cache_controller()
 	# default ifs value
 	default_ifs=$' \t\n'
 
-	if [ "$modestatus" == 'svn-status-to-uncache' ]; then
+	if [ "$modestatus" == 'hg-status-to-uncache' ]; then
 		generate_uncache='1'
 		# 會清除，是因為是有相依性的
 		clear_cache='1'
@@ -74,16 +71,14 @@ func_cache_controller()
 		declare -a itemListTmp
 		declare -i num
 
-		itemListTmp=(`svn status | grep -e '^A' -e '^M' -e '^D'`)
+		itemListTmp=(`hg status | grep -e '^A' -e '^M' -e '^R'`)
 
 		cmd="rm -rf $uncachefile"
 		eval $cmd
 
 		for i in ${itemListTmp[@]}
 		do
-			# 解決狀態與物件間的7個空白
-			# XXXXXXXXXXXXXXXXXXXXXXXX1234567X
-			handle1=`echo $i | sed 's/       /___/'`
+			handle1=`echo $i | sed 's/ /___/'`
 			handle2=`echo $handle1 | sed 's/ /___/g'`
 			# 為了要解決空白檔名的問題
 			itemList[$num]=$handle2
@@ -116,7 +111,7 @@ func_cache_controller()
 
 }
 
-func_relative_by_svn_append()
+func_relative_by_hg_append()
 {
 	nextRelativeItem=$1
 	secondCondition=$2
@@ -154,9 +149,9 @@ func_relative_by_svn_append()
 	declare -i num
 
 	if [ "$modestatus" == 'unknow' ]; then
-		itemListTmp=(`svn status | grep -e '^?' -e '^!' | grep -ir $nextRelativeItem`)
+		itemListTmp=(`hg status | grep -e '^?' -e '^!' | grep -ir $nextRelativeItem`)
 	elif [ "$modestatus" == 'commit' ]; then
-		itemListTmp=(`svn status | grep -e '^A' -e '^D' | grep -ir $nextRelativeItem`)
+		itemListTmp=(`hg status | grep -e '^A' -e '^D' | grep -ir $nextRelativeItem`)
 	elif [ "$modestatus" == 'uncache' ]; then
 		cmd="cat $uncachefile | grep -ir $nextRelativeItem"
 		itemListTmp=(`eval $cmd`)
@@ -167,9 +162,7 @@ func_relative_by_svn_append()
 
 	for i in ${itemListTmp[@]}
 	do
-		# 解決狀態與物件間的7個空白
-		# XXXXXXXXXXXXXXXXXXXXXXXX1234567X
-		handle1=`echo $i | sed 's/       /___/'`
+		handle1=`echo $i | sed 's/ /___/'`
 		handle2=`echo $handle1 | sed 's/ /___/g'`
 		# 為了要解決空白檔名的問題
 		itemList[$num]=$handle2
@@ -183,9 +176,9 @@ func_relative_by_svn_append()
 		IFS=$'\n'
 
 		if [ "$modestatus" == 'unknow' ]; then
-			itemList2Tmp=(`svn status | grep -e '^?' -e '^!' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			itemList2Tmp=(`hg status | grep -e '^?' -e '^!' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		elif [ "$modestatus" == 'commit' ]; then
-			itemList2Tmp=(`svn status | grep -e '^A' -e '^D' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			itemList2Tmp=(`hg status | grep -e '^A' -e '^D' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		elif [ "$modestatus" == 'uncache' ]; then
 			itemList2Tmp=(`cat $uncachefile | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		elif [ "$modestatus" == 'cache' ]; then
@@ -194,9 +187,7 @@ func_relative_by_svn_append()
 
 		for i in ${itemList2Tmp[@]}
 		do
-			# 解決狀態與物件間的7個空白
-			# XXXXXXXXXXXXXXXXXXXXXXXX1234567X
-			handle1=`echo $i | sed 's/       /___/'`
+			handle1=`echo $i | sed 's/ /___/'`
 			handle2=`echo $handle1 | sed 's/ /___/g'`
 			# 為了要解決空白檔名的問題
 			itemList2[$num]=$handle2
@@ -257,7 +248,7 @@ unset cmd
 unset cmd1
 unset cmd2
 unset cmd3
-unset svnstatus
+unset hgstatus
 unset item_unknow_array
 unset item_commit_array
 unset item_uncache_array
@@ -268,14 +259,14 @@ unset item_cache_array
 backspace=$(echo -e \\b\\c)
 
 # 這是模式，前面的括號是該模式的別名
-# 1. [unknow] svn status, filter by untracked, or new file, 其它都沒有哦
-# 2. [commit] svn status, filter by added, or deleted, modify一定會在裡面的(我想取commit list)
+# 1. [unknow] hg status, filter by untracked, or new file, 其它都沒有哦
+# 2. [commit] hg status, filter by added, or deleted, modify一定會在裡面的(我想取commit list)
 # 3. [uncache] uncache list
 # 4. [cache] cache list
 mode='1'
 
-uncachefile='~/gisanfu-svn3-uncache.txt'
-cachefile='~/gisanfu-svn3-cache.txt'
+uncachefile='~/gisanfu-hg-uncache.txt'
+cachefile='~/gisanfu-hg-cache.txt'
 
 # 清理uncache的同時，也會一並清除cache，因為它們是有相依性的
 func_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
@@ -284,7 +275,7 @@ while [ 1 ];
 do
 	clear
 
-	echo 'Svn (關鍵字)'
+	echo 'Mercurial(Hg) (關鍵字)'
 	echo '================================================='
 	echo "\"$groupname\" || `pwd`"
 	echo '================================================='
@@ -305,9 +296,9 @@ do
 
 	if [ "$mode" == '1' ]; then
 		# 問號是新的檔案，還未被新增進來，而驚嘆號是使用rm指令刪掉的狀況
-		cmd="svn status | grep -e '^?' -e '^!'"
+		cmd="hg status | grep -e '^?' -e '^!'"
 	elif [ "$mode" == '2' ]; then
-		cmd="svn status | grep -e '^A' -e '^M' -e '^D'"
+		cmd="hg status | grep -e '^A' -e '^M' -e '^R'"
 	elif [ "$mode" == '3' ]; then
 		cmd="cat $uncachefile"
 	elif [ "$mode" == '4' ]; then
@@ -330,11 +321,12 @@ do
 		echo ' 智慧選取單項 (.) 句點'
 		#echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
-		echo -e "${color_txtgrn}Svn功能快速鍵:${color_none}"
+		echo -e "${color_txtgrn}Hg功能快速鍵:${color_none}"
 		echo ' Change Normal Mode (A)'
 		echo ' Change Cache Mode (B)'
 		echo ' Commit (C)'
 		echo ' Delete Cache/Uncache (D)'
+		echo ' Push(send!!) (E)'
 		echo ' Generate Uncache (G)'
 		echo ' Update (U)'
 		#echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
@@ -346,9 +338,9 @@ do
 
 	echo '================================================='
 
-	# 顯示重覆的SVN未知檔案
+	# 顯示重覆的Hg未知檔案
 	if [ "${#item_unknow_array[@]}" -gt 1 ]; then
-		echo "重覆的未知SVN檔案數量: ${#item_unknow_array[@]} [*]"
+		echo "重覆的未知Hg檔案數量: ${#item_unknow_array[@]} [*]"
 		number=1
 		for bbb in ${item_unknow_array[@]}
 		do
@@ -356,12 +348,12 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_unknow_array[@]}" -eq 1 ]; then 
-		echo "未知的SVN檔案有找到一筆: ${item_unknow_array[0]} [.]"
+		echo "未知的Hg檔案有找到一筆: ${item_unknow_array[0]} [.]"
 	fi
 
 	# 顯示己經準備送出，而且狀態是新增、與刪除
 	if [ "${#item_commit_array[@]}" -gt 1 ]; then
-		echo "重覆的準備送出的SVN，狀態為A與D的檔案數量: ${#item_commit_array[@]} [*]"
+		echo "重覆的準備送出的Hg，狀態為A與R的檔案數量: ${#item_commit_array[@]} [*]"
 		number=1
 		for bbb in ${item_commit_array[@]}
 		do
@@ -369,7 +361,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_commit_array[@]}" -eq 1 ]; then 
-		echo "準備送出的SVN，狀態為A與D的檔案有找到一筆: ${item_commit_array[0]} [.]"
+		echo "準備送出的Hg，狀態為A與R的檔案有找到一筆: ${item_commit_array[0]} [.]"
 	fi
 
 	# 顯示Uncache項目
@@ -410,7 +402,7 @@ do
 	elif [ "$inputvar" == '/' ]; then
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
@@ -431,7 +423,7 @@ do
 
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
@@ -448,7 +440,7 @@ do
 
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
@@ -475,7 +467,7 @@ do
 				echo '你並沒有輸入changelog，所以下次在見了，本次動作取消，倒數3秒後離開'
 				sleep 3
 			else
-				cmd="svn commit -m \"$changelog\" "
+				cmd="hg commit -m \"$changelog\" "
 
 				if [ "$mode" == '4' ]; then
 					cmdcat="cat $cachefile | wc -l"
@@ -511,11 +503,22 @@ do
 				changelog=''
 
 				if [ "$?" -eq 0 ]; then
-					echo '送出成功'
-					func_cache_controller "$uncachefile" "$cachefile" "clear-all"
-					mode=1
-				else
-					echo '送出失敗，請自行做檢查'
+					#echo '設定Changelog成功，別忘了要選擇送出哦'
+					echo '要不要送出(hg push)呢？[Y1,n0]'
+					read inputvar3
+					if [[ "$inputvar3" == 'n' || "$inputvar3" == "0" ]]; then
+						echo '不要送出的話，那就算了！'
+					else
+						hg push
+
+						if [ "$?" -eq 0 ]; then
+							echo '送出成功'
+							func_cache_controller "$uncachefile" "$cachefile" "clear-all"
+							mode=1
+						else
+							echo '送出失敗，請自行做檢查'
+						fi
+					fi
 				fi
 
 				echo '按任何鍵繼續...'
@@ -525,7 +528,7 @@ do
 
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
@@ -540,7 +543,23 @@ do
 
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
+		unset item_unknow_array
+		unset item_commit_array
+		unset item_uncache_array
+		unset item_cache_array
+		continue
+	elif [ "$inputvar" == 'E' ]; then
+		hg push
+		if [ "$?" -eq 0 ]; then
+			echo '更新本Hg資料夾成功'
+		fi
+		echo '按任何鍵繼續...'
+		read -n 1
+
+		unset cmd
+		unset condition
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
@@ -548,28 +567,31 @@ do
 		continue
 	elif [ "$inputvar" == 'G' ]; then
 		# 匯出後，自動跳到模式3，就是Uncache mode
-		func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+		func_cache_controller "$uncachefile" "$cachefile" "hg-status-to-uncache"
 		mode='3'
 
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
 		unset item_cache_array
 		continue
 	elif [ "$inputvar" == 'U' ]; then
-		svn update
+		hg pull
+		hg update
+
 		if [ "$?" -eq 0 ]; then
-			echo '更新本GIT資料夾成功'
+			echo '更新本HG資料夾成功'
 		fi
+
 		echo '按任何鍵繼續...'
 		read -n 1
 
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
@@ -582,19 +604,19 @@ do
 			match=`echo $match | sed 's/___/ /g'`
 
 			# 這個變數，存的可能是?、!
-			svnstatus=${match:0:1}
+			hgstatus=${match:0:1}
 
-			if [ "$svnstatus" == '?' ]; then
-				svn add ${match:2}
-			elif [ "$svnstatus" == '!' ]; then
-				svn rm ${match:2}
+			if [ "$hgstatus" == '?' ]; then
+				hg add ${match:2}
+			elif [ "$hgstatus" == '!' ]; then
+				hg remove ${match:2}
 			fi
 
-			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+			func_cache_controller "$uncachefile" "$cachefile" "hg-status-to-uncache"
 
 			unset cmd
 			unset condition
-			unset svnstatus
+			unset hgstatus
 			unset item_unknow_array
 			unset item_commit_array
 			unset item_uncache_array
@@ -606,19 +628,19 @@ do
 			match=`echo $match | sed 's/___/ /g'`
 
 			# 這個變數，存的可能是A、D
-			svnstatus=${match:0:1}
+			hgstatus=${match:0:1}
 
-			if [ "$svnstatus" == 'A' ]; then
-				svn revert ${match:2}
-			elif [ "$svnstatus" == 'D' ]; then
-				svn revert ${match:2}
+			if [ "$hgstatus" == 'A' ]; then
+				hg revert ${match:2}
+			elif [ "$hgstatus" == 'R' ]; then
+				hg revert ${match:2}
 			fi
 
-			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+			func_cache_controller "$uncachefile" "$cachefile" "hg-status-to-uncache"
 
 			unset cmd
 			unset condition
-			unset svnstatus
+			unset hgstatus
 			unset item_unknow_array
 			unset item_commit_array
 			unset item_uncache_array
@@ -643,7 +665,7 @@ do
 
 			unset cmd
 			unset condition
-			unset svnstatus
+			unset hgstatus
 			unset item_unknow_array
 			unset item_commit_array
 			unset item_uncache_array
@@ -668,7 +690,7 @@ do
 
 			unset cmd
 			unset condition
-			unset svnstatus
+			unset hgstatus
 			unset item_unknow_array
 			unset item_commit_array
 			unset item_uncache_array
@@ -687,19 +709,19 @@ do
 		cmd3=${cmds[2]}
 
 		if [ "$mode" == '1' ]; then
-			item_unknow_array=( `func_relative_by_svn_append "$cmd1" "$cmd2" "$cmd3" "unknow" "" ""` )
+			item_unknow_array=( `func_relative_by_hg_append "$cmd1" "$cmd2" "$cmd3" "unknow" "" ""` )
 		elif [ "$mode" == '2' ]; then
-			item_commit_array=( `func_relative_by_svn_append "$cmd1" "$cmd2" "$cmd3" "commit" "" ""` )
+			item_commit_array=( `func_relative_by_hg_append "$cmd1" "$cmd2" "$cmd3" "commit" "" ""` )
 		elif [ "$mode" == '3' ]; then
-			item_uncache_array=( `func_relative_by_svn_append "$cmd1" "$cmd2" "$cmd3" "uncache" "$uncachefile" "$cachefile"` )
+			item_uncache_array=( `func_relative_by_hg_append "$cmd1" "$cmd2" "$cmd3" "uncache" "$uncachefile" "$cachefile"` )
 		elif [ "$mode" == '4' ]; then
-			item_cache_array=( `func_relative_by_svn_append "$cmd1" "$cmd2" "$cmd3" "cache" "$uncachefile" "$cachefile"` )
+			item_cache_array=( `func_relative_by_hg_append "$cmd1" "$cmd2" "$cmd3" "cache" "$uncachefile" "$cachefile"` )
 		fi
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
 		unset cmd
 		unset condition
-		unset svnstatus
+		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array

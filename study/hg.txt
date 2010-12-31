@@ -7,7 +7,7 @@ hg revert
 將特定的檔案或目錄回復成較早的狀態
 有修改過的檔案，如果之前己送進去過，那狀態會變成M，
 如果這時候下hg revert file的話，會回復之前的狀態，
-然後會變這個修改過後的內容，在回復狀態之前，會複製成file.orig的檔案。
+然後會變這個修改過後的內容，在回復狀態之前，會複製成file.orig的檔案(只要加上--no-backup引數，就不會複製了)。
 如果刪除了一個檔案，也可以用這個指令來回復。
 如果你用的是hg remove來刪除的話，一樣可以回復。
 
@@ -15,6 +15,10 @@ hg pull
 http://cb.esast.com/cb/wiki/19277
 以上這個網址，可以看得到pull和update的差異性
 
+hg remove
+可以刪檔案，刪了以後，檔案的狀態會變成R，
+如果你是直接用系統指令rm來砍的話，狀態會變成!，
+這兩種方式都可以用hg revert來回復。
 
 # 參考文章
 http://inet6.blogspot.com/2010/09/mercurial.html
