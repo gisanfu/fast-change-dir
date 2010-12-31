@@ -24,7 +24,7 @@ author: gisanfu
 - 即時搜尋bash history
 - 即時關鍵字操作物件 
 - 即時數字鍵操作物件 
-- 版本控制功能(git, svn)
+- 版本控制功能(Git, Subversion, Mercurial)
 - 主控台(整合快速鍵) 
 
 ## 簡易影片Demo
