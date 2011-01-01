@@ -907,17 +907,32 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'V' ]; then
-		echo "請輸入版本控制名稱的前綴"
-		echo "(G)it"
-		echo "(S)vn"
-		echo "(H)g"
+		# 先檢查現在的資料夾裡，是否含有版本控制的隱藏資料夾在內
+		if [ -d '.git' ]; then
+			gitt
+			clear_var_all='1'
+			continue
+		elif [ -d '.svn' ]; then
+			svnn
+			clear_var_all='1'
+			continue
+		elif [ -d '.hg' ]; then
+			hgg
+			clear_var_all='1'
+			continue
+		fi
+
+		echo "請輸入版本控制名稱的前綴，或按Enter離開"
+		echo "Git (gG)"
+		echo "Svn (sS)"
+		echo "Hg (hH)"
 		read -n 1 inputvar2
 
-		if [ "$inputvar2" == 'G' ]; then
+		if [[ "$inputvar2" == 'G' || "$inputvar2" == 'g' ]]; then
 			gitt
-		elif [ "$inputvar2" == 'S' ]; then
+		elif [[ "$inputvar2" == 'S' || "$inputvar2" == 's' ]]; then
 			svnn
-		elif [ "$inputvar2" == 'H' ]; then
+		elif [[ "$inputvar2" == 'H' || "$inputvar2" == 'h' ]]; then
 			hgg
 		fi
 
