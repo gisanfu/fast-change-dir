@@ -942,6 +942,8 @@ do
 		continue
 	elif [ "$inputvar" == 'R' ]; then
 		/bin/gisanfu-cmd-refresh-firefox.sh switchonly
+		clear_var_all='1'
+		continue
 	elif [ "$inputvar" == 'Y' ]; then
 		sudo su -
 		clear_var_all='1'
