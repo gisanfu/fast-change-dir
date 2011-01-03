@@ -509,6 +509,7 @@ do
 		echo -e "${color_txtgrn}版本控制群:${color_none}"
 		echo ' Versions (V)'
 		echo -e "${color_txtgrn}桌面互動類:${color_none}"
+		echo ' Nautilus File Explorer (E)'
 		echo ' Firefox Show (R)'
 		echo -e "${color_txtgrn}系統類:${color_none}"
 		echo ' SSH (P)'
@@ -938,6 +939,10 @@ do
 			hgg
 		fi
 
+		clear_var_all='1'
+		continue
+	elif [ "$inputvar" == 'E' ]; then
+		nautilus .
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'R' ]; then
