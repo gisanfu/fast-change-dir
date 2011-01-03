@@ -5,7 +5,7 @@ author: gisanfu
 ## Request environment
 
 - BASH
--dialog
+- dialog
 
 ## 主要特色
 
