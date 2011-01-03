@@ -508,6 +508,8 @@ do
 		echo ' Google Search (B)'
 		echo -e "${color_txtgrn}版本控制群:${color_none}"
 		echo ' Versions (V)'
+		echo -e "${color_txtgrn}桌面互動類:${color_none}"
+		echo ' Firefox Show (R)'
 		echo -e "${color_txtgrn}系統類:${color_none}"
 		echo ' SSH (P)'
 		echo ' Sudo Root (Y)'
@@ -938,6 +940,8 @@ do
 
 		clear_var_all='1'
 		continue
+	elif [ "$inputvar" == 'R' ]; then
+		/bin/gisanfu-cmd-refresh-firefox.sh switchonly
 	elif [ "$inputvar" == 'Y' ]; then
 		sudo su -
 		clear_var_all='1'
