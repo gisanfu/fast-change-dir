@@ -35,7 +35,7 @@ func_entonum()
 	echo $return
 }
 
-func_cache_controller()
+func_svn_cache_controller()
 {
 	# cache的檔名也是用變數控制
 	uncachefile=$1
@@ -252,6 +252,92 @@ func_relative_by_svn_append()
 	fi
 }
 
+# 會寫這類的函式，是因為這個動作可能會被單項，會是多項來這裡進行觸發
+func_svn_unknow_mode()
+{
+	item=$1
+
+	# 不分兩次做，會出現前面少了一個空白，不知道為什麼
+	match=`echo $item | sed 's/___/X/'`
+	match=`echo $match | sed 's/___/ /g'`
+
+	# 這個變數，存的可能是?、!
+	svnstatus=${match:0:1}
+
+	if [ "$svnstatus" == '?' ]; then
+		svn add ${match:2}
+	elif [ "$svnstatus" == '!' ]; then
+		svn rm ${match:2}
+	fi
+}
+
+func_svn_commit_mode()
+{
+	item=$1
+
+	# 不分兩次做，會出現前面少了一個空白，不知道為什麼
+	match=`echo $item | sed 's/___/X/'`
+	match=`echo $match | sed 's/___/ /g'`
+
+	# 這個變數，存的可能是A、D
+	svnstatus=${match:0:1}
+
+	if [ "$svnstatus" == 'A' ]; then
+		svn revert ${match:2}
+	elif [ "$svnstatus" == 'D' ]; then
+		svn revert ${match:2}
+	fi
+}
+
+func_svn_uncache_mode()
+{
+	item=$1
+
+	# cache的檔名也是用變數控制
+	uncachefile=$2
+	cachefile=$3
+
+	cmd="grep '$item' $cachefile"
+	tmp1=`eval $cmd`
+
+	if [ "$tmp1" == '' ]; then
+		cmd="echo '$item' >> $cachefile"
+		eval $cmd
+	fi
+
+	# 先寫到暫存，然後在回寫回原來的檔案
+	cmd="sed '/$item/d' $uncachefile > ${uncachefile}-svn-tmp"
+	eval $cmd
+	cmd="cp ${uncachefile}-svn-tmp $uncachefile"
+	eval $cmd
+	cmd="rm -rf ${uncachefile}-svn-tmp"
+	eval $cmd
+}
+
+func_svn_cache_mode()
+{
+	item=$1
+
+	# cache的檔名也是用變數控制
+	uncachefile=$2
+	cachefile=$3
+
+	cmd="grep '$item' $uncachefile"
+	tmp1=`eval $cmd`
+
+	if [ "$tmp1" == '' ]; then
+		cmd="echo '$item' >> $uncachefile"
+		eval $cmd
+	fi
+
+	# 先寫到暫存，然後在回寫回原來的檔案
+	cmd="sed '/$item/d' $cachefile > ${cachefile}-svn-tmp"
+	eval $cmd
+	cmd="cp ${cachefile}-svn-tmp $cachefile"
+	eval $cmd
+	cmd="rm -rf ${cachefile}-svn-tmp"
+	eval $cmd
+}
 
 unset cmd
 unset cmd1
@@ -279,7 +365,7 @@ uncachefile='~/gisanfu-svn3-uncache.txt'
 cachefile='~/gisanfu-svn3-cache.txt'
 
 # 清理uncache的同時，也會一並清除cache，因為它們是有相依性的
-func_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
+func_svn_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
 
 while [ 1 ];
 do
@@ -341,7 +427,7 @@ do
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (.) 句點'
-		#echo ' 處理多項(*) 星號'
+		echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}Svn功能快速鍵:${color_none}"
 		echo ' Change Normal Mode (A)'
@@ -350,9 +436,6 @@ do
 		echo ' Delete Cache/Uncache (D)'
 		echo ' Generate Uncache (G)'
 		echo ' Update (U)'
-		#echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
-		#echo ' 是否加入 (B)'
-		#echo ' 是否刪除 (D)'
 		echo '輸入條件的結構:'
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 	fi
@@ -507,7 +590,7 @@ do
 
 				if [ "$?" -eq 0 ]; then
 					echo '送出成功'
-					func_cache_controller "$uncachefile" "$cachefile" "clear-all"
+					func_svn_cache_controller "$uncachefile" "$cachefile" "clear-all"
 					mode=1
 				else
 					echo '送出失敗，請自行做檢查'
@@ -522,16 +605,16 @@ do
 		continue
 	elif [ "$inputvar" == 'D' ]; then
 		if [ "$mode" == '3' ]; then
-			func_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
+			func_svn_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
 		elif [ "$mode" == '4' ]; then
-			func_cache_controller "$uncachefile" "$cachefile" "clear-cache"
+			func_svn_cache_controller "$uncachefile" "$cachefile" "clear-cache"
 		fi
 
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'G' ]; then
 		# 匯出後，自動跳到模式3，就是Uncache mode
-		func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+		func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 		mode='3'
 
 		clear_var_all='1'
@@ -548,77 +631,53 @@ do
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_unknow_array[@]} -eq 1 ]; then
-			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
-			match=`echo ${item_unknow_array[0]} | sed 's/___/X/'`
-			match=`echo $match | sed 's/___/ /g'`
-
-			# 這個變數，存的可能是?、!
-			svnstatus=${match:0:1}
-
-			if [ "$svnstatus" == '?' ]; then
-				svn add ${match:2}
-			elif [ "$svnstatus" == '!' ]; then
-				svn rm ${match:2}
-			fi
-
-			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
-
+			func_svn_unknow_mode "${item_unknow_array[0]}"
+			func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 			clear_var_all='1'
 			continue
 		elif [ ${#item_commit_array[@]} -eq 1 ]; then
-			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
-			match=`echo ${item_commit_array[0]} | sed 's/___/X/'`
-			match=`echo $match | sed 's/___/ /g'`
-
-			# 這個變數，存的可能是A、D
-			svnstatus=${match:0:1}
-
-			if [ "$svnstatus" == 'A' ]; then
-				svn revert ${match:2}
-			elif [ "$svnstatus" == 'D' ]; then
-				svn revert ${match:2}
-			fi
-
-			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
-
+			func_svn_commit_mode "${item_commit_array[0]}"
+			func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 			clear_var_all='1'
 			continue
 		elif [ ${#item_uncache_array[@]} -eq 1 ]; then
-			cmd="grep '${item_uncache_array[0]}' $cachefile"
-			tmp1=`eval $cmd`
-
-			if [ "$tmp1" == '' ]; then
-				cmd="echo '${item_uncache_array[0]}' >> $cachefile"
-				eval $cmd
-			fi
-
-			# 先寫到暫存，然後在回寫回原來的檔案
-			cmd="sed '/${item_uncache_array[0]}/d' $uncachefile > ${uncachefile}-tmp"
-			eval $cmd
-			cmd="cp ${uncachefile}-tmp $uncachefile"
-			eval $cmd
-			cmd="rm -rf ${uncachefile}-tmp"
-			eval $cmd
-
+			func_svn_uncache_mode "${item_uncache_array[0]}" "$uncachefile" "$cachefile"
 			clear_var_all='1'
 			continue
 		elif [ ${#item_cache_array[@]} -eq 1 ]; then
-			cmd="grep '${item_cache_array[0]}' $uncachefile"
-			tmp1=`eval $cmd`
-
-			if [ "$tmp1" == '' ]; then
-				cmd="echo '${item_cache_array[0]}' >> $uncachefile"
-				eval $cmd
-			fi
-
-			# 先寫到暫存，然後在回寫回原來的檔案
-			cmd="sed '/${item_cache_array[0]}/d' $cachefile > ${cachefile}-tmp"
-			eval $cmd
-			cmd="cp ${cachefile}-tmp $cachefile"
-			eval $cmd
-			cmd="rm -rf ${cachefile}-tmp"
-			eval $cmd
-
+			func_svn_cache_mode "${item_cache_array[0]}" "$uncachefile" "$cachefile"
+			clear_var_all='1'
+			continue
+		fi
+	elif [ "$inputvar" == '*' ]; then
+		if [ "${#item_unknow_array[@]}" -gt 1 ]; then
+			for bbb in ${item_unknow_array[@]}
+			do
+				func_svn_unknow_mode "$bbb"
+			done
+			func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+			clear_var_all='1'
+			continue
+		elif [ "${#item_commit_array[@]}" -gt 1 ]; then
+			for bbb in ${item_commit_array[@]}
+			do
+				func_svn_commit_mode "$bbb"
+			done
+			func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
+			clear_var_all='1'
+			continue
+		elif [ "${#item_uncache_array[@]}" -gt 1 ]; then
+			for bbb in ${item_uncache_array[@]}
+			do
+				func_svn_uncache_mode "$bbb" "$uncachefile" "$cachefile"
+			done
+			clear_var_all='1'
+			continue
+		elif [ "${#item_cache_array[@]}" -gt 1 ]; then
+			for bbb in ${item_cache_array[@]}
+			do
+				func_svn_cache_mode "$bbb" "$uncachefile" "$cachefile"
+			done
 			clear_var_all='1'
 			continue
 		fi
