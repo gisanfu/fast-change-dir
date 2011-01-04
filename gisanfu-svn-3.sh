@@ -252,16 +252,17 @@ func_relative_by_svn_append()
 	fi
 }
 
-unset condition
+
 unset cmd
 unset cmd1
 unset cmd2
 unset cmd3
-unset svnstatus
-unset item_unknow_array
-unset item_commit_array
-unset item_uncache_array
-unset item_cache_array
+
+# 只有第一次是1，有些只會執行一次，例如help
+first='1'
+
+# 當符合某些條件以後，所以動作都要重來，這時需要清除掉某一些變數的內容
+clear_var_all=''
 
 # 倒退鍵
 # Ctrl + h
@@ -283,6 +284,18 @@ func_cache_controller "$uncachefile" "$cachefile" "clear-uncache"
 while [ 1 ];
 do
 	clear
+
+	if [[ "$first" == '1' || "$clear_var_all" == '1' ]]; then
+		unset condition
+		unset cmd
+		unset svnstatus
+		unset item_unknow_array
+		unset item_commit_array
+		unset item_uncache_array
+		unset item_cache_array
+		clear_var_all=''
+		first=''
+	fi
 
 	echo 'Svn (關鍵字)'
 	echo '================================================='
@@ -408,13 +421,7 @@ do
 		clear
 		break
 	elif [ "$inputvar" == '/' ]; then
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
 	elif [ "$inputvar" == $backspace ]; then
@@ -429,13 +436,7 @@ do
 			mode='1'
 		fi
 
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'B' ]; then
 		if [ "$mode" == '3' ]; then
@@ -446,13 +447,7 @@ do
 			mode='3'
 		fi
 
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'C' ]; then
 		if [[ "$mode" == '2' || "$mode" == '4' ]]; then
@@ -523,13 +518,7 @@ do
 			fi
 		fi
 
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'D' ]; then
 		if [ "$mode" == '3' ]; then
@@ -538,26 +527,14 @@ do
 			func_cache_controller "$uncachefile" "$cachefile" "clear-cache"
 		fi
 
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'G' ]; then
 		# 匯出後，自動跳到模式3，就是Uncache mode
 		func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 		mode='3'
 
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'U' ]; then
 		svn update
@@ -567,13 +544,7 @@ do
 		echo '按任何鍵繼續...'
 		read -n 1
 
-		unset cmd
-		unset condition
-		unset svnstatus
-		unset item_unknow_array
-		unset item_commit_array
-		unset item_uncache_array
-		unset item_cache_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_unknow_array[@]} -eq 1 ]; then
@@ -592,13 +563,7 @@ do
 
 			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 
-			unset cmd
-			unset condition
-			unset svnstatus
-			unset item_unknow_array
-			unset item_commit_array
-			unset item_uncache_array
-			unset item_cache_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_commit_array[@]} -eq 1 ]; then
 			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
@@ -616,13 +581,7 @@ do
 
 			func_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
 
-			unset cmd
-			unset condition
-			unset svnstatus
-			unset item_unknow_array
-			unset item_commit_array
-			unset item_uncache_array
-			unset item_cache_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_uncache_array[@]} -eq 1 ]; then
 			cmd="grep '${item_uncache_array[0]}' $cachefile"
@@ -641,13 +600,7 @@ do
 			cmd="rm -rf ${uncachefile}-tmp"
 			eval $cmd
 
-			unset cmd
-			unset condition
-			unset svnstatus
-			unset item_unknow_array
-			unset item_commit_array
-			unset item_uncache_array
-			unset item_cache_array
+			clear_var_all='1'
 			continue
 		elif [ ${#item_cache_array[@]} -eq 1 ]; then
 			cmd="grep '${item_cache_array[0]}' $uncachefile"
@@ -666,13 +619,7 @@ do
 			cmd="rm -rf ${cachefile}-tmp"
 			eval $cmd
 
-			unset cmd
-			unset condition
-			unset svnstatus
-			unset item_unknow_array
-			unset item_commit_array
-			unset item_uncache_array
-			unset item_cache_array
+			clear_var_all='1'
 			continue
 		fi
 	fi
