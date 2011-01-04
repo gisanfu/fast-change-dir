@@ -365,7 +365,6 @@ do
 	if [[ "$first" == '1' || "$clear_var_all" == '1' ]]; then
 		unset cmd
 		unset condition
-		unset hgstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array

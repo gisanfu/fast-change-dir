@@ -146,13 +146,43 @@ func_relative_by_git_append()
 	fi
 }
 
-unset condition
+func_git_handle_status()
+{
+	item=$1
+
+	# 不分兩次做，會出現前面少了一個空白，不知道為什麼
+	match=`echo $item | sed 's/___/X/'`
+	match=`echo $match | sed 's/___/ /g'`
+
+	# 這個變數，存的可能是XD, DX, AX....
+	gitstatus=${match:0:2}
+
+	if [ "$untracked" == '1' ]; then
+		if [ "$gitstatus" == 'XD' ]; then
+			# 把檔案救回來
+			git checkout ${match:3}
+		else
+			git add ${match:3}
+		fi
+	else
+		if [ "$gitstatus" == 'DX' ]; then
+			# 把檔案救回來
+			git checkout HEAD ${match:3}
+		else
+			git reset ${match:3}
+		fi
+	fi
+}
+
 unset cmd1
 unset cmd2
 unset cmd3
-unset item_array
-# 這個變數，存的可能是XD, DX, AX....
-unset gitstatus 
+
+# 只有第一次是1，有些只會執行一次，例如help
+first='1'
+
+# 當符合某些條件以後，所以動作都要重來，這時需要清除掉某一些變數的內容
+clear_var_all=''
 
 # 倒退鍵
 backspace=$(echo -e \\b\\c)
@@ -163,6 +193,14 @@ untracked='1'
 while [ 1 ];
 do
 	clear
+
+	if [[ "$first" == '1' || "$clear_var_all" == '1' ]]; then
+		unset cmd
+		unset condition
+		unset item_array
+		clear_var_all=''
+		first=''
+	fi
 
 	echo 'Git (關鍵字)'
 	echo '================================================='
@@ -238,70 +276,21 @@ do
 		clear
 		break
 	elif [ "$inputvar" == '/' ]; then
-		unset condition
-		unset gitstatus 
-		unset item_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == '.' ]; then
 		if [ ${#item_array[@]} -eq 1 ]; then
-			# 不分兩次做，會出現前面少了一個空白，不知道為什麼
-			match=`echo ${item_array[0]} | sed 's/___/X/'`
-			match=`echo $match | sed 's/___/ /g'`
-
-			# 這個變數，存的可能是XD, DX, AX....
-			gitstatus=${match:0:2}
-
-			if [ "$untracked" == '1' ]; then
-				if [ "$gitstatus" == 'XD' ]; then
-					# 把檔案救回來
-					git checkout ${match:3}
-				else
-					git add ${match:3}
-				fi
-			else
-				if [ "$gitstatus" == 'DX' ]; then
-					# 把檔案救回來
-					git checkout HEAD ${match:3}
-				else
-					git reset ${match:3}
-				fi
-			fi
-			unset condition
-			unset gitstatus 
-			unset item_array
+			func_git_handle_status "${item_array[0]}"
+			clear_var_all='1'
 			continue
 		fi
 	elif [ "$inputvar" == '*' ]; then
 		if [ "${#item_array[@]}" -gt 1 ]; then
 			for bbb in ${item_array[@]}
 			do
-				# 不分兩次做，會出現前面少了一個空白，不知道為什麼
-				match=`echo $bbb | sed 's/___/X/'`
-				match=`echo $match | sed 's/___/ /g'`
-
-				# 這個變數，存的可能是XD, DX, AX....
-				gitstatus=${match:0:2}
-
-				if [ "$untracked" == '1' ]; then
-					if [ "$gitstatus" == 'XD' ]; then
-						# 把檔案救回來
-						git checkout ${match:3}
-					else
-						git add ${match:3}
-					fi
-				else
-					if [ "$gitstatus" == 'DX' ]; then
-						# 把檔案救回來
-						git checkout HEAD ${match:3}
-					else
-						git reset ${match:3}
-					fi
-				fi
+				func_git_handle_status "$bbb"
 			done
-
-			unset condition
-			unset gitstatus 
-			unset item_array
+			clear_var_all='1'
 			continue
 		fi
 	# 我也不知道，為什麼只能用Ctrl + H 來觸發倒退鍵的事件
@@ -314,9 +303,8 @@ do
 		else
 			untracked='1'
 		fi
-		unset condition
-		unset gitstatus 
-		unset item_array
+
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'C' ]; then
 		echo '要送出了，但是請先輸入changelog，輸入完請按Enter'
@@ -352,9 +340,7 @@ do
 			read -n 1
 		fi
 
-		unset condition
-		unset gitstatus 
-		unset item_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'U' ]; then
 		git pull
@@ -364,9 +350,7 @@ do
 		echo '按任何鍵繼續...'
 		read -n 1
 
-		unset condition
-		unset gitstatus 
-		unset item_array
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'E' ]; then
 		git push
@@ -376,9 +360,7 @@ do
 		echo '按任何鍵繼續...'
 		read -n 1
 
-		unset condition
-		unset gitstatus 
-		unset item_array
+		clear_var_all='1'
 		continue
 	fi
 

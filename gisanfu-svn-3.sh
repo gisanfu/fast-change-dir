@@ -374,7 +374,6 @@ do
 	if [[ "$first" == '1' || "$clear_var_all" == '1' ]]; then
 		unset condition
 		unset cmd
-		unset svnstatus
 		unset item_unknow_array
 		unset item_commit_array
 		unset item_uncache_array
