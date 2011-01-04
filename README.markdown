@@ -7,6 +7,15 @@ author: gisanfu
 - BASH
 - dialog
 
+## 這是什麼東西?
+
+應該算是Command-Line Helper
+
+## 什麼人適合用?
+
+- MIS 網管
+- 程式設計師
+
 ## 主要特色
 
 - 平行切換資料夾 
