@@ -1,36 +1,11 @@
 #!/bin/bash
 
+source 'gisanfu-function-entonum.sh'
+
 # 這個版本的新特色
 # 1. 選擇完、或是選擇到以後，就會離開了
 # 2. 可以輸入數字，與輸入英文的數字，不過主要還是輸入英文
 # 3. 這個版本，主要是要配合英文模式所設計的
-
-# 把英文變成數字，例如er就是12
-func_entonum()
-{
-	en=$1
-
-	return=$en
-
-	for i in ${en[@]}
-	do
-		return=`echo $return | sed 's/e/1/'`
-		return=`echo $return | sed 's/r/2/'`
-		return=`echo $return | sed 's/s/3/'`
-		return=`echo $return | sed 's/f/4/'`
-		return=`echo $return | sed 's/w/5/'`
-		return=`echo $return | sed 's/l/6/'`
-		return=`echo $return | sed 's/c/7/'`
-		return=`echo $return | sed 's/b/8/'`
-		return=`echo $return | sed 's/k/9/'`
-
-		# 零
-		return=`echo $return | sed 's/o/0/'`
-		return=`echo $return | sed 's/z/0/'`
-	done
-
-	echo $return
-}
 
 # 單純的把ls的忽略清單回傳而以
 func_getLsIgnore()
