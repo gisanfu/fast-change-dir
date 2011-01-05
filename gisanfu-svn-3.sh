@@ -603,7 +603,7 @@ do
 
 		clear_var_all='1'
 		continue
-	elif [ "$inputvar" == '.' ]; then
+	elif [ "$inputvar" == ';' ]; then
 		if [ ${#item_unknow_array[@]} -eq 1 ]; then
 			func_svn_unknow_mode "${item_unknow_array[0]}"
 			func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
