@@ -391,7 +391,7 @@ do
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
-		echo ' 智慧選取單項 (.) 句點'
+		echo ' 智慧選取單項 (;) 分號'
 		echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}Hg功能快速鍵:${color_none}"
@@ -418,7 +418,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_unknow_array[@]}" -eq 1 ]; then 
-		echo "未知的Hg檔案有找到一筆: ${item_unknow_array[0]} [.]"
+		echo "未知的Hg檔案有找到一筆: ${item_unknow_array[0]} [;]"
 	fi
 
 	# 顯示己經準備送出，而且狀態是新增、與刪除
@@ -431,7 +431,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_commit_array[@]}" -eq 1 ]; then 
-		echo "準備送出的Hg，狀態為A與R的檔案有找到一筆: ${item_commit_array[0]} [.]"
+		echo "準備送出的Hg，狀態為A與R的檔案有找到一筆: ${item_commit_array[0]} [;]"
 	fi
 
 	# 顯示Uncache項目
@@ -444,7 +444,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_uncache_array[@]}" -eq 1 ]; then 
-		echo "Uncache檔案有找到一筆: ${item_uncache_array[0]} [.]"
+		echo "Uncache檔案有找到一筆: ${item_uncache_array[0]} [;]"
 	fi
 
 	# 顯示Cache項目
@@ -457,7 +457,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_cache_array[@]}" -eq 1 ]; then 
-		echo "Cache檔案有找到一筆: ${item_cache_array[0]} [.]"
+		echo "Cache檔案有找到一筆: ${item_cache_array[0]} [;]"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的

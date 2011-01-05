@@ -211,7 +211,7 @@ do
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
-		echo ' 智慧選取單項 (.) 句點'
+		echo ' 智慧選取單項 (;) 分號'
 		echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}Git功能快速鍵:${color_none}"
@@ -238,7 +238,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆: ${item_array[0]} [.]"
+		echo "檔案有找到一筆: ${item_array[0]} [;]"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
