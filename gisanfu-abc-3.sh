@@ -414,6 +414,7 @@ clear_var_all=''
 backspace=$(echo -e \\b\\c)
 
 color_txtgrn='\e[0;32m' # Green
+color_txtred='\e[0;31m' # Red
 color_none='\e[0m' # No Color
 
 while [ 1 ];
@@ -462,7 +463,7 @@ do
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
-		echo ' 智慧選取單項 (.) 句點'
+		echo ' 智慧選取單項 (;) 分號'
 		echo ' 上一層 (,) 逗點'
 		echo " 到數字切換資料夾功能 (') 單引號"
 		echo ' 離開 (?)'
@@ -475,10 +476,11 @@ do
 		echo ' 群組名稱 (G)'
 		echo ' 搜尋檔案的結果 (H)'
 		echo ' 搜尋資料夾的結果 (N)'
-		echo -e "${color_txtgrn}檔案操作類:${color_none}"
-		echo ' Show Groupfile (I)'
-		echo ' Edit Groupfile (J)'
-		echo ' Clear Groupfile (K)'
+		echo ' 檔案或資料夾建立刪除 (C) New item or Delete'
+		echo -e "${color_txtgrn}VimList操作類:${color_none}"
+		echo ' Do It! (I)'
+		echo ' Modify (J)'
+		echo ' Clear (K)'
 		echo -e "${color_txtgrn}搜尋引擎類:${color_none}"
 		echo ' Google Search (B)'
 		echo -e "${color_txtgrn}版本控制群:${color_none}"
@@ -494,6 +496,11 @@ do
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
+	fi
+
+	if [ "$condition" != '' ]; then
+		echo '================================================='
+		echo '檔案或資料夾建立刪除 [C]'
 	fi
 
 	if [ "${#item_file_array[@]}" -gt 0 ]; then
@@ -694,7 +701,7 @@ do
 		cd ..	
 		clear_var_all='1'
 		continue
-	elif [ "$inputvar" == '.' ]; then
+	elif [ "$inputvar" == ';' ]; then
 		if [ ${#item_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
@@ -926,6 +933,47 @@ do
 		continue
 	elif [ "$inputvar" == 'Y' ]; then
 		sudo su -
+		clear_var_all='1'
+		continue
+	elif [ "$inputvar" == 'C' ]; then
+		if [ "$condition" != '' ]; then
+			echo "請選擇你要做的動作:"
+			echo "Touch File (Tt)"
+			echo "Create Directory And Goto DIR (Cc)"
+			echo -e "${color_txtred}Delete Force${color_none} (Dd)"
+			read -n 1 inputvar2
+
+			if [[ "$inputvar2" == 'T' || "$inputvar2" == 't' ]]; then
+				if [[ -f "$condition" || -d "$condition" ]]; then
+					echo -e "${color_txtred}[ERROR]${color_none} 不能建立空白檔案，因為有同名的檔案或資料夾己經存在，請按任意鍵離開..."
+					read -n 1
+				else
+					touch $condition
+					echo "[NOTICE] 己經開了一個空白檔案\"$condition\"，2秒後會離開，到時在看您怎麼處置它!"
+					sleep 2
+				fi
+			elif [[ "$inputvar2" == 'C' || "$inputvar2" == 'c' ]]; then
+				mkdir $condition
+				if [ "$?" -eq 0 ]; then
+					echo "[NOTICE] 己建立\"$condition\"資料夾，2秒後會直接進到該資料夾內"
+					d $condition
+					sleep 2
+				else
+					echo -e "${color_txtred}[ERROR]${color_none} 建立資料夾失敗，應該是有同名的檔案或資料夾己經存在，請按任意鍵離開..."
+					read -n 1
+				fi
+			elif [[ "$inputvar2" == 'D' || "$inputvar2" == 'd' ]]; then
+				rm -rf $condition
+				if [ "$?" -eq 0 ]; then
+					echo "[NOTICE] 己刪除\"$condition\"，2秒後離開"
+					sleep 2
+				else
+					echo -e "${color_txtred}[ERROR]${color_none} 刪除\"$condition\"失敗，應該是權限上的問題比較多，請按任意鍵離開..."
+					read -n 1
+				fi
+			fi
+		fi
+
 		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'X' || "$inputvar" == 'Q' ]]; then
