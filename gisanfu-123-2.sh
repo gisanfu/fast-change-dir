@@ -198,7 +198,7 @@ do
 		echo '================================================='
 		echo '快速鍵:'
 		echo ' 重新輸入條件 (/)'
-		echo ' 智慧選取單項 (.)'
+		echo ' 智慧選取單項 (;.)'
 		echo ' 上一層 (-,)'
 		echo ' 離開 (*?)'
 		first=''
@@ -216,7 +216,7 @@ do
 		unset condition
 		unset item_array
 		continue
-	elif [ "$inputvar" == '.' ]; then
+	elif [[ "$inputvar" == '.' || "$inputvar" == ';' ]]; then
 		other='0'
 		continue
 	elif [[ "$inputvar" == '-' || "$inputvar" == ',' ]]; then
