@@ -711,14 +711,10 @@ do
 				run="vim \"$match\""
 			fi
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
@@ -727,26 +723,18 @@ do
 				run="vim ../\"$match\""
 			fi
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
 			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
 			run="dv \"$match\""
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_groupname_array[@]} -eq 1 ]; then
 			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 			run="ga \"$match\""
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_search_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
@@ -755,25 +743,21 @@ do
 				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
 			eval $run
-			clear_var_all='1'
-			continue
 		elif [ ${#item_ssh_array[@]} -eq 1 ]; then
 			match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
 			run="ssh \"$match\""
 			eval $run
-			clear_var_all='1'
-			continue
 		# 這一項是固定優先權最低的
 		elif [ $item_search_google_string != '' ]; then
 			run="w3m \"$item_search_google_string\""
 			eval $run
 		fi
+		clear_var_all='1'
+		continue
 	elif [ "$inputvar" == 'F' ]; then
 		if [ "${#item_file_array[@]}" -eq 1 ]; then
 			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
