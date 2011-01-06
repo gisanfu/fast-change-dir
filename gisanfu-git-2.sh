@@ -238,7 +238,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆: ${item_array[0]} [;]"
+		echo "檔案有找到一筆: ${item_array[0]} [;.]"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
@@ -253,7 +253,7 @@ do
 	elif [ "$inputvar" == '/' ]; then
 		clear_var_all='1'
 		continue
-	elif [ "$inputvar" == ';' ]; then
+	elif [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
 		if [ ${#item_array[@]} -eq 1 ]; then
 			func_git_handle_status "${item_array[0]}"
 			clear_var_all='1'

@@ -400,7 +400,7 @@ do
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
 		echo ' 重新輸入條件 (/)'
-		echo ' 智慧選取單項 (;) 分號'
+		echo ' 智慧選取單項 (;.) 分號'
 		echo ' 處理多項(*) 星號'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}Svn功能快速鍵:${color_none}"
@@ -603,7 +603,7 @@ do
 
 		clear_var_all='1'
 		continue
-	elif [ "$inputvar" == ';' ]; then
+	elif [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
 		if [ ${#item_unknow_array[@]} -eq 1 ]; then
 			func_svn_unknow_mode "${item_unknow_array[0]}"
 			func_svn_cache_controller "$uncachefile" "$cachefile" "svn-status-to-uncache"
