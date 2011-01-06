@@ -468,15 +468,16 @@ do
 		echo " 到數字切換資料夾功能 (') 單引號"
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}選擇用的快速鍵:${color_none}"
+		echo ' 檔案或資料夾建立刪除 (C) New item or Delete'
 		echo ' 單項檔案 (F) 大寫F shift+f'
 		echo ' 單項資料夾 (D)'
 		echo ' 上一層單項檔案 (S)'
 		echo ' 上一層單項資料夾 (A)'
 		echo ' 專案捷徑名稱 (L)'
 		echo ' 群組名稱 (G)'
-		echo ' 搜尋檔案的結果 (H)'
-		echo ' 搜尋資料夾的結果 (N)'
-		echo ' 檔案或資料夾建立刪除 (C) New item or Delete'
+		echo ' Find file搜尋檔案的結果 (H)'
+		echo ' Find dir搜尋資料夾的結果 (N)'
+		echo ' Grep以關鍵字去搜尋檔案 (M)'
 		echo -e "${color_txtgrn}VimList操作類:${color_none}"
 		echo ' Do It! (I)'
 		echo ' Modify (J)'
@@ -931,6 +932,10 @@ do
 		/bin/gisanfu-cmd-refresh-firefox.sh switchonly
 		clear_var_all='1'
 		continue
+	elif [ "$inputvar" == 'M' ]; then
+		gre
+		clear_var_all='1'
+		continue
 	elif [ "$inputvar" == 'Y' ]; then
 		sudo su -
 		clear_var_all='1'
@@ -983,7 +988,7 @@ do
 		condition="${condition:0:(${#condition} - 1)}"
 		inputvar=''
 	elif [ "$inputvar" == "'" ]; then
-		. /bin/gisanfu-123-2.sh
+		abc123
 		clear_var_all='1'
 		continue
 	fi

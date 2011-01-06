@@ -16,7 +16,7 @@ do
 	echo 'a. 英文模式 (abc)'
 	echo 'b. 純數字模式 (123)'
 	echo 'c. Search By File (sear)'
-	echo 'd. Searcy By Keyword (gre)'
+	echo 'd. Search By Keyword (gre)'
 	echo 'e. File Explorer (nautilus .)'
 	echo '================================================='
 	echo -e "${color_txtgrn}專案類:${color_none}"

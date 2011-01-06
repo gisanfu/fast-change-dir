@@ -2,13 +2,14 @@
 alias ll="ls -la"
 
 # main function
-alias ide=". /bin/gisanfu-ide.sh"
+alias ide=". /bin/gisanfu-abc-3.sh"
 
 # number function
 alias gre=". /bin/gisanfu-grep.sh"
 alias sear=". /bin/gisanfu-search.sh"
 alias abc=". /bin/gisanfu-abc-3.sh"
 alias 123=". /bin/gisanfu-123.sh"
+alias abc123=". /bin/gisanfu-123-2.sh"
 
 # Version Controll 
 alias svnn="/bin/gisanfu-svn-3.sh"
