@@ -195,7 +195,7 @@ do
 	if [ "$untracked" == '1' ]; then
 		cmd="$gitcmd status -s | grep -e '^ ' -e '^??'"
 	else
-		cmd="$gitcmd status -s | grep -e '^A' -e '^M' -e '^D'"
+		cmd="$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' -e '^R'"
 	fi
 	eval $cmd
 
