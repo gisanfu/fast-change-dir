@@ -458,7 +458,7 @@ do
 	fi
 
 
-	if [ "$first" == '1' ]; then
+	if [ "$first" == '1' || "$needhelp" == '1' ]; then
 		echo '================================================='
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
@@ -466,6 +466,7 @@ do
 		echo ' 智慧選取單項 (;) 分號'
 		echo ' 上一層 (,) 逗點'
 		echo " 到數字切換資料夾功能 (') 單引號"
+		echo ' 我忘了快速鍵了 (H)'
 		echo ' 離開 (?)'
 		echo -e "${color_txtgrn}即時關鍵字選擇用的快速鍵:${color_none}"
 		echo ' 檔案或資料夾建立刪除 (C) New item or Delete'
@@ -475,7 +476,7 @@ do
 		echo ' 上一層單項資料夾 (A)'
 		echo ' 專案捷徑名稱 (L)'
 		echo ' 群組名稱 (G)'
-		echo ' 搜尋檔案的結果 (H)'
+		echo ' 搜尋檔案的結果 (Z)'
 		echo ' 搜尋資料夾的結果 (N)'
 		echo -e "${color_txtgrn}VimList操作類:${color_none}"
 		echo ' Do It! (I)'
@@ -497,6 +498,7 @@ do
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
+		needhelp=''
 	fi
 
 	if [ "$condition" != '' ]; then
@@ -612,7 +614,7 @@ do
 
 	# 顯示重覆的搜尋檔案結果項目
 	if [ "${#item_search_file_array[@]}" -gt 1 ]; then
-		echo "重覆的搜尋檔案結果(有多項的功能)[H]: 有${#item_search_file_array[@]}筆"
+		echo "重覆的搜尋檔案結果(有多項的功能)[Z]: 有${#item_search_file_array[@]}筆"
 		number=1
 		for bbb in ${item_search_file_array[@]}
 		do
@@ -620,7 +622,7 @@ do
 			number=$((number + 1))
 		done
 	elif [ "${#item_search_file_array[@]}" -eq 1 ]; then 
-		echo "搜尋檔案的結果有找到一筆哦[H]: ${item_search_file_array[0]}"
+		echo "搜尋檔案的結果有找到一筆哦[Z]: ${item_search_file_array[0]}"
 	fi
 
 	if [ "${#item_search_dir_array[@]}" -gt 0 ]; then
@@ -821,7 +823,7 @@ do
 		eval $run
 		clear_var_all='1'
 		continue
-	elif [ "$inputvar" == 'H' ]; then
+	elif [ "$inputvar" == 'Z' ]; then
 		if [ "${#item_search_file_array[@]}" -eq 1 ]; then
 			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
