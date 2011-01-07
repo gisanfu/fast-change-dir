@@ -421,7 +421,7 @@ while [ 1 ];
 do
 	clear
 
-	if [[ "$first" == '1' || "$clear_var_all" == '1' ]]; then
+	if [[ "$first" == '1' || "$clear_var_all" == '1' || "$needhelp" == '1' ]]; then
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -438,27 +438,30 @@ do
 		clear_var_all=''
 	fi
 
-	if [ "$first" == '1' ]; then
+	if [[ "$first" == '1' || "$needhelp" == '1' ]]; then
 		echo '即時切換資料夾 (關鍵字)'
 		echo '================================================='
 	fi
 
-	echo "`whoami` || \"$groupname\" || `pwd`"
-	echo '================================================='
 
-	ignorelist=$(func_getlsignore)
-	cmd="ls -AF $ignorelist --color=auto"
-	eval $cmd
-
-	if [ "$condition" == 'quit' ]; then
-		break
-	elif [ "$condition" != '' ]; then
+	# 如果要看HELP，應該就暫時把其它東西hide起來
+	if [ "$needhelp" != '1' ]; then
+		echo "`whoami` || \"$groupname\" || `pwd`"
 		echo '================================================='
-		echo "目前您所輸入的搜尋條件: \"$condition\""
+
+		ignorelist=$(func_getlsignore)
+		cmd="ls -AF $ignorelist --color=auto"
+		eval $cmd
+
+		if [ "$condition" == 'quit' ]; then
+			break
+		elif [ "$condition" != '' ]; then
+			echo '================================================='
+			echo "目前您所輸入的搜尋條件: \"$condition\""
+		fi
 	fi
 
-
-	if [ "$first" == '1' || "$needhelp" == '1' ]; then
+	if [[ "$first" == '1' || "$needhelp" == '1' ]]; then
 		echo '================================================='
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
@@ -498,7 +501,13 @@ do
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		first=''
-		needhelp=''
+		if [ "$needhelp" == '1' ]; then
+			echo -e "${color_txtred}你記得快速鍵了嗎？記得的話，按任何鍵繼續...${color_none}"
+			read -n 1
+			unset needhelp
+			clear_var_all='1'
+			continue
+		fi
 	fi
 
 	if [ "$condition" != '' ]; then
@@ -965,6 +974,10 @@ do
 			fi
 		fi
 
+		clear_var_all='1'
+		continue
+	elif [ "$inputvar" == 'H' ]; then
+		needhelp='1'
 		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'X' || "$inputvar" == 'Q' ]]; then
