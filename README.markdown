@@ -6,6 +6,7 @@ author: gisanfu
 
 - BASH
 - dialog
+- wmctrl
 
 ## 這是什麼東西?
 
