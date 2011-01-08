@@ -7,6 +7,7 @@ author: gisanfu
 - BASH
 - dialog
 - wmctrl
+- xmacro
 
 ## 這是什麼東西?
 
