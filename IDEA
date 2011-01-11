@@ -1,3 +1,9 @@
+# 2011-01-10
+
+想要在/斜線的地方，加上重新去include檔案的程式碼，
+這樣子如果修改了searchfile, or searchdir，把它設定為啟動，
+這時只要按一下斜線，就可以生效了
+
 # 2011-01-09
 
 想要在各version control裡面的push之前，
