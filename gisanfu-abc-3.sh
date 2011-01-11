@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source 'gisanfu-function-entonum.sh'
+source '/bin/gisanfu-config.sh'
+source ~/gisanfu-config.sh
+
+source '/bin/gisanfu-function-entonum.sh'
 
 # default ifs value 
 default_ifs=$' \t\n'
@@ -1013,8 +1016,13 @@ do
 
 		# 長度大於3的關鍵字才能做搜尋的動作
 		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != 'google' && "$groupname" != '' ]]; then
-			item_search_file_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "file" ` )
-			item_search_dir_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "dir" ` )
+			if [ "$gisanfu_config_searchfile_enable" == '1' ]; then
+				item_search_file_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "file" ` )
+			fi
+
+			if [ "$gisanfu_config_searchdir_enable" == '1' ]; then
+				item_search_dir_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "dir" ` )
+			fi
 		fi
 
 		# 有些功能，只要看到第2個引數就會失效
