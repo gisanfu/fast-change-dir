@@ -9,3 +9,6 @@
 # 因為這兩個影響速度最明顯
 gisanfu_config_searchfile_enable='1'
 gisanfu_config_searchdir_enable='1'
+
+gisanfu_config_googlesearch_enable='1'
+gisanfu_config_bashhistorysearch_enable='1'

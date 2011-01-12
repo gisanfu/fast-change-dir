@@ -2,13 +2,6 @@
 
 author: gisanfu
 
-## Request environment
-
-- BASH
-- dialog
-- wmctrl
-- xmacro
-
 ## 這是什麼東西?
 
 應該算是Command-Line Helper
@@ -110,17 +103,6 @@ author: gisanfu
 	vim -p *cd*<cr>
 	:qa<cr>
 
-## Develop environment
-
-ubuntu 9.10
-
-## 己測試過的環境
-
-- centos 5.2+ 
-- ubuntu 9.04 
-- ubuntu 9.10 
-- ubuntu 10.10 
-
 ## 比較
 
 使用這種方式，來切換資料夾，以及寫程式，
@@ -144,19 +126,6 @@ ubuntu 9.10
 - 滑鼠用的機率會少很多
 - 鍵盤會很常用
 - 有兩種主要的使用方式，CLI和IDE，可以依照狀況來選擇您要的方式，例如網管可以使用CLI方式，加速CLI的操作速度，如果是程式設計師，可以使用IDE的方式
-
-## INSTALL
-
-1. copy scripts to unix-like /bin directory
-
-$ sudo cp gisanfu-* /bin
-
-2. copy bashrc.txt line to your .bashrc
-
-$ cat bashrc.txt >> ~/.bashrc
-
-3. restart your terminal
-
 
 ## CLI部份使用方式
 
@@ -303,14 +272,10 @@ $ dvvv
 
 ### 啟動IDE功能
 
-*這個是舊版的IDE，大部份的功能己經納入到abc的功能裡面，會做這樣子的分類，因為後來發現，英文選擇功能(abc)，才是這個專案的精神所在
+*輸入以下指令，啟動IDE，不管輸入ide或是abc都是英文選擇模式
 
 	ide
-
-![ide](http://pic.pimg.tw/gisanfu/12c500d85a46ac89431feecca8cedd88.png)
-
-*選擇a，或是輸入以下指令，啟動英文選擇模式
-
+	或
 	abc
 
 ![abc](http://pic.pimg.tw/gisanfu/4569bf373a01ac17f245e9cf392035ae.png)
