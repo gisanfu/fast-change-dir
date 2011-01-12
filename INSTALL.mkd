@@ -13,14 +13,14 @@ author: gisanfu
 
 ubuntu 9.10
 
-## 己測試過的環境
+### 己測試過的環境
 
 - centos 5.2+ 
 - ubuntu 9.04 
 - ubuntu 9.10 
 - ubuntu 10.10 
 
-## INSTALL
+### INSTALL
 
 - copy scripts to unix-like /bin directory
 
@@ -51,3 +51,13 @@ ubuntu 9.10
 
 	$ ide
 	homeGrootL,,rootL,root;
+
+### 啟動IDE功能
+
+*輸入以下指令，啟動IDE，不管輸入ide或是abc都是英文選擇模式
+
+	ide
+	或
+	abc
+
+![abc](http://pic.pimg.tw/gisanfu/4569bf373a01ac17f245e9cf392035ae.png)
