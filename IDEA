@@ -1,8 +1,10 @@
-# 2011-01-10
+# 2011-01-11
 
 想要在/斜線的地方，加上重新去include檔案的程式碼，
 這樣子如果修改了searchfile, or searchdir，把它設定為啟動，
 這時只要按一下斜線，就可以生效了
+
+設定檔的地方，想要在加上bash history, 以及google search function
 
 # 2011-01-09
 
