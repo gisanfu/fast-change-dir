@@ -22,24 +22,24 @@ ubuntu 9.10
 
 ## INSTALL
 
-1. copy scripts to unix-like /bin directory
+- copy scripts to unix-like /bin directory
 
 	sudo cp gisanfu-* /bin
 
-2. copy bashrc.txt line to your .bashrc
+- copy bashrc.txt line to your .bashrc
 
 	$ cat bashrc.txt >> ~/.bashrc
 
-3. restart your terminal
+- restart your terminal
 
-4. with my vimrc
+- with my vimrc
 
 	$ cd /YOUR-GIT-DIR-TARGET
 	$ git clone git://github.com/gisanfu/vimrc.git
 	$ cd vimrc
 	$ cat vimrc >> ~/.vimrc
 
-5. create first groupname, name is **home**
+- create first groupname, name is **home**
 
 	$ cd ~
 	$ cd ..
@@ -47,7 +47,7 @@ ubuntu 9.10
 	$ ga YOUR-HOME-NAME
 	$ dvv root YOUR-HOME-NAME
 
-6. restart terminal, and test change groupname and test cmd
+- restart terminal, and test change groupname and test cmd
 
 	$ ide
 	homeGrootL,,rootL,root;
