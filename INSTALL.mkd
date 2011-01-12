@@ -22,7 +22,7 @@ ubuntu 9.10
 
 ### INSTALL
 
-- copy scripts to unix-like /bin directory
+1. copy scripts to unix-like /bin directory
 
 	sudo cp gisanfu-* /bin
 
