@@ -24,40 +24,30 @@ ubuntu 9.10
 
 1. copy scripts to unix-like /bin directory
 
-		sudo cp gisanfu-* /bin
+		$ sudo cp gisanfu-* /bin
 
 - copy bashrc.txt line to your .bashrc
 
-	$ cat bashrc.txt >> ~/.bashrc
+		$ cat bashrc.txt >> ~/.bashrc
 
 - restart your terminal
 
 - with my vimrc
 
-	$ cd /YOUR-GIT-DIR-TARGET
-	$ git clone git://github.com/gisanfu/vimrc.git
-	$ cd vimrc
-	$ cat vimrc >> ~/.vimrc
+		$ cd /YOUR-GIT-DIR-TARGET
+		$ git clone git://github.com/gisanfu/vimrc.git
+		$ cd vimrc
+		$ cat vimrc >> ~/.vimrc
 
 - create first groupname, name is **home**
 
-	$ cd ~
-	$ cd ..
-	$ gaa YOUR-HOME-NAME
-	$ ga YOUR-HOME-NAME
-	$ dvv root YOUR-HOME-NAME
+		$ cd ~
+		$ cd ..
+		$ gaa YOUR-HOME-NAME
+		$ ga YOUR-HOME-NAME
+		$ dvv root YOUR-HOME-NAME
 
 - restart terminal, and test change groupname and test cmd
 
-	$ ide
-	homeGrootL,,rootL,root;
-
-### 啟動IDE功能
-
-*輸入以下指令，啟動IDE，不管輸入ide或是abc都是英文選擇模式
-
-	ide
-	或
-	abc
-
-![abc](http://pic.pimg.tw/gisanfu/4569bf373a01ac17f245e9cf392035ae.png)
+		$ ide
+		homeGrootL,,rootL,root;
