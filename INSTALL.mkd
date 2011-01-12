@@ -24,7 +24,7 @@ ubuntu 9.10
 
 1. copy scripts to unix-like /bin directory
 
-	$ sudo cp gisanfu-* /bin
+	sudo cp gisanfu-* /bin
 
 2. copy bashrc.txt line to your .bashrc
 
