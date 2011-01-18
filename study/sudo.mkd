@@ -1,0 +1,15 @@
+### SUDO
+
+相關說明內容
+
+### 如何讓sudo後，馬上忘記密碼
+
+<http://www.wains.be/index.php/2008/01/23/sudo-password-timeout/>
+
+<http://www.linuxquestions.org/questions/linux-general-1/being-su-or-sudo-is-there-a-time-out-764491/>
+
+<http://crunchbanglinux.org/forums/topic/9263/solveddrop-sudo-privileges/>
+
+以上的連結都試不成功，目前只知道，在登入前，可以先下個`sudo -k`的指令
+
+<http://ubuntuforums.org/showthread.php?p=9804691>
