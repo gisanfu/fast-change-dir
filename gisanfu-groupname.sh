@@ -4,7 +4,7 @@
 # 這個檔案，是選擇、以及增加專案代碼
 #
 
-source 'gisanfu-function.sh'
+source "$fast_change_dir/gisanfu-function.sh"
 
 action=$1
 groupname=$2

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source 'gisanfu-function.sh'
+source "$fast_change_dir/gisanfu-function.sh"
 
 program=$1
 
