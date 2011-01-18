@@ -711,7 +711,6 @@ do
 		break
 	elif [ "$inputvar" == '/' ]; then
 		# 重新讀取設定檔
-		source '/bin/gisanfu-config.sh'
 		source ~/gisanfu-config.sh
 
 		clear_var_all='1'
