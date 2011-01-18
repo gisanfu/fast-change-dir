@@ -755,9 +755,9 @@ do
 		elif [ ${#item_search_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
-				run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
 			else
-				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
 			eval $run
 		elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
@@ -784,7 +784,7 @@ do
 				run="vim \"$match\""
 			fi
 		elif [ "${#item_file_array[@]}" -gt 1 ]; then
-			run=". /bin/gisanfu-vimlist-append-files.sh "
+			run=". $fast_change_dir/gisanfu-vimlist-append-files.sh "
 			for bbb in ${item_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
@@ -810,7 +810,7 @@ do
 				run="vim ../\"$match\""
 			fi
 		elif [ "${#item_parent_file_array[@]}" -gt 1 ]; then
-			run=". /bin/gisanfu-vimlist-append-files.sh "
+			run=". $fast_change_dir/gisanfu-vimlist-append-files.sh "
 			for bbb in ${item_parent_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
@@ -842,12 +842,12 @@ do
 		if [ "${#item_search_file_array[@]}" -eq 1 ]; then
 			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
-				run=". /bin/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
 			else
-				run=". /bin/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
 		elif [ "${#item_search_file_array[@]}" -gt 1 ]; then
-			run=". /bin/gisanfu-vimlist-append-files.sh "
+			run=". $fast_change_dir/gisanfu-vimlist-append-files.sh "
 			for bbb in ${item_search_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
@@ -930,7 +930,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'R' ]; then
-		/bin/gisanfu-cmd-refresh-firefox.sh switchonly
+		$fast_change_dir/gisanfu-cmd-refresh-firefox.sh switchonly
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'M' ]; then
