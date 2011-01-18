@@ -1,8 +1,11 @@
+# fast-change-dir
+fast_change_dir='~/gisanfu/fast-change-dir'
+
 # fast-change-dir: use relative keyword
 alias ll="ls -la"
 
 # main function
-alias ide=". /bin/gisanfu-abc-3.sh"
+alias ide=". $fast_change_dir/gisanfu-abc-3.sh"
 
 # number function
 alias gre=". /bin/gisanfu-grep.sh"
