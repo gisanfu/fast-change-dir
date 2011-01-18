@@ -16,19 +16,19 @@ alias 123=". $fast_change_dir/gisanfu-123.sh"
 alias abc123=". $fast_change_dir/gisanfu-123-2.sh"
 
 # Version Controll 
-alias svnn="$fast_change_dir/gisanfu-svn-3.sh"
-alias gitt="$fast_change_dir/gisanfu-git-2.sh"
-alias hgg="$fast_change_dir/gisanfu-hg.sh"
+alias svnn=". $fast_change_dir/gisanfu-svn-3.sh"
+alias gitt=". $fast_change_dir/gisanfu-git-2.sh"
+alias hgg=". $fast_change_dir/gisanfu-hg.sh"
 
 #
 # GroupName
 #
 # select or switch GroupName
-alias ga="source $fast_change_dir/gisanfu-groupname.sh select"
+alias ga=". $fast_change_dir/gisanfu-groupname.sh select"
 # append GroupName
-alias gaa="$fast_change_dir/gisanfu-groupname.sh append"
+alias gaa=". $fast_change_dir/gisanfu-groupname.sh append"
 # edit GroupName 
-alias gaaa="$fast_change_dir/gisanfu-groupname.sh edit"
+alias gaaa=". $fast_change_dir/gisanfu-groupname.sh edit"
 
 #
 # cd
@@ -44,7 +44,7 @@ alias dvvv=". $fast_change_dir/gisanfu-dirpoint-edit.sh"
 # vim
 alias v=". $fast_change_dir/gisanfu-editfile.sh"
 alias vf=". $fast_change_dir/gisanfu-vimlist-append.sh"
-alias vff="$fast_change_dir/gisanfu-vimlist.sh"
+alias vff=". $fast_change_dir/gisanfu-vimlist.sh"
 alias vfff=". $fast_change_dir/gisanfu-vimlist-edit.sh"
 alias vffff=". $fast_change_dir/gisanfu-vimlist-clear.sh"
 alias vfe=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 1"

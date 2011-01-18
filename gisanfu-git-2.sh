@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source 'gisanfu-function-entonum.sh'
+source $fast_change_dir/gisanfu-function-entonum.sh
 
 # default ifs value 
 default_ifs=$' \t\n'
