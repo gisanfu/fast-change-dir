@@ -1,5 +1,6 @@
 # fast-change-dir
-fast_change_dir='~/gisanfu/fast-change-dir'
+fast_change_dir_pwd=`pwd`
+fast_change_dir='$fast_change_dir_pwd/gisanfu/fast-change-dir'
 
 # fast-change-dir: use relative keyword
 alias ll="ls -la"

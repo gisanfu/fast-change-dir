@@ -25,7 +25,7 @@ elif [ "${#itemList[@]}" -gt "1" ]; then
 	fi
 fi
 
-. gisanfu-relative.sh
+. $fast_change_dir/gisanfu-relative.sh
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	# 檢查一下，看文字檔裡面有沒有這個內容，如果有，當然就不需要在append

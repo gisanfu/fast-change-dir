@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_changedir/gisanfu-function.sh"
+source "$fast_change_dir/gisanfu-function.sh"
 
 # default ifs value
 default_ifs=$' \t\n'
@@ -25,7 +25,7 @@ elif [ "${#itemList[@]}" -gt "1" ]; then
 	fi
 fi
 
-. gisanfu-relative.sh
+. $fast_change_dir/gisanfu-relative.sh
 
 if [ "$relativeitem" != "" ]; then
 	vim $relativeitem

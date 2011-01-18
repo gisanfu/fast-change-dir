@@ -28,7 +28,7 @@ if [ "$dirpoint" != "" ]; then
 		fi
 	fi
 	
-	. gisanfu-relative.sh
+	. $fast_change_dir/gisanfu-relative.sh
 	
 	if [ "$relativeitem" != "" ]; then
 		# $relativeitem
