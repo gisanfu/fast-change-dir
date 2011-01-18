@@ -18,7 +18,7 @@ if [ "$filePosition" != "" ]; then
 		if [ "${fileList[$filePosition - 1]}" == "" ]; then
 			func_statusbar 'THIS-POSITION-IS-NO-FILE'
 		else
-			. /bin/gisanfu-vimlist-append.sh ${fileList[$filePosition - 1]}
+			. $fast_change_dir/gisanfu-vimlist-append.sh ${fileList[$filePosition - 1]}
 		fi
 	fi
 else

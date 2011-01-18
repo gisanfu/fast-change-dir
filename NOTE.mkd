@@ -15,7 +15,7 @@ AM 12:57
 以下的檔案，需要做路徑上的修改
 
 - abc-v3 **OK**
-- grep
-- groupname
-- pos-backdir
-- pos-vimlist-append
+- grep **OK**
+- groupname **OK**
+- pos-backdir **OK**
+- pos-vimlist-append **OK**
