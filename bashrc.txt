@@ -8,85 +8,85 @@ alias ll="ls -la"
 alias ide=". $fast_change_dir/gisanfu-abc-3.sh"
 
 # number function
-alias gre=". /bin/gisanfu-grep.sh"
-alias sear=". /bin/gisanfu-search.sh"
-alias abc=". /bin/gisanfu-abc-3.sh"
-alias 123=". /bin/gisanfu-123.sh"
-alias abc123=". /bin/gisanfu-123-2.sh"
+alias gre=". $fast_change_dir/gisanfu-grep.sh"
+alias sear=". $fast_change_dir/gisanfu-search.sh"
+alias abc=". $fast_change_dir/gisanfu-abc-3.sh"
+alias 123=". $fast_change_dir/gisanfu-123.sh"
+alias abc123=". $fast_change_dir/gisanfu-123-2.sh"
 
 # Version Controll 
-alias svnn="/bin/gisanfu-svn-3.sh"
-alias gitt="/bin/gisanfu-git-2.sh"
-alias hgg="/bin/gisanfu-hg.sh"
+alias svnn="$fast_change_dir/gisanfu-svn-3.sh"
+alias gitt="$fast_change_dir/gisanfu-git-2.sh"
+alias hgg="$fast_change_dir/gisanfu-hg.sh"
 
 #
 # GroupName
 #
 # select or switch GroupName
-alias ga="source /bin/gisanfu-groupname.sh select"
+alias ga="source $fast_change_dir/gisanfu-groupname.sh select"
 # append GroupName
-alias gaa="/bin/gisanfu-groupname.sh append"
+alias gaa="$fast_change_dir/gisanfu-groupname.sh append"
 # edit GroupName 
-alias gaaa="/bin/gisanfu-groupname.sh edit"
+alias gaaa="$fast_change_dir/gisanfu-groupname.sh edit"
 
 #
 # cd
 #
-alias d=". /bin/gisanfu-cddir.sh"
+alias d=". $fast_change_dir/gisanfu-cddir.sh"
 # cd point
-alias dv=". /bin/gisanfu-dirpoint.sh"
+alias dv=". $fast_change_dir/gisanfu-dirpoint.sh"
 # append point
-alias dvv=". /bin/gisanfu-dirpoint-append.sh"
+alias dvv=". $fast_change_dir/gisanfu-dirpoint-append.sh"
 # edit point
-alias dvvv=". /bin/gisanfu-dirpoint-edit.sh"
+alias dvvv=". $fast_change_dir/gisanfu-dirpoint-edit.sh"
 
 # vim
-alias v=". /bin/gisanfu-editfile.sh"
-alias vf=". /bin/gisanfu-vimlist-append.sh"
-alias vff="/bin/gisanfu-vimlist.sh"
-alias vfff=". /bin/gisanfu-vimlist-edit.sh"
-alias vffff=". /bin/gisanfu-vimlist-clear.sh"
-alias vfe=". /bin/gisanfu-pos-vimlist-append.sh 1"
-alias vfee=". /bin/gisanfu-pos-vimlist-append.sh 2"
-alias vfeee=". /bin/gisanfu-pos-vimlist-append.sh 3"
-alias vfeeee=". /bin/gisanfu-pos-vimlist-append.sh 4"
-alias vfeeeee=". /bin/gisanfu-pos-vimlist-append.sh 5"
-alias vfeeeeee=". /bin/gisanfu-pos-vimlist-append.sh 6"
+alias v=". $fast_change_dir/gisanfu-editfile.sh"
+alias vf=". $fast_change_dir/gisanfu-vimlist-append.sh"
+alias vff="$fast_change_dir/gisanfu-vimlist.sh"
+alias vfff=". $fast_change_dir/gisanfu-vimlist-edit.sh"
+alias vffff=". $fast_change_dir/gisanfu-vimlist-clear.sh"
+alias vfe=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 1"
+alias vfee=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 2"
+alias vfeee=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 3"
+alias vfeeee=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 4"
+alias vfeeeee=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 5"
+alias vfeeeeee=". $fast_change_dir/gisanfu-pos-vimlist-append.sh 6"
 
 #
 # back, and cd dir
 #
-alias g=". /bin/gisanfu-backdir.sh"
+alias g=". $fast_change_dir/gisanfu-backdir.sh"
 # back back... layer dir
-alias ge=". /bin/gisanfu-back-backdir.sh 1"
-alias gee=". /bin/gisanfu-back-backdir.sh 2"
-alias geee=". /bin/gisanfu-back-backdir.sh 3"
-alias geeee=". /bin/gisanfu-back-backdir.sh 4"
-alias geeeee=". /bin/gisanfu-back-backdir.sh 5"
-alias geeeeee=". /bin/gisanfu-back-backdir.sh 6"
+alias ge=". $fast_change_dir/gisanfu-back-backdir.sh 1"
+alias gee=". $fast_change_dir/gisanfu-back-backdir.sh 2"
+alias geee=". $fast_change_dir/gisanfu-back-backdir.sh 3"
+alias geeee=". $fast_change_dir/gisanfu-back-backdir.sh 4"
+alias geeeee=". $fast_change_dir/gisanfu-back-backdir.sh 5"
+alias geeeeee=". $fast_change_dir/gisanfu-back-backdir.sh 6"
 # back and cd dir, use position
-alias gde=". /bin/gisanfu-pos-backdir.sh 1"
-alias gdee=". /bin/gisanfu-pos-backdir.sh 2"
-alias gdeee=". /bin/gisanfu-pos-backdir.sh 3"
-alias gdeeee=". /bin/gisanfu-pos-backdir.sh 4"
-alias gdeeeee=". /bin/gisanfu-pos-backdir.sh 5"
-alias gdeeeeee=". /bin/gisanfu-pos-backdir.sh 6"
+alias gde=". $fast_change_dir/gisanfu-pos-backdir.sh 1"
+alias gdee=". $fast_change_dir/gisanfu-pos-backdir.sh 2"
+alias gdeee=". $fast_change_dir/gisanfu-pos-backdir.sh 3"
+alias gdeeee=". $fast_change_dir/gisanfu-pos-backdir.sh 4"
+alias gdeeeee=". $fast_change_dir/gisanfu-pos-backdir.sh 5"
+alias gdeeeeee=". $fast_change_dir/gisanfu-pos-backdir.sh 6"
 
 # fast-change-dir: cd dir, use position
-alias de=". /bin/gisanfu-pos-cddir.sh 1"
-alias dee=". /bin/gisanfu-pos-cddir.sh 2"
-alias deee=". /bin/gisanfu-pos-cddir.sh 3"
-alias deeee=". /bin/gisanfu-pos-cddir.sh 4"
-alias deeeee=". /bin/gisanfu-pos-cddir.sh 5"
-alias deeeeee=". /bin/gisanfu-pos-cddir.sh 6"
+alias de=". $fast_change_dir/gisanfu-pos-cddir.sh 1"
+alias dee=". $fast_change_dir/gisanfu-pos-cddir.sh 2"
+alias deee=". $fast_change_dir/gisanfu-pos-cddir.sh 3"
+alias deeee=". $fast_change_dir/gisanfu-pos-cddir.sh 4"
+alias deeeee=". $fast_change_dir/gisanfu-pos-cddir.sh 5"
+alias deeeeee=". $fast_change_dir/gisanfu-pos-cddir.sh 6"
 
 # fast-change-dir: vim file, use position
-alias ve=". /bin/gisanfu-pos-editfile.sh 1"
-alias vee=". /bin/gisanfu-pos-editfile.sh 2"
-alias veee=". /bin/gisanfu-pos-editfile.sh 3"
-alias veeee=". /bin/gisanfu-pos-editfile.sh 4"
-alias veeeee=". /bin/gisanfu-pos-editfile.sh 5"
-alias veeeeee=". /bin/gisanfu-pos-editfile.sh 6"
+alias ve=". $fast_change_dir/gisanfu-pos-editfile.sh 1"
+alias vee=". $fast_change_dir/gisanfu-pos-editfile.sh 2"
+alias veee=". $fast_change_dir/gisanfu-pos-editfile.sh 3"
+alias veeee=". $fast_change_dir/gisanfu-pos-editfile.sh 4"
+alias veeeee=". $fast_change_dir/gisanfu-pos-editfile.sh 5"
+alias veeeeee=". $fast_change_dir/gisanfu-pos-editfile.sh 6"
 
 # 最後，啟動ide
 ide

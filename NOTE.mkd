@@ -2,6 +2,12 @@
 
 #### 2011-01-18
 
+現在要做路徑的變更，把`/bin` => `~/gisanfu/fast-change-dir`
+
 AM 12:00
 
 只修改好`bashrc.txt`裡面的ide alias而以，己測試OK
+
+AM 12:57
+
+己修改好`bashrc.txt`，和INSTALL.mkd

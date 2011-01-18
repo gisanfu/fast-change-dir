@@ -8,6 +8,7 @@ author: gisanfu
 - dialog
 - wmctrl
 - xmacro
+- git
 
 ## Develop environment
 
@@ -22,15 +23,24 @@ ubuntu 9.10
 
 ### INSTALL
 
-1. copy scripts to unix-like /bin directory
+1. goto to your home directory
 
-		$ sudo cp gisanfu-* /bin
+		$ cd ~
+		$ mkdir gisanfu
+		$ cd gisanfu
+
+- get code
+
+		$ git clone git://github.com/gisanfu/fast-change-dir
+		$ cd fast-change-dir
 
 - copy bashrc.txt line to your .bashrc
 
 		$ cat bashrc.txt >> ~/.bashrc
 
-- restart your terminal
+- restart your terminal, with exit ide，離開的方式，請輸入問號
+
+		?
 
 - with my vimrc
 
