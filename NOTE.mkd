@@ -11,3 +11,11 @@ AM 12:00
 AM 12:57
 
 己修改好`bashrc.txt`，和INSTALL.mkd
+
+以下的檔案，需要做路徑上的修改
+
+- abc-v3 **OK**
+- grep
+- groupname
+- pos-backdir
+- pos-vimlist-append

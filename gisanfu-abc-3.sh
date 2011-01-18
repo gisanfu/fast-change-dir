@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source '/bin/gisanfu-config.sh'
+source "$fast_change_dir/gisanfu-config.sh"
 source ~/gisanfu-config.sh
 
-source '/bin/gisanfu-function-entonum.sh'
+source "$fast_change_dir/gisanfu-function-entonum.sh"
 
 # default ifs value 
 default_ifs=$' \t\n'
@@ -386,7 +386,7 @@ func_search_google()
 	filename="/tmp/gisanfu-abc3-google-search-`whoami`.txt"
 
 	if [ "$keyword" != '' ]; then
-		cmd="perl /bin/gisanfu-google-search.pl $keyword"
+		cmd="perl $fast_change_dir/gisanfu-google-search.pl $keyword"
 
 		#if [ "$second" != '' ]; then
 		#	cmd="$cmd $second"
