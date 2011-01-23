@@ -13,9 +13,12 @@ if [ "$groupname" != "" ]; then
 
 	cmdlist="cat ~/gisanfu-vimlist-$groupname.txt"
 
+	# 正規的外面要用雙引包起來
+	regex="^vim"
+
 	# 如果program這個變數是空白，就代表會使用vim-p的指令
 	# 使用vim，當然不會去開一些binary的檔案
-	if [ "$program" == '' ]; then
+	if [[ "$program" == '' || "$program" =~ $regex ]]; then
 		# 先把一些己知的東西先ignore掉，例如壓縮檔
 		cmdlist="$cmdlist | grep -v .tar.gz | grep -v .zip"
 		cmdlist="$cmdlist | xargs -n 1 $fast_change_dir/gisanfu-only-text-filecontent.sh"
