@@ -24,7 +24,8 @@ if [ "$groupname" != "" ]; then
 	# 這是多行文字檔內容，變成以空格分格成字串的步驟
 	cmdlist2='| tr "\n" " "'
 	cmdlist="$cmdlist $cmdlist2"
-	cmd="$program2 $cmdlist"
+	cmdlist_result=`eval $cmdlist`
+	cmd="$program2 $cmdlist_result"
 
 	# 檢查一下數量，如果是一筆的話，那就自動跳到那一筆
 	# 這樣子只有一筆的時候，會比較方便
