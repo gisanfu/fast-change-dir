@@ -8,7 +8,7 @@
 
 aaa=$1
 
-bbb=`file $aaa | grep text | grep empty | wc -l`
+bbb=`file $aaa | grep -e text -e empty | wc -l`
 
 if [ "$bbb" -gt 0 ]; then
 	echo $aaa
