@@ -2,6 +2,20 @@
 
 相關說明內容
 
+### 在Ubuntu以及Centos都可以使用的作法
+
+先輸入以下的指令
+
+	# visudo
+	
+然後參考以下的設定
+
+	Defaults    env_reset , timestamp_timeout=0
+
+`timestamp_timeout`設定成0，就可以每次都要require password
+
+<http://www.webupd8.org/2010/04/how-to-change-sudo-password-time-out-in.html>
+
 ### 如何讓sudo後，馬上忘記密碼
 
 <http://www.wains.be/index.php/2008/01/23/sudo-password-timeout/>
