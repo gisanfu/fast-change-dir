@@ -51,3 +51,15 @@ func_dialog_yesno()
 	cmd="dialog --title '$title' --yesno '$text' 7 $width"
 	echo $cmd
 }
+
+# 這個是Dialog指令的inputbox功能
+func_dialog_input()
+{
+	title=$1
+	text=$2
+	width=$3
+	tmp=$4
+
+	cmd="dialog --title '$title' --inputbox '$text' 7 $width 2> $tmp"
+	echo $cmd
+}

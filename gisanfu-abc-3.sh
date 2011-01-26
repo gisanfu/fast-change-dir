@@ -3,6 +3,7 @@
 source "$fast_change_dir/gisanfu-config.sh"
 source ~/gisanfu-config.sh
 
+source "$fast_change_dir/gisanfu-function.sh"
 source "$fast_change_dir/gisanfu-function-entonum.sh"
 
 # default ifs value 
@@ -937,42 +938,47 @@ do
 		sudo su -
 		clear_var_all='1'
 		continue
+	# [C] Create
 	elif [ "$inputvar" == 'C' ]; then
-		if [ "$condition" != '' ]; then
-			echo "請選擇你要做的動作:"
-			echo "Touch File (Tt)"
-			echo "Create Directory And Goto DIR (Cc)"
-			echo -e "${color_txtred}Delete Force${color_none} (Dd)"
-			read -n 1 inputvar2
+		# 如果沒有輸入關鍵字，那就用dialog來詢問使用者
+		# 這時是可以輸入大寫的檔名，或是資料夾名稱
+		if [ "$condition" == '' ]; then
+			tmpfile=/tmp/`whoami`-abc3-filemanage-$( date +%Y%m%d-%H%M ).txt
+			cmd=$( func_dialog_input '請輸入檔案或資料夾名稱' 70 "$dialogitems" "$tmpfile" )
 
-			if [[ "$inputvar2" == 'T' || "$inputvar2" == 't' ]]; then
-				if [[ -f "$condition" || -d "$condition" ]]; then
-					echo -e "${color_txtred}[ERROR]${color_none} 不能建立空白檔案，因為有同名的檔案或資料夾己經存在，請按任意鍵離開..."
-					read -n 1
-				else
-					touch $condition
-					echo "[NOTICE] 己經開了一個空白檔案\"$condition\"，2秒後會離開，到時在看您怎麼處置它!"
-					sleep 2
-				fi
-			elif [[ "$inputvar2" == 'C' || "$inputvar2" == 'c' ]]; then
-				mkdir $condition
-				if [ "$?" -eq 0 ]; then
-					echo "[NOTICE] 己建立\"$condition\"資料夾，2秒後會直接進到該資料夾內"
-					d $condition
-					sleep 2
-				else
-					echo -e "${color_txtred}[ERROR]${color_none} 建立資料夾失敗，應該是有同名的檔案或資料夾己經存在，請按任意鍵離開..."
-					read -n 1
-				fi
-			elif [[ "$inputvar2" == 'D' || "$inputvar2" == 'd' ]]; then
-				rm -rf $condition
-				if [ "$?" -eq 0 ]; then
-					echo "[NOTICE] 己刪除\"$condition\"，2秒後離開"
-					sleep 2
-				else
-					echo -e "${color_txtred}[ERROR]${color_none} 刪除\"$condition\"失敗，應該是權限上的問題比較多，請按任意鍵離開..."
-					read -n 1
-				fi
+			eval $cmd
+			result=`cat $tmpfile`
+
+			if [ "$result" == "" ]; then
+				clear_var_all='1'
+				continue
+			else
+				condition="$result"
+			fi
+		fi
+
+		echo "請選擇你要做的動作:"
+		echo "Touch File (Ff)"
+		echo "Create Directory And Goto DIR (Dd)"
+		read -n 1 inputvar2
+
+		if [[ "$inputvar2" == 'F' || "$inputvar2" == 'f' ]]; then
+			if [[ -f "$condition" || -d "$condition" ]]; then
+				echo -e "${color_txtred}[ERROR]${color_none} 不能建立空白檔案，因為有同名的檔案或資料夾己經存在，請按任意鍵離開..."
+				read -n 1
+			else
+				touch $condition
+				vf $condition
+			fi
+		elif [[ "$inputvar2" == 'D' || "$inputvar2" == 'd' ]]; then
+			mkdir $condition
+			if [ "$?" -eq 0 ]; then
+				echo "[NOTICE] 己建立\"$condition\"資料夾，2秒後會直接進到該資料夾內"
+				d $condition
+				sleep 2
+			else
+				echo -e "${color_txtred}[ERROR]${color_none} 建立資料夾失敗，應該是有同名的檔案或資料夾己經存在，請按任意鍵離開..."
+				read -n 1
 			fi
 		fi
 
