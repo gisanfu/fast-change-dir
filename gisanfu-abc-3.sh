@@ -958,7 +958,7 @@ do
 		fi
 
 		echo "請選擇你要做的動作:"
-		echo "Touch File (Ff)"
+		echo "File Touch(Ff)"
 		echo "Create Directory And Goto DIR (Dd)"
 		read -n 1 inputvar2
 
@@ -973,7 +973,6 @@ do
 		elif [[ "$inputvar2" == 'D' || "$inputvar2" == 'd' ]]; then
 			mkdir $condition
 			if [ "$?" -eq 0 ]; then
-				echo "[NOTICE] 己建立\"$condition\"資料夾，2秒後會直接進到該資料夾內"
 				d $condition
 				sleep 2
 			else
