@@ -38,6 +38,14 @@ ubuntu 9.10
 
 		$ cat bashrc.txt >> ~/.bashrc
 
+- copy main config file to your home directory
+
+預設是開啟所有的功能，你可以把它們都關掉，在速度比較慢的電腦上面，
+
+等到要使用的使用，在把`0`改成`1`，回到`ide`以後，在按一下`/`就可以啟用了
+
+		$ cp gisanfu-config.sh ~
+
 - restart your terminal, with exit ide，離開的方式，請輸入問號
 
 		?
