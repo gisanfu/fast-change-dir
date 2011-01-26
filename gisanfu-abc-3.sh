@@ -407,9 +407,6 @@ unset cmd1
 unset cmd2
 unset cmd3
 
-# 只有第一次是1，有些只會執行一次，例如help
-first='1'
-
 # 當符合某些條件以後，所以動作都要重來，這時需要清除掉某一些變數的內容
 clear_var_all=''
 
@@ -424,7 +421,7 @@ while [ 1 ];
 do
 	clear
 
-	if [[ "$first" == '1' || "$clear_var_all" == '1' || "$needhelp" == '1' ]]; then
+	if [[ "$clear_var_all" == '1' || "$needhelp" == '1' ]]; then
 		unset condition
 		unset item_file_array
 		unset item_dir_array
@@ -441,7 +438,7 @@ do
 		clear_var_all=''
 	fi
 
-	if [[ "$first" == '1' || "$needhelp" == '1' ]]; then
+	if [ "$needhelp" == '1' ]; then
 		echo '即時切換資料夾 (關鍵字)'
 		echo '================================================='
 	fi
@@ -464,7 +461,7 @@ do
 		fi
 	fi
 
-	if [[ "$first" == '1' || "$needhelp" == '1' ]]; then
+	if [ "$needhelp" == '1' ]; then
 		echo '================================================='
 		echo -e "${color_txtgrn}基本快速鍵:${color_none}"
 		echo ' 倒退鍵 (Ctrl + H)'
@@ -503,7 +500,6 @@ do
 		echo ' 離開EXIT (X)(Q)'
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
-		first=''
 		if [ "$needhelp" == '1' ]; then
 			echo -e "${color_txtred}你記得快速鍵了嗎？記得的話，按任何鍵繼續...${color_none}"
 			read -n 1
