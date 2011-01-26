@@ -44,6 +44,7 @@ ubuntu 9.10
 
 等到要使用的使用，在把`0`改成`1`，回到`ide`以後，在按一下`/`就可以啟用了
 
+
 		$ cp gisanfu-config.sh ~
 
 - restart your terminal, with exit ide，離開的方式，請輸入問號
