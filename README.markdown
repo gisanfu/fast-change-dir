@@ -4,7 +4,11 @@ author: gisanfu
 
 ## 這是什麼東西?
 
-應該算是Command-Line Helper
+算是以下幾種東西的結合:
+
+- Command-Line Helper
+- Simple File Manager
+- Simple Version Control UI
 
 ## 什麼人適合用?
 
@@ -113,6 +117,8 @@ author: gisanfu
 
 - 功能可能沒有IDE來的完整
 - 小電腦或是速度不快的電腦可能會有點慢
+
+*由其是安裝了Ubuntu 10.04 or 10.10的小電腦*
 
 ### 優點:
 
