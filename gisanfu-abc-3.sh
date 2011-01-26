@@ -944,7 +944,7 @@ do
 		# 這時是可以輸入大寫的檔名，或是資料夾名稱
 		if [ "$condition" == '' ]; then
 			tmpfile=/tmp/`whoami`-abc3-filemanage-$( date +%Y%m%d-%H%M ).txt
-			cmd=$( func_dialog_input '請輸入檔案或資料夾名稱' 70 "$dialogitems" "$tmpfile" )
+			cmd=$( func_dialog_input '請輸入檔案或資料夾名稱' "" 70 "$tmpfile" )
 
 			eval $cmd
 			result=`cat $tmpfile`
