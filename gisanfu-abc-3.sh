@@ -36,6 +36,7 @@ func_relative()
 	declare -a itemListTmp
 	declare -a itemList2
 	declare -a itemList2Tmp
+	declare -a itemreturn
 	declare -a relativeitem
 
 	# 先把英文轉成數字，如果這個欄位有資料的話
@@ -86,7 +87,7 @@ func_relative()
 		IFS=$default_ifs
 		num=0
 
-		if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
+		if [[ "${#itemList[@]}" -ge 1 && "$secondCondition" != '' ]]; then
 			IFS=$'\n'
 			itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 			for i in ${itemList2Tmp[@]}
@@ -98,7 +99,12 @@ func_relative()
 			IFS=$default_ifs
 			num=0
 		fi
-	elif [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != '' ]]; then
+
+		# 檢查一下有沒有找到東西，如果沒有，那連第一次的陣列都取消掉
+		if [ "${#itemList2[@]}" -lt 1 ]; then
+			unset itemList
+		fi
+	elif [[ "${#itemList[@]}" -ge 1 && "$secondCondition" != '' ]]; then
 		IFS=$'\n'
 		itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
 		for i in ${itemList2Tmp[@]}
@@ -109,6 +115,11 @@ func_relative()
 		done
 		IFS=$default_ifs
 		num=0
+
+		# 檢查一下有沒有找到東西，如果沒有，那連第一次的陣列都取消掉
+		if [ "${#itemList2[@]}" -lt 1 ]; then
+			unset itemList
+		fi
 	fi
 
 	# if empty of variable, then go back directory
@@ -117,7 +128,6 @@ func_relative()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-
 			if [ "$secondCondition" == '' ]; then
 				# if have duplicate dirname then CHDIR
 				for dirDuplicatelist in ${itemList[@]}
