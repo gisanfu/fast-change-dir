@@ -1,0 +1,17 @@
+### Bash disable input
+
+bash可不可以取消輸入指令，
+
+我是希望在某些狀況下，
+
+例如錯誤的時候，後面幾秒鐘是不能夠輸入指令的。
+
+可以試著使用以下的指令
+
+就是2秒鐘內的輸入，都會被它吃掉，試試看
+
+但是它的說明，timeout內時間沒有輸入，是return false的
+
+	read -n 1 -t 2
+
+<http://www.lslnet.com/linux/f/docs1/i62/big5409687.htm>

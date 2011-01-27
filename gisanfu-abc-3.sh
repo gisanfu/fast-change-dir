@@ -125,9 +125,7 @@ func_relative()
 					# to match file or dir rule
 					if [[ "$dirDuplicatelist" == "$nextRelativeItem/" || "$dirDuplicatelist" == "$nextRelativeItem" ]]; then
 						relativeitem=$nextRelativeItem
-
 						#func_statusbar 'USE-LUCK-ITEM'
-		
 						Success="1"
 						break
 					fi
@@ -136,13 +134,10 @@ func_relative()
 				# if have secondCondition, DO secondCheck
 				if [ "${#itemList2[@]}" == "1" ]; then
 					relativeitem=${itemList2[0]}
-
 					#func_statusbar 'USE-LUCK-ITEM-BY-SECOND-CONDITION'
-		
 					Success="1"
 				elif [ "${#itemList2[@]}" -gt "1" ]; then 
 					relativeitem=${itemList2[@]}
-					#relativeitem=$itemList2
 					Success="1"
 				fi
 			fi
@@ -168,6 +163,8 @@ func_relative()
 			# 然後在指定位置輸出
 			echo ${aaa[$newposition]}
 		fi
+	else
+		echo ''
 	fi
 }
 
@@ -794,8 +791,8 @@ do
 				run="$run \"$match\""
 			done
 		else
-			echo -e "${color_txtred}[ERROR]${color_none} 沒有任何檔案被選擇，2秒後離開..."
-			sleep 2
+			echo -e "${color_txtred}[ERROR]${color_none} 沒有任何檔案被選擇，請按Enter鍵離開..."
+			read -s drop_variable_aabbcc
 		fi
 
 		if [ "$run" != '' ]; then
@@ -810,8 +807,8 @@ do
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
 		else
-			echo -e "${color_txtred}[ERROR]${color_none} 沒有被選擇到的資料夾，或是多於一筆，2秒後離開..."
-			sleep 2
+			echo -e "${color_txtred}[ERROR]${color_none} 沒有被選擇到的資料夾，或是多於一筆，請按Enter鍵離開..."
+			read -s drop_variable_aabbcc
 		fi
 
 		if [ "$run" != '' ]; then
