@@ -718,7 +718,7 @@ do
 		continue
 	elif [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
 		# 這樣子做，就不用問我要append還是不要
-		if [ "$inputvar" == ';']; then
+		if [ "$inputvar" == ';' ]; then
 			isvff='1'
 		elif [ "$inputvar" == '.' ]; then
 			isvff='0'
