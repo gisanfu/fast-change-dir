@@ -1,3 +1,9 @@
+# update: 2011-01-27
+
+如何把tracked的檔案，給忽略掉
+
+http://www.pagebakers.nl/2009/01/29/git-ignoring-changes-in-tracked-files/
+
 # update: 2010-11-14
 
 如果要使用git status -s(short)的功能

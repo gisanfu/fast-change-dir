@@ -1,0 +1,9 @@
+### 如何讓這個專案有聲音
+
+我可能在輸入錯指令的時候，就會出個聲音，讓我知道
+
+#### 參考的網址
+
+可以在bash, vim等地方設定disable sound
+
+<http://fvue.nl/wiki/Bash:_Beep>
