@@ -730,7 +730,7 @@ do
 		if [ ${#item_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
-				run="vf \"$match\" "" $isvff"
+				run="vf \"$match\" \"\" $isvff"
 			else
 				run="vim \"$match\""
 			fi
@@ -740,7 +740,7 @@ do
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
-				run="cd .. && vf \"$match\" "" $isvff"
+				run="cd .. && vf \"$match\" \"\" $isvff"
 			else
 				run="vim ../\"$match\""
 			fi
