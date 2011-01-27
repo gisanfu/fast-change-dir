@@ -500,7 +500,7 @@ do
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
 		if [ "$needhelp" == '1' ]; then
 			echo -e "${color_txtred}你記得快速鍵了嗎？記得的話，按任何鍵繼續...${color_none}"
-			read -n 1
+			read -s -n 1
 			unset needhelp
 			clear_var_all='1'
 			continue
@@ -930,7 +930,7 @@ do
 		echo "Git (gG)"
 		echo "Svn (sS)"
 		echo "Hg (hH)"
-		read -n 1 inputvar2
+		read -s -n 1 inputvar2
 
 		if [[ "$inputvar2" == 'G' || "$inputvar2" == 'g' ]]; then
 			gitt
@@ -980,12 +980,12 @@ do
 		echo "請選擇你要做的動作:"
 		echo "File Touch(Ff)"
 		echo "Create Directory And Goto DIR (Dd)"
-		read -n 1 inputvar2
+		read -s -n 1 inputvar2
 
 		if [[ "$inputvar2" == 'F' || "$inputvar2" == 'f' ]]; then
 			if [[ -f "$condition" || -d "$condition" ]]; then
 				echo -e "${color_txtred}[ERROR]${color_none} 不能建立空白檔案，因為有同名的檔案或資料夾己經存在，請按任意鍵離開..."
-				read -n 1
+				read -s -n 1
 			else
 				touch $condition
 				vf $condition
@@ -997,7 +997,7 @@ do
 				sleep 2
 			else
 				echo -e "${color_txtred}[ERROR]${color_none} 建立資料夾失敗，應該是有同名的檔案或資料夾己經存在，請按任意鍵離開..."
-				read -n 1
+				read -s -n 1
 			fi
 		fi
 
