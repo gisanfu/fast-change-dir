@@ -2,6 +2,9 @@
 
 如何把tracked的檔案，給忽略掉
 
+	git update-index --assume-unchanged <file>
+	git update-index --no-assume-unchanged <file>
+
 http://www.pagebakers.nl/2009/01/29/git-ignoring-changes-in-tracked-files/
 
 # update: 2010-11-14

@@ -12,6 +12,11 @@
 
 例如後續的設定檔修改。
 
+	git update-index --assume-unchanged <file>
+	git update-index --no-assume-unchanged <file>
+
+<http://www.pagebakers.nl/2009/01/29/git-ignoring-changes-in-tracked-files/>
+
 #### 2011-01-18
 
 現在要做路徑的變更，把`/bin` => `~/gisanfu/fast-change-dir`
