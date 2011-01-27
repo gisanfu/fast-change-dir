@@ -778,6 +778,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'F' ]; then
+		run=''
 		if [ "${#item_file_array[@]}" -eq 1 ]; then
 			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
@@ -792,14 +793,31 @@ do
 				match=`echo $bbb | sed 's/___/ /g'`
 				run="$run \"$match\""
 			done
+		else
+			echo -e "${color_txtred}[ERROR]${color_none} 沒有任何檔案被選擇，2秒後離開..."
+			sleep 2
 		fi
-		eval $run
+
+		if [ "$run" != '' ]; then
+			eval $run
+		fi
+
 		clear_var_all='1'
 		continue
-	elif [[ "$inputvar" == 'D' && "${#item_dir_array[@]}" == 1 ]]; then
-		match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
-		run="cd \"$match\""
-		eval $run
+	elif [ "$inputvar" == 'D' ]; then
+		run=''
+		if [ "${#item_dir_array[@]}" == 1 ]; then
+			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
+			run="cd \"$match\""
+		else
+			echo -e "${color_txtred}[ERROR]${color_none} 沒有被選擇到的資料夾，或是多於一筆，2秒後離開..."
+			sleep 2
+		fi
+
+		if [ "$run" != '' ]; then
+			eval $run
+		fi
+
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'S' ]; then
