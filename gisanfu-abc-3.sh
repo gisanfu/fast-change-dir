@@ -102,7 +102,7 @@ func_relative()
 
 		# 檢查一下有沒有找到東西，如果沒有，那連第一次的陣列都取消掉
 		if [ "${#itemList2[@]}" -lt 1 ]; then
-			unset itemList
+			itemList=$itemList2
 		fi
 	elif [[ "${#itemList[@]}" -ge 1 && "$secondCondition" != '' ]]; then
 		IFS=$'\n'
@@ -118,7 +118,7 @@ func_relative()
 
 		# 檢查一下有沒有找到東西，如果沒有，那連第一次的陣列都取消掉
 		if [ "${#itemList2[@]}" -lt 1 ]; then
-			unset itemList
+			itemList=$itemList2
 		fi
 	fi
 
