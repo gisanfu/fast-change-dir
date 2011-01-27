@@ -17,23 +17,6 @@
 
 分號，在切換資料夾的時候，可以想看看有沒有什麼其它的應用。
 
-Microsoft Natural Ergonomic 4000 keyboard
-這一個鍵盤，我在想，上面有5個快速鍵，Ubuntu的用戶可以使用它們嗎？
-答案是可以的，請參考以下的網址
-
-http://superuser.com/questions/57720/can-i-use-the-my-favorites-keys-of-the-microsoft-natural-ergonomic-4000-keyboard
-
-在terminal的時候，可能就按最愛1
-在firefox的時候，可能就按最愛2
-
-最愛2的設定方式
-1. 在"gnome-terminal"的地方，選"編輯/設定組合偏好設定"
-2. 選擇"標題與指令"的tab
-3. 在"當終端機指定設為他們本身的標題"的那一項，選下拉"添加初始標題"
-4. 依據上面的網址，裡面的設定方式，輸入以下的指令
-
-wmctrl -R "終端機"
-
 # 2011-01-26
 
 想要把abc v3的第一次顯示help的部份拿掉
