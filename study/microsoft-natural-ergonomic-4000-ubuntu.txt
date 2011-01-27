@@ -7,6 +7,9 @@ http://superuser.com/questions/57720/can-i-use-the-my-favorites-keys-of-the-micr
 在terminal的時候，可能就按最愛1
 在firefox的時候，可能就按最愛2
 
+最愛1的設定方式
+就直接呼叫那支gisanfu-cmd-refresh-firefox.sh
+
 最愛2的設定方式
 1. 在"gnome-terminal"的地方，選"編輯/設定組合偏好設定"
 2. 選擇"標題與指令"的tab
