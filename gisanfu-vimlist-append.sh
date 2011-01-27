@@ -41,6 +41,7 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		isVFF=''
 	fi
 
+	# 這裡可以考慮在加上一項，就是不要append這一個檔案
 	if [ "$isVFF" == '' ]; then
 		# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
 		echo '[WAIT] 預設是只暫存所選取的檔案 [N0,y1]'
