@@ -114,11 +114,6 @@ func_relative()
 			IFS=$default_ifs
 			num=0
 		fi
-
-		# 檢查一下有沒有找到東西，如果沒有，那連第一次的陣列都取消掉
-		if [ "${#itemList2[@]}" -lt 1 ]; then
-			unset itemList
-		fi
 	elif [[ "${#itemList[@]}" -ge 1 && "$secondCondition" != '' ]]; then
 		IFS=$'\n'
 		itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
@@ -130,11 +125,6 @@ func_relative()
 		done
 		IFS=$default_ifs
 		num=0
-
-		# 檢查一下有沒有找到東西，如果沒有，那連第一次的陣列都取消掉
-		if [ "${#itemList2[@]}" -lt 1 ]; then
-			unset itemList
-		fi
 	fi
 
 	# if empty of variable, then go back directory
