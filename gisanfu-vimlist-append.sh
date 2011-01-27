@@ -47,7 +47,6 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		echo '[WAIT] 或是編輯列表 [j]'
 		echo '[WAIT] 還是清空它 [k]'
 		read -n 1 inputchar
-	else
 	fi
 
 	# 檢查一下，看文字檔裡面有沒有這個內容，如果有，當然就不需要在append
