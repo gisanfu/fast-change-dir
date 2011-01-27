@@ -716,39 +716,43 @@ do
 		cd ..	
 		clear_var_all='1'
 		continue
-	elif [ "$inputvar" == ';' ]; then
+	elif [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
+		# 這樣子做，就不用問我要append還是不要
+		if [ "$inputvar" == ';']; then
+			isvff='1'
+		elif [ "$inputvar" == '.' ]; then
+			isvff='0'
+		else
+			isvff=''
+		fi
+
+		run=''
 		if [ ${#item_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
-				run="vf \"$match\""
+				run="vf \"$match\" $isvvf"
 			else
 				run="vim \"$match\""
 			fi
-			eval $run
 		elif [ ${#item_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
-			eval $run
 		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
 			if [ "$groupname" != '' ]; then
-				run="cd .. && vf \"$match\""
+				run="cd .. && vf \"$match\" $isvvf"
 			else
 				run="vim ../\"$match\""
 			fi
-			eval $run
 		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
-			eval $run
 		elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
 			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
 			run="dv \"$match\""
-			eval $run
 		elif [ ${#item_groupname_array[@]} -eq 1 ]; then
 			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
 			run="ga \"$match\""
-			eval $run
 		elif [ ${#item_search_file_array[@]} -eq 1 ]; then
 			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
@@ -756,20 +760,21 @@ do
 			else
 				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
 			fi
-			eval $run
 		elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
 			match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
-			eval $run
 		elif [ ${#item_ssh_array[@]} -eq 1 ]; then
 			match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
 			run="ssh \"$match\""
-			eval $run
 		# 這一項是固定優先權最低的
 		elif [ $item_search_google_string != '' ]; then
 			run="w3m \"$item_search_google_string\""
+		fi
+
+		if [ "$run" != '' ]; then
 			eval $run
 		fi
+
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'F' ]; then

@@ -11,6 +11,11 @@ IFS=$'\012'
 nextRelativeItem=$1
 secondCondition=$2
 
+# 是否要vff，如果沒有指定，就是會詢問使用者
+# 不詢問，不要vff的話，就放0
+# 不詢問，要vff的話，就放1
+isVFF=$3
+
 itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem`)
 
 # use (^) grep fast, if no match, then remove (^)
@@ -28,6 +33,23 @@ fi
 . $fast_change_dir/gisanfu-relative.sh
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
+	if [ "$isVFF" == '0' ]; then
+		inputchar='n'
+	elif [ "$isVFF" == '1' ]; then
+		inputchar='y'
+	else
+		isVFF=''
+	fi
+
+	if [ "$isVFF" == '' ]; then
+		# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
+		echo '[WAIT] 預設是只暫存所選取的檔案 [N0,y1]'
+		echo '[WAIT] 或是編輯列表 [j]'
+		echo '[WAIT] 還是清空它 [k]'
+		read -n 1 inputchar
+	else
+	fi
+
 	# 檢查一下，看文字檔裡面有沒有這個內容，如果有，當然就不需要在append
 	selectitem=''
 	selectitem=`pwd`/$relativeitem
@@ -38,11 +60,6 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		echo '[NOTICE] File is exist'
 	fi
 
-	# 問使用者，看要不要編輯這些檔案，或者是繼續Append其它的檔案進來
-	echo '[WAIT] 預設是只暫存所選取的檔案 [N0,y1]'
-	echo '[WAIT] 或是編輯列表 [j]'
-	echo '[WAIT] 還是清空它 [k]'
-	read -n 1 inputchar
 	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then
 		# 取得最後append的檔案位置，這樣子vim -p以後就可以直接跳過該位置，就不用一直在gt..gt..gt..gt...
 		checklinenumber=`cat ~/gisanfu-vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
