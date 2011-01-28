@@ -35,6 +35,16 @@ author: gisanfu
 - 版本控制功能(Git, Subversion, Mercurial)
 - 主控台(整合快速鍵) 
 
+## 其它文件
+
+### 安裝文件
+
+請參考`INSTALL.mkd`檔案
+
+### 操作文件
+
+請參考`COMMAND.mkd`檔案
+
 ## 簡易影片Demo
 
 <http://www.youtube.com/watch?v=t1zYZF0UzMw>

@@ -1,38 +1,32 @@
 #!/bin/bash
 
 source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir/gisanfu-function-relativeitem.sh"
 
-# default ifs value
-default_ifs=$' \t\n'
+# cmd1、2是第一、二個關鍵字
+cmd1=$1
+cmd2=$2
+# 位置，例如e就代表1，或者你也可以輸入1
+cmd3=$3
 
-# fix space to effect array result
-IFS=$'\012'
+item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
 
-nextRelativeItem=$1
-secondCondition=$2
-
-itemList=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem`)
-
-# use (^) grep fast, if no match, then remove (^)
-if [ "${#itemList[@]}" -lt "1" ]; then
-	itemList=(`ls -AF | grep "/$" | grep -ir $nextRelativeItem`)
-	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != "" ]]; then
-		itemList2=(`ls -AF | grep "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
-	fi
-elif [ "${#itemList[@]}" -gt "1" ]; then
-	if [ "$secondCondition" != "" ]; then
-		itemList2=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
-	fi
-fi
-
-. $fast_change_dir/gisanfu-relative.sh
-
-if [ "$relativeitem" != "" ]; then
-	cd $relativeitem
+if [ "${#item_dir_array[@]}" -gt 1 ]; then
+	echo "重覆的檔案數量: 有${#item_dir_array[@]}筆"
+	number=1
+	for bbb in ${item_dir_array[@]}
+	do
+		echo "$number. $bbb"
+		number=$((number + 1))
+	done
+elif [ "${#item_dir_array[@]}" -eq 1 ]; then 
+	cmd="cd \"${item_dir_array[0]}\""
+	eval $cmd
 	# check file count and ls action
 	func_checkfilecount
 fi
 
-relativeitem=''
-itemList=''
-IFS=$default_ifs
+cmd=''
+cmd1=''
+cmd2=''
+cmd3=''

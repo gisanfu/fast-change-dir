@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# 這支檔案的運作方式，很簡單，
+# 先做列表，針對資料夾，並存在陣列，
+# 接下來就看你要編號多少的陣列元素，取出來而以。
+
 source "$fast_change_dir/gisanfu-function.sh"
 
 # default ifs value
