@@ -380,7 +380,7 @@ do
 
 	# 顯示重覆資料夾
 	if [ "${#item_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量: 有${#item_dir_array[@]}筆"
+		echo "重覆的資料夾數量: 有${#item_dir_array[@]}筆"
 		number=1
 		for bbb in ${item_dir_array[@]}
 		do
@@ -875,8 +875,8 @@ do
 
 		item_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
 		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
-		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
-		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
+		item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "file"` )
+		item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "dir"` )
 		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3"` )
 
 		if [ "$gisanfu_config_bashhistorysearch_enable" == '1' ]; then
