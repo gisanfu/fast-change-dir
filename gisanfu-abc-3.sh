@@ -207,6 +207,14 @@ func_relative2()
 	ignorelist=$(func_getlsignore)
 	Success="0"
 
+	# 試著使用@來決定第一個grep，從最開啟來找字串
+	firstchar=${nextRelativeItem:0:1}
+	isHeadSearch=''
+	if [ "$firstchar" == '@' ]; then
+		isHeadSearch='^'
+		nextRelativeItem=${nextRelativeItem:1}
+	fi
+
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
 		filetype_grep_arg=''
@@ -219,11 +227,10 @@ func_relative2()
 	default_ifs=$' \t\n'
 
 	IFS=$'\n'
-	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg \"/$\" | grep -ir $nextRelativeItem"
+	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep  $filetype_grep_arg \"/$\" | grep -ir $isHeadSearch$nextRelativeItem"
 	if [ "$secondCondition" != '' ]; then
 		cmd="$cmd | grep -ir $secondCondition"
 	fi
-	#echo $cmd
 	declare -i num
 	itemListTmp=(`eval $cmd`)
 	for i in ${itemListTmp[@]}
