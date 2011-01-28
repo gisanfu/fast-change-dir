@@ -1,5 +1,13 @@
 ### NOTE
 
+#### 2011-01-28
+
+gisanfu-dirpoint-append.sh:	. $fast_change_dir/gisanfu-relative.sh
+gisanfu-editfile.sh:. $fast_change_dir/gisanfu-relative.sh
+gisanfu-vimlist-append.sh:. $fast_change_dir/gisanfu-relative.sh
+
+這三個檔案也tune一下，改成使用source gisanfu-function-relativeitem的檔案
+
 #### 2011-01-27
 
 func_relative有一個bug
