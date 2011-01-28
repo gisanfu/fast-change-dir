@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir/gisanfu-function-entonum.sh"
 source "$fast_change_dir/gisanfu-function-relativeitem.sh"
 
 # cmd1、2是第一、二個關鍵字
@@ -26,7 +27,9 @@ elif [ "${#item_dir_array[@]}" -eq 1 ]; then
 	func_checkfilecount
 fi
 
-cmd=''
-cmd1=''
-cmd2=''
-cmd3=''
+unset cmd
+unset cmd1
+unset cmd2
+unset cmd3
+unset number
+unset item_dir_array
