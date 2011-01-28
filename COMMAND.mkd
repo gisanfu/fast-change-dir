@@ -9,3 +9,11 @@
 - IDE
 
 在IDE階段的時候，可以使用的指令
+
+### CLI
+
+coming...
+
+### IDE
+
+coming...
