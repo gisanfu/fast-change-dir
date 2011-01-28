@@ -8,6 +8,9 @@ gisanfu-vimlist-append.sh:. $fast_change_dir/gisanfu-relative.sh ***不是很好
 
 這三個檔案也tune一下，改成使用source gisanfu-function-relativeitem的檔案
 
+有一個bug，如果有aaa, and aaab，我輸入aaa，這時會出現aaa和aaab，
+這種狀況應該是只有aaa而以
+
 #### 2011-01-27
 
 func_relative有一個bug
