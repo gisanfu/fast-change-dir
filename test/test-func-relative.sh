@@ -220,12 +220,21 @@ func_relative2()
 		nextRelativeItem=${nextRelativeItem:1}
 	fi
 
+	lucky=''
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
 		filetype_grep_arg=''
+		if [ -d "$lspath/$nextRelativeItem" ]; then
+			echo "$nextRelativeItem"
+			exit
+		fi
 	else
 		filetype_ls_arg='--file-type'
 		filetype_grep_arg='-v'
+		if [ -f "$lspath/$nextRelativeItem" ]; then
+			echo "$nextRelativeItem"
+			exit
+		fi
 	fi
 
 	# default ifs value
@@ -287,7 +296,7 @@ cmd1=$1
 cmd2=$2
 cmd3=$3
 
-item_file_array=( `func_relative2 "$cmd1" "$cmd2" "$cmd3" "../.." "dir"` )
+item_file_array=( `func_relative2 "$cmd1" "$cmd2" "$cmd3" "/home/gisanfu/test" "dir"` )
 
 number=1
 for bbb in ${item_file_array[@]}

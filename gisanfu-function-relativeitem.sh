@@ -43,12 +43,21 @@ func_relative()
 		nextRelativeItem=${nextRelativeItem:1}
 	fi
 
+	lucky=''
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
 		filetype_grep_arg=''
+		if [ -d "$lspath/$nextRelativeItem" ]; then
+			echo "$nextRelativeItem"
+			exit
+		fi
 	else
 		filetype_ls_arg='--file-type'
 		filetype_grep_arg='-v'
+		if [ -f "$lspath/$nextRelativeItem" ]; then
+			echo "$nextRelativeItem"
+			exit
+		fi
 	fi
 
 	# default ifs value
