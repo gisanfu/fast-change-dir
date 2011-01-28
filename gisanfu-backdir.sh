@@ -10,7 +10,7 @@ cmd2=$2
 # 位置，例如e就代表1，或者你也可以輸入1
 cmd3=$3
 
-item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
+item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
 
 if [ "${#item_dir_array[@]}" -gt 1 ]; then
 	echo "重覆的檔案數量: 有${#item_dir_array[@]}筆"
