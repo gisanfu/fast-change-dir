@@ -37,7 +37,7 @@ if [ "$groupname" != "" ]; then
 				dv $result
 			fi
 		elif [ "${#resultarray[@]}" == "1" ]; then
-			cmd="cd \"$result\""
+			cmd="cd $result"
 			eval $cmd
 			func_checkfilecount
 		else
