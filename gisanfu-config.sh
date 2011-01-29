@@ -12,3 +12,6 @@ gisanfu_config_searchdir_enable='1'
 
 gisanfu_config_googlesearch_enable='1'
 gisanfu_config_bashhistorysearch_enable='1'
+
+# 上一層的兩個功能，合併在同一項控制
+gisanfu_config_parent_enable='1'
