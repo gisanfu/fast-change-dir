@@ -37,7 +37,8 @@ if [ "$groupname" != "" ]; then
 				dv $result
 			fi
 		elif [ "${#resultarray[@]}" == "1" ]; then
-			cd $result
+			cmd="cd \"$result\""
+			eval $cmd
 			func_checkfilecount
 		else
 			echo '[ERROR] dirpoint is not exist!!'

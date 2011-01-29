@@ -1,15 +1,26 @@
 ### NOTE
 
+#### 2011-01-29
+
+在函式裡面可以使用echo和exit，看一下什麼地方還可以這樣子用
+
+關於dirpoint，例如adminview(代表admin module裡面的view)，
+設計方式應該可以改成av，這樣子做快速切換的時候，可能會比較快，
+或者是兩者都存在。
+
 #### 2011-01-28
+
+以下這幾個檔案也tune一下，改成使用source gisanfu-function-relativeitem的檔案
 
 gisanfu-dirpoint-append.sh:	. $fast_change_dir/gisanfu-relative.sh ***暫時先不改***
 gisanfu-editfile.sh:. $fast_change_dir/gisanfu-relative.sh ***OK***
 gisanfu-vimlist-append.sh:. $fast_change_dir/gisanfu-relative.sh ***不是很好改***
-
-這三個檔案也tune一下，改成使用source gisanfu-function-relativeitem的檔案
+gisanfu-git-2.sh
+gisanfu-hg.sh
+gisanfu-svn-3.sh
 
 有一個bug，如果有aaa, and aaab，我輸入aaa，這時會出現aaa和aaab，
-這種狀況應該是只有aaa而以
+這種狀況應該是只有aaa而以(fixed)
 
 #### 2011-01-27
 
