@@ -31,6 +31,8 @@ func_relative()
 		newposition=$(($fileposition - 1))
 	fi
 
+	tmpfile=/tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt
+
 	# ignore file or dir
 	ignorelist=$(func_getlsignore)
 	Success="0"
@@ -41,6 +43,10 @@ func_relative()
 	if [ "$firstchar" == '@' ]; then
 		isHeadSearch='^'
 		nextRelativeItem=${nextRelativeItem:1}
+	elif [ "$firstchar" == '#' ]; then
+		nextRelativeItem=${nextRelativeItem:1}
+	else
+		firstchar=''
 	fi
 
 	lucky=''
@@ -84,7 +90,30 @@ func_relative()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-			relativeitem=${itemList[@]}
+			if [ "$firstchar" == '#' ]; then
+				dialogitems=''
+				for echothem in ${itemList[@]}
+				do
+					dialogitems=" $dialogitems $echothem '' "
+				done
+				cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+				eval $cmd
+				result=`cat $tmpfile`
+
+				if [ -f "$tmpfile" ]; then
+					rm -rf $tmpfile
+				fi
+
+				if [ "$result" == "" ]; then
+					relativeitem=${itemList[@]}
+				else
+					echo $result
+					exit
+				fi
+			else
+				relativeitem=${itemList[@]}
+			fi
 		fi
 	fi
 

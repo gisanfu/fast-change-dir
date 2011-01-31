@@ -32,7 +32,7 @@ if [ "$action" == "select" ]; then
 		fi
 	else
 		dialogitems=`cat ~/gisanfu-groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
-		cmd=$( func_dialog_menu '請選擇專案代碼' '123' 70 )
+		cmd=$( func_dialog_menu '請選擇專案代碼' '123' 70 "$dialogitems" "$tmpfile")
 
 		eval $cmd
 		result=`cat $tmpfile`
