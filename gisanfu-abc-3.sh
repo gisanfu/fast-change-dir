@@ -382,7 +382,7 @@ do
 
 	# 顯示重覆資料夾
 	if [ "${#item_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的資料夾數量: 有${#item_dir_array[@]}筆"
+		echo "重覆的資料夾數量[D]: 有${#item_dir_array[@]}筆"
 		number=1
 		for bbb in ${item_dir_array[@]}
 		do
@@ -416,7 +416,7 @@ do
 
 	# 顯示重覆資料夾(上一層)
 	if [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的資料夾數量(上一層): 有${#item_parent_dir_array[@]}筆"
+		echo "重覆的資料夾數量(上一層)[A]: 有${#item_parent_dir_array[@]}筆"
 		number=1
 		for bbb in ${item_parent_dir_array[@]}
 		do
@@ -606,50 +606,6 @@ do
 				;;
 		esac
 
-		#if [ ${#item_file_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
-		#	if [ "$groupname" != '' ]; then
-		#		run="vf \"$match\" \"\" $isvff"
-		#	else
-		#		run="vim \"$match\""
-		#	fi
-		#elif [ ${#item_dir_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
-		#	run="cd \"$match\""
-		#elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
-		#	if [ "$groupname" != '' ]; then
-		#		run="cd .. && vf \"$match\" \"\" $isvff"
-		#	else
-		#		run="vim ../\"$match\""
-		#	fi
-		#elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
-		#	run="cd ../\"$match\""
-		#elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
-		#	run="dv \"$match\""
-		#elif [ ${#item_groupname_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
-		#	run="ga \"$match\""
-		#elif [ ${#item_search_file_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
-		#	if [ "${match:0:1}" == '.' ]; then
-		#		run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
-		#	else
-		#		run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
-		#	fi
-		#elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
-		#	run="cd \"$match\""
-		#elif [ ${#item_ssh_array[@]} -eq 1 ]; then
-		#	match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
-		#	run="ssh \"$match\""
-		## 這一項是固定優先權最低的
-		#elif [ $item_search_google_string != '' ]; then
-		#	run="w3m \"$item_search_google_string\""
-		#fi
-
 		if [ "$run" != '' ]; then
 			eval $run
 		fi
@@ -713,9 +669,6 @@ do
 				clear_var_all='1'
 				continue
 			fi
-
-			#echo -e "${color_txtred}[ERROR]${color_none} 沒有被選擇到的資料夾，或是多於一筆，請按Enter鍵離開..."
-			#read -s drop_variable_aabbcc
 		fi
 
 		if [ "$run" != '' ]; then
@@ -744,10 +697,41 @@ do
 		eval $run
 		clear_var_all='1'
 		continue
-	elif [[ "$inputvar" == 'A' && "${#item_parent_dir_array[@]}" == 1 ]]; then
-		match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
-		run="g \"$match\""
-		eval $run
+	elif [[ "$inputvar" == 'A' ]]; then
+		if [ "${#item_parent_dir_array[@]}" == 1 ]; then
+			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
+			run="g \"$match\""
+		else
+			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
+			tmpfile=/tmp/`whoami`-abc3-goodselect-$( date +%Y%m%d-%H%M ).txt
+			dialogitems=''
+			for echothem in ${item_parent_dir_array[@]}
+			do
+				dialogitems=" $dialogitems $echothem '' "
+			done
+			cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+			eval $cmd
+			result=`cat $tmpfile`
+
+			if [ -f "$tmpfile" ]; then
+				rm -rf $tmpfile
+			fi
+
+			if [ "$result" != "" ]; then
+				item_dir_array=$result
+				match=`echo $result | sed 's/___/ /g'`
+				run="cd \"$match\""
+			else
+				clear_var_all='1'
+				continue
+			fi
+		fi
+
+		if [ "$run" != '' ]; then
+			eval $run
+		fi
+
 		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'L' && "${#item_dirpoint_array[@]}" == 1 ]]; then
