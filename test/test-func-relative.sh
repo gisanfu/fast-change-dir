@@ -33,6 +33,18 @@ func_entonum()
 	echo $return
 }
 
+# 這個是Dialog指令的選單功能
+func_dialog_menu()
+{
+	text=$1
+	width=$2
+	content=$3
+	tmp=$4
+
+	cmd="dialog --menu '$text' 0 $width 20 $content 2> $tmp"
+	echo $cmd
+}
+
 func_relative()
 {
 	nextRelativeItem=$1
@@ -220,7 +232,7 @@ func_relative2()
 	if [ "$firstchar" == '@' ]; then
 		isHeadSearch='^'
 		nextRelativeItem=${nextRelativeItem:1}
-	elif [ "$firstchar" == '#' ]; then
+	elif [ "$firstchar" == '*' ]; then
 		nextRelativeItem=${nextRelativeItem:1}
 	else
 		firstchar=''
@@ -268,12 +280,13 @@ func_relative2()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-			if [ "$firstchar" == '#' ]; then
+			if [ "$firstchar" == '*' ]; then
 				dialogitems=''
 				for echothem in ${itemList[@]}
 				do
 					dialogitems=" $dialogitems $echothem '' "
 				done
+				#echo $dialogitems
 				cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
 
 				eval $cmd

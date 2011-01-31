@@ -45,8 +45,8 @@ func_relative()
 	if [ "$firstchar" == '@' ]; then
 		isHeadSearch='^'
 		nextRelativeItem=${nextRelativeItem:1}
-	elif [ "$firstchar" == '*' ]; then
-		nextRelativeItem=${nextRelativeItem:1}
+	#elif [ "$firstchar" == '*' ]; then
+	#	nextRelativeItem=${nextRelativeItem:1}
 	else
 		firstchar=''
 	fi
@@ -92,30 +92,31 @@ func_relative()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-			if [ "$firstchar" == '#' ]; then
-				dialogitems=''
-				for echothem in ${itemList[@]}
-				do
-					dialogitems=" $dialogitems $echothem '' "
-				done
-				cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+			#if [ "$firstchar" == '*' ]; then
+			#	dialogitems=''
+			#	for echothem in ${itemList[@]}
+			#	do
+			#		dialogitems=" $dialogitems $echothem '' "
+			#	done
+			#	cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
 
-				eval $cmd
-				result=`cat $tmpfile`
+			#	eval $cmd
+			#	result=`cat $tmpfile`
 
-				if [ -f "$tmpfile" ]; then
-					rm -rf $tmpfile
-				fi
+			#	if [ -f "$tmpfile" ]; then
+			#		rm -rf $tmpfile
+			#	fi
 
-				if [ "$result" == "" ]; then
-					relativeitem=${itemList[@]}
-				else
-					echo $result
-					exit
-				fi
-			else
-				relativeitem=${itemList[@]}
-			fi
+			#	if [ "$result" == "" ]; then
+			#		relativeitem=${itemList[@]}
+			#	else
+			#		echo $result
+			#		exit
+			#	fi
+			#else
+			#	relativeitem=${itemList[@]}
+			#fi
+			relativeitem=${itemList[@]}
 		fi
 	fi
 
