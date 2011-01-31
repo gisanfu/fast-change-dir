@@ -277,6 +277,8 @@ do
 		unset item_ssh_array
 		unset item_search_bash_history_array
 		unset item_search_google_string
+		unset good_select
+		unset good_array
 		rm -rf /tmp/gisanfu-abc3-google-search-`whoami`.txt
 		clear_var_all=''
 	fi
@@ -559,6 +561,14 @@ do
 		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
+
+		# 這裡改成強制一定要有一項被選中才能走到這裡面
+		# 另外，也改成僅支援檔案和資料夾的功能才能使用
+		if [ "$good_select" == '' ]; then
+			clear_var_all='1'
+			continue
+		fi
+
 		# 這樣子做，就不用問我要append還是不要
 		if [ "$inputvar" == ';' ]; then
 			isvff='1'
@@ -569,49 +579,75 @@ do
 		fi
 
 		run=''
-		if [ ${#item_file_array[@]} -eq 1 ]; then
-			match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
-			if [ "$groupname" != '' ]; then
-				run="vf \"$match\" \"\" $isvff"
-			else
-				run="vim \"$match\""
-			fi
-		elif [ ${#item_dir_array[@]} -eq 1 ]; then
-			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
-			run="cd \"$match\""
-		elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
-			match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
-			if [ "$groupname" != '' ]; then
-				run="cd .. && vf \"$match\" \"\" $isvff"
-			else
-				run="vim ../\"$match\""
-			fi
-		elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
-			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
-			run="cd ../\"$match\""
-		elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
-			match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
-			run="dv \"$match\""
-		elif [ ${#item_groupname_array[@]} -eq 1 ]; then
-			match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
-			run="ga \"$match\""
-		elif [ ${#item_search_file_array[@]} -eq 1 ]; then
-			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
-			if [ "${match:0:1}" == '.' ]; then
-				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
-			else
-				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
-			fi
-		elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
-			match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
-			run="cd \"$match\""
-		elif [ ${#item_ssh_array[@]} -eq 1 ]; then
-			match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
-			run="ssh \"$match\""
-		# 這一項是固定優先權最低的
-		elif [ $item_search_google_string != '' ]; then
-			run="w3m \"$item_search_google_string\""
-		fi
+		match=`echo ${good_array[0]} | sed 's/___/ /g'`
+
+		case $good_select in
+			1 )
+				if [ "$groupname" != '' ]; then
+					run="vf \"$match\" \"\" $isvff"
+				else
+					run="vim \"$match\""
+				fi
+				;;
+			2 )
+				run="cd \"$match\""
+				;;
+			3 )
+				if [ "$groupname" != '' ]; then
+					run="cd .. && vf \"$match\" \"\" $isvff"
+				else
+					run="vim ../\"$match\""
+				fi
+				;;
+			4 )
+				match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
+				run="cd ../\"$match\""
+				;;
+		esac
+
+		#if [ ${#item_file_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_file_array[0]} | sed 's/___/ /g'`
+		#	if [ "$groupname" != '' ]; then
+		#		run="vf \"$match\" \"\" $isvff"
+		#	else
+		#		run="vim \"$match\""
+		#	fi
+		#elif [ ${#item_dir_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
+		#	run="cd \"$match\""
+		#elif [ ${#item_parent_file_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_parent_file_array[0]} | sed 's/___/ /g'`
+		#	if [ "$groupname" != '' ]; then
+		#		run="cd .. && vf \"$match\" \"\" $isvff"
+		#	else
+		#		run="vim ../\"$match\""
+		#	fi
+		#elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
+		#	run="cd ../\"$match\""
+		#elif [ ${#item_dirpoint_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_dirpoint_array[0]} | sed 's/___/ /g'`
+		#	run="dv \"$match\""
+		#elif [ ${#item_groupname_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_groupname_array[0]} | sed 's/___/ /g'`
+		#	run="ga \"$match\""
+		#elif [ ${#item_search_file_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
+		#	if [ "${match:0:1}" == '.' ]; then
+		#		run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+		#	else
+		#		run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+		#	fi
+		#elif [ ${#item_search_dir_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_search_dir_array[0]} | sed 's/___/ /g'`
+		#	run="cd \"$match\""
+		#elif [ ${#item_ssh_array[@]} -eq 1 ]; then
+		#	match=`echo ${item_ssh_array[0]} | sed 's/___/ /g'`
+		#	run="ssh \"$match\""
+		## 這一項是固定優先權最低的
+		#elif [ $item_search_google_string != '' ]; then
+		#	run="w3m \"$item_search_google_string\""
+		#fi
 
 		if [ "$run" != '' ]; then
 			eval $run
@@ -876,9 +912,27 @@ do
 		item_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
 		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
 
+		# 決定誰是最佳人選，當你按了;分號或是.點
+		if [ ${#item_file_array[@]} -eq 1 ]; then
+			good_select=1
+			good_array=${item_file_array[@]}
+		elif [ ${#item_dir_array[@]} -eq 1 ]; then
+			good_select=2
+			good_array=${item_dir_array[@]}
+		fi
+
 		if [ "$gisanfu_config_parent_enable" == '1' ]; then
 			item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "file"` )
 			item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "dir"` )
+
+			# 決定誰是最佳人選，當你按了;分號或是.點
+			if [ ${#item_parent_file_array[@]} -eq 1 ]; then
+				good_select=3
+				good_array=${item_parent_file_array[@]}
+			elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
+				good_select=4
+				good_array=${item_parent_dir_array[@]}
+			fi
 		fi
 
 		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3"` )

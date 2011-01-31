@@ -339,6 +339,13 @@ cmd1=$1
 cmd2=$2
 cmd3=$3
 
+firstchar=${cmd1:0:1}
+if [ "$firstchar" == '#' ]; then
+	cmd1=${cmd1:1}
+else
+	firstchar=''
+fi
+
 item_file_array=( `func_relative2 "$cmd1" "$cmd2" "$cmd3" "/home/gisanfu/test" "dir"` )
 
 number=1
