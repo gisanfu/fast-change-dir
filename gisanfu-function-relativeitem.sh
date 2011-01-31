@@ -40,10 +40,12 @@ func_relative()
 	# 試著使用@來決定第一個grep，從最開啟來找字串
 	firstchar=${nextRelativeItem:0:1}
 	isHeadSearch=''
+
+	# 這裡要注意，不能夠使用井字號(#)來當做控制字元，會有問題
 	if [ "$firstchar" == '@' ]; then
 		isHeadSearch='^'
 		nextRelativeItem=${nextRelativeItem:1}
-	elif [ "$firstchar" == '#' ]; then
+	elif [ "$firstchar" == '*' ]; then
 		nextRelativeItem=${nextRelativeItem:1}
 	else
 		firstchar=''

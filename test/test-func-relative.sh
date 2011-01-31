@@ -208,6 +208,8 @@ func_relative2()
 		newposition=$(($fileposition - 1))
 	fi
 
+	tmpfile=/tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt
+
 	# ignore file or dir
 	ignorelist=$(func_getlsignore)
 	Success="0"
@@ -218,20 +220,25 @@ func_relative2()
 	if [ "$firstchar" == '@' ]; then
 		isHeadSearch='^'
 		nextRelativeItem=${nextRelativeItem:1}
+	elif [ "$firstchar" == '#' ]; then
+		nextRelativeItem=${nextRelativeItem:1}
+	else
+		firstchar=''
 	fi
+	echo $nextRelativeItem
 
 	lucky=''
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
 		filetype_grep_arg=''
-		if [ -d "$lspath/$nextRelativeItem" ]; then
+		if [ -d "$lspath$nextRelativeItem" ]; then
 			echo "$nextRelativeItem"
 			exit
 		fi
 	else
 		filetype_ls_arg='--file-type'
 		filetype_grep_arg='-v'
-		if [ -f "$lspath/$nextRelativeItem" ]; then
+		if [ -f "$lspath$nextRelativeItem" ]; then
 			echo "$nextRelativeItem"
 			exit
 		fi
@@ -261,7 +268,30 @@ func_relative2()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-			relativeitem=${itemList[@]}
+			if [ "$firstchar" == '#' ]; then
+				dialogitems=''
+				for echothem in ${itemList[@]}
+				do
+					dialogitems=" $dialogitems $echothem '' "
+				done
+				cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+				eval $cmd
+				result=`cat $tmpfile`
+
+				if [ -f "$tmpfile" ]; then
+					rm -rf $tmpfile
+				fi
+
+				if [ "$result" == "" ]; then
+					relativeitem=${itemList[@]}
+				else
+					echo $result
+					exit
+				fi
+			else
+				relativeitem=${itemList[@]}
+			fi
 		fi
 	fi
 
