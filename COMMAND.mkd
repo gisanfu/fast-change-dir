@@ -40,6 +40,23 @@ CLI和IDE的使用方式是很類似的，因為CLI等於是IDE的base。
 
 	$ ls | grep ddd  | grep fff
 
+#### 智慧選擇
+
+這個是在IDE功能內的名詞，以下是順序
+
+- file
+- dir
+- parent file
+- parent dir
+
+總共4個順位，
+
+如果是檔案類，可以使用`;`直接丟到vim cache file裡面，然後直接開啟vim做編輯，
+
+而`.`的話，也是直接丟到vim cache file裡面，差別是不編輯，
+
+如果是資料夾類，`;`和`.`是一樣的功能。
+
 ### CLI
 
 #### Chdir
@@ -109,3 +126,15 @@ CLI和IDE的使用方式是很類似的，因為CLI等於是IDE的base。
 或者是
 
 	abc
+
+#### Chdir
+
+跟CLI的使用方式一模一樣，只要輸入所需的引數，然後透過`Shift+d`(本層)，
+
+或是`Shift+a`(上一層)來切換到該資料夾內，
+
+如果你想使用智慧選取，請參照上面Define section。
+
+#### Edit file
+
+也是跟CLI的一樣，請參考help裡面的快速鍵說明`Shift+h`
