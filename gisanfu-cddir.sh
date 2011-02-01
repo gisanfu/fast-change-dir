@@ -33,9 +33,6 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 		match=`echo $result | sed 's/___/ /g'`
 		run="cd \"$match\""
 	fi
-
-	# check file count and ls action
-	func_checkfilecount
 elif [ "${#item_array[@]}" -eq 1 ]; then 
 	run="cd \"${item_array[0]}\""
 fi
