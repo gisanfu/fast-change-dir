@@ -607,7 +607,9 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'U' ]; then
+		echo '己送出更新(pull)指令，等待中...'
 		hg pull
+		echo '己送出更新(update)指令，等待中...'
 		hg update
 
 		if [ "$?" -eq 0 ]; then

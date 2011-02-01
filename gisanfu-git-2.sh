@@ -318,6 +318,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'U' ]; then
+		echo '己送出更新(pull)指令，等待中...'
 		git pull
 		if [ "$?" -eq 0 ]; then
 			echo '更新本GIT資料夾成功'
@@ -328,6 +329,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'E' ]; then
+		echo '己送出push指令，等待中...'
 		git push
 		if [ "$?" -eq 0 ]; then
 			echo '更新本GIT資料夾成功'
