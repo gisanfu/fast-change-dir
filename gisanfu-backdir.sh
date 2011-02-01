@@ -31,7 +31,7 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 
 	if [ "$result" != "" ]; then
 		match=`echo $result | sed 's/___/ /g'`
-		run="cd ..\"$match\""
+		run="cd ../\"$match\""
 	fi
 elif [ "${#item_array[@]}" -eq 1 ]; then 
 	run="cd ../\"${item_array[0]}\""
