@@ -699,7 +699,7 @@ do
 	elif [[ "$inputvar" == 'A' ]]; then
 		if [ "${#item_parent_dir_array[@]}" == 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
-			run="g \"$match\""
+			run="cd ../\"$match\""
 		else
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
 			tmpfile=/tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt
@@ -719,7 +719,7 @@ do
 
 			if [ "$result" != "" ]; then
 				match=`echo $result | sed 's/___/ /g'`
-				run="g \"$match\""
+				run="cd ../\"$match\""
 			else
 				clear_var_all='1'
 				continue

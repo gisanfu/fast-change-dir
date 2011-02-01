@@ -32,19 +32,16 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 	if [ "$result" != "" ]; then
 		match=`echo $result | sed 's/___/ /g'`
 		run="cd \"$match\""
-	else
-		clear_var_all='1'
-		continue
 	fi
 
 	# check file count and ls action
 	func_checkfilecount
 elif [ "${#item_array[@]}" -eq 1 ]; then 
-	cmd="cd \"${item_array[0]}\""
+	run="cd \"${item_array[0]}\""
 fi
 
-if [ "$cmd" != '' ]; then
-	eval $cmd
+if [ "$run" != '' ]; then
+	eval $run
 	# check file count and ls action
 	func_checkfilecount
 fi
@@ -53,5 +50,6 @@ unset cmd
 unset cmd1
 unset cmd2
 unset cmd3
+unset run
 unset number
 unset item_array
