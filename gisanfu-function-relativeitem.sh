@@ -24,12 +24,6 @@ func_relative()
 	declare -a itemListTmp
 	declare -a relativeitem
 
-	# 先把英文轉成數字，如果這個欄位有資料的話
-	fileposition=( `func_entonum "$fileposition"` )
-
-	if [ "$fileposition" != '' ]; then
-		newposition=$(($fileposition - 1))
-	fi
 
 	tmpfile=/tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt
 
@@ -49,6 +43,21 @@ func_relative()
 	#	nextRelativeItem=${nextRelativeItem:1}
 	else
 		firstchar=''
+	fi
+
+	# 試著使用第二個引數的第一個字元，來判斷是不是position
+	firstchar2=${secondRelativeItem:0:1}
+
+	if [[ "$firstchar2" == '@' && "$fileposition" == '' ]]; then
+		fileposition=${secondRelativeItem:1}
+		secondRelativeItem=''
+	fi
+
+	# 先把英文轉成數字，如果這個欄位有資料的話
+	fileposition=( `func_entonum "$fileposition"` )
+
+	if [ "$fileposition" != '' ]; then
+		newposition=$(($fileposition - 1))
 	fi
 
 	lucky=''
@@ -92,30 +101,6 @@ func_relative()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-			#if [ "$firstchar" == '*' ]; then
-			#	dialogitems=''
-			#	for echothem in ${itemList[@]}
-			#	do
-			#		dialogitems=" $dialogitems $echothem '' "
-			#	done
-			#	cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
-
-			#	eval $cmd
-			#	result=`cat $tmpfile`
-
-			#	if [ -f "$tmpfile" ]; then
-			#		rm -rf $tmpfile
-			#	fi
-
-			#	if [ "$result" == "" ]; then
-			#		relativeitem=${itemList[@]}
-			#	else
-			#		echo $result
-			#		exit
-			#	fi
-			#else
-			#	relativeitem=${itemList[@]}
-			#fi
 			relativeitem=${itemList[@]}
 		fi
 	fi
