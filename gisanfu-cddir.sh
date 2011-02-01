@@ -13,15 +13,37 @@ cmd3=$3
 item_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
 
 if [ "${#item_array[@]}" -gt 1 ]; then
-	echo "重覆的資料夾數量: 有${#item_array[@]}筆"
-	number=1
-	for bbb in ${item_array[@]}
+	# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
+	tmpfile=/tmp/`whoami`-cddir-dialogselect-$( date +%Y%m%d-%H%M ).txt
+	dialogitems=''
+	for echothem in ${item_array[@]}
 	do
-		echo "$number. $bbb"
-		number=$((number + 1))
+		dialogitems=" $dialogitems $echothem '' "
 	done
+	cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+	eval $cmd
+	result=`cat $tmpfile`
+
+	if [ -f "$tmpfile" ]; then
+		rm -rf $tmpfile
+	fi
+
+	if [ "$result" != "" ]; then
+		match=`echo $result | sed 's/___/ /g'`
+		run="cd \"$match\""
+	else
+		clear_var_all='1'
+		continue
+	fi
+
+	# check file count and ls action
+	func_checkfilecount
 elif [ "${#item_array[@]}" -eq 1 ]; then 
 	cmd="cd \"${item_array[0]}\""
+fi
+
+if [ "$cmd" != '' ]; then
 	eval $cmd
 	# check file count and ls action
 	func_checkfilecount

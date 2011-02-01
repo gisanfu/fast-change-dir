@@ -646,7 +646,7 @@ do
 			run="cd \"$match\""
 		else
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-			tmpfile=/tmp/`whoami`-abc3-goodselect-$( date +%Y%m%d-%H%M ).txt
+			tmpfile=/tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt
 			dialogitems=''
 			for echothem in ${item_dir_array[@]}
 			do
@@ -662,7 +662,6 @@ do
 			fi
 
 			if [ "$result" != "" ]; then
-				item_dir_array=$result
 				match=`echo $result | sed 's/___/ /g'`
 				run="cd \"$match\""
 			else
@@ -703,7 +702,7 @@ do
 			run="g \"$match\""
 		else
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-			tmpfile=/tmp/`whoami`-abc3-goodselect-$( date +%Y%m%d-%H%M ).txt
+			tmpfile=/tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt
 			dialogitems=''
 			for echothem in ${item_parent_dir_array[@]}
 			do
@@ -719,7 +718,6 @@ do
 			fi
 
 			if [ "$result" != "" ]; then
-				item_dir_array=$result
 				match=`echo $result | sed 's/___/ /g'`
 				run="g \"$match\""
 			else
