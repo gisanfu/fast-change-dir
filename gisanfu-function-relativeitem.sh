@@ -46,11 +46,11 @@ func_relative()
 	fi
 
 	# 試著使用第二個引數的第一個字元，來判斷是不是position
-	firstchar2=${secondRelativeItem:0:1}
+	firstchar2=${secondCondition:0:1}
 
 	if [[ "$firstchar2" == '@' && "$fileposition" == '' ]]; then
-		fileposition=${secondRelativeItem:1}
-		secondRelativeItem=''
+		fileposition=${secondCondition:1}
+		secondCondition=''
 	fi
 
 	# 先把英文轉成數字，如果這個欄位有資料的話
