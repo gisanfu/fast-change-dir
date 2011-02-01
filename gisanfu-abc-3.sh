@@ -721,7 +721,7 @@ do
 			if [ "$result" != "" ]; then
 				item_dir_array=$result
 				match=`echo $result | sed 's/___/ /g'`
-				run="cd \"$match\""
+				run="g \"$match\""
 			else
 				clear_var_all='1'
 				continue
