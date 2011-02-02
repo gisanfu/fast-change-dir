@@ -1,5 +1,36 @@
 ### NOTE
 
+#### 2011-02-02
+
+想把我的名子拿掉，範圍全部，
+
+並且把函式放到lib裡面的func資料夾裡面，
+
+之前會加上名子，是因為要跟/bin資料夾裡面的檔案放在一起的關係。
+
+己完成的項目:
+
+- 123-2.sh
+- abc-3.sh
+- back-backdir.sh
+- backdir.sh
+- cddir.sh
+- dirpoint-append.sh
+- dirpoint.sh
+- editfile.sh
+- git-2.sh
+- grep.sh
+- groupname.sh
+- hg.sh
+- pos-backdir.sh
+- pos-cddir.sh
+- pos-editfile.sh
+- pos-vimlist-append.sh
+- search.sh
+- svn-3.sh
+- vimlist-append.sh
+- vimlist.sh
+
 #### 2011-01-29
 
 在函式裡面可以使用echo和exit，看一下什麼地方還可以這樣子用
