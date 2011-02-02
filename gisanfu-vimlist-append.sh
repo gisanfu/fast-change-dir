@@ -1,36 +1,59 @@
 #!/bin/bash
 
 source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir/gisanfu-function-entonum.sh"
+source "$fast_change_dir/gisanfu-function-relativeitem.sh"
 
 # default ifs value
-default_ifs=$' \t\n'
+#default_ifs=$' \t\n'
 
 # fix space to effect array result
-IFS=$'\012'
+#IFS=$'\012'
 
-nextRelativeItem=$1
-secondCondition=$2
+#nextRelativeItem=$1
+#secondCondition=$2
+
+# cmd1、2是第一、二個關鍵字
+cmd1=$1
+cmd2=$2
+# 位置，例如e就代表1，或者你也可以輸入1
+cmd3=$3
 
 # 是否要vff，如果沒有指定，就是會詢問使用者
 # 不詢問，不要vff的話，就放0
 # 不詢問，要vff的話，就放1
-isVFF=$3
+isVFF=$4
 
-itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem`)
+item_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
 
-# use (^) grep fast, if no match, then remove (^)
-if [ "${#itemList[@]}" -lt "1" ]; then
-	itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir $nextRelativeItem`)
-	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != "" ]]; then
-		itemList2=(`ls -AF --file-type | grep -v "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
-	fi
-elif [ "${#itemList[@]}" -gt "1" ]; then
-	if [ "$secondCondition" != "" ]; then
-		itemList2=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
-	fi
+relativeitem=''
+if [ "${#item_array[@]}" -gt 1 ]; then
+	echo "重覆的檔案數量: 有${#item_array[@]}筆"
+	number=1
+	for bbb in ${item_array[@]}
+	do
+		echo "$number. $bbb"
+		number=$((number + 1))
+	done
+elif [ "${#item_array[@]}" -eq 1 ]; then 
+	relativeitem=${item_array[0]}
 fi
 
-. $fast_change_dir/gisanfu-relative.sh
+#itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem`)
+
+# use (^) grep fast, if no match, then remove (^)
+#if [ "${#itemList[@]}" -lt "1" ]; then
+#	itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir $nextRelativeItem`)
+#	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != "" ]]; then
+#		itemList2=(`ls -AF --file-type | grep -v "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+#	fi
+#elif [ "${#itemList[@]}" -gt "1" ]; then
+#	if [ "$secondCondition" != "" ]; then
+#		itemList2=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+#	fi
+#fi
+
+#. $fast_change_dir/gisanfu-relative.sh
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	if [ "$isVFF" == '0' ]; then
@@ -96,9 +119,12 @@ elif [ "$groupname" == "" ]; then
 	echo '[ERROR] Argument or $groupname is empty'
 fi
 
-cmd=''
-checklinenumber=''
-relativeitem=''
-itemList=''
-selectitem=''
-IFS=$default_ifs
+unset cmd
+unset cmd1
+unset cmd2
+unset cmd3
+unset number
+unset item_array
+unset checklinenumber
+unset relativeitem
+unset selectitem
