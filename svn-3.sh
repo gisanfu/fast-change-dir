@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function-entonum.sh"
+source "$fast_change_dir_func/entonum.sh"
 
 # 這是svn第3個版本
 # 主要的特色是增加了svnlist的功能

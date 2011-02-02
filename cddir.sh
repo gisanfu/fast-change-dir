@@ -1,8 +1,9 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function.sh"
-source "$fast_change_dir/gisanfu-function-entonum.sh"
-source "$fast_change_dir/gisanfu-function-relativeitem.sh"
+source "$fast_change_dir_func/normal.sh"
+source "$fast_change_dir_func/dialog.sh"
+source "$fast_change_dir_func/entonum.sh"
+source "$fast_change_dir_func/relativeitem.sh"
 
 # cmd1、2是第一、二個關鍵字
 cmd1=$1

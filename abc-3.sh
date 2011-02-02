@@ -3,9 +3,9 @@
 source "$fast_change_dir/gisanfu-config.sh"
 source ~/gisanfu-config.sh
 
-source "$fast_change_dir/gisanfu-function.sh"
-source "$fast_change_dir/gisanfu-function-entonum.sh"
-source "$fast_change_dir/gisanfu-function-relativeitem.sh"
+source "$fast_change_dir_func/dialog.sh"
+source "$fast_change_dir_func/entonum.sh"
+source "$fast_change_dir_func/relativeitem.sh"
 
 # default ifs value 
 default_ifs=$' \t\n'
@@ -229,7 +229,7 @@ func_search_google()
 	filename="/tmp/gisanfu-abc3-google-search-`whoami`.txt"
 
 	if [ "$keyword" != '' ]; then
-		cmd="perl $fast_change_dir/gisanfu-google-search.pl $keyword"
+		cmd="perl $fast_change_dir_bin/google-search.pl $keyword"
 
 		#if [ "$second" != '' ]; then
 		#	cmd="$cmd $second"
@@ -622,7 +622,7 @@ do
 				run="vim \"$match\""
 			fi
 		elif [ "${#item_file_array[@]}" -gt 1 ]; then
-			run=". $fast_change_dir/gisanfu-vimlist-append-files.sh "
+			run=". $fast_change_dir/vimlist-append-files.sh "
 			for bbb in ${item_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
@@ -686,7 +686,7 @@ do
 				run="vim ../\"$match\""
 			fi
 		elif [ "${#item_parent_file_array[@]}" -gt 1 ]; then
-			run=". $fast_change_dir/gisanfu-vimlist-append-files.sh "
+			run=". $fast_change_dir/vimlist-append-files.sh "
 			for bbb in ${item_parent_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
@@ -748,12 +748,12 @@ do
 		if [ "${#item_search_file_array[@]}" -eq 1 ]; then
 			match=`echo ${item_search_file_array[0]} | sed 's/___/ /g'`
 			if [ "${match:0:1}" == '.' ]; then
-				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"\" \"$match\""
+				run=". $fast_change_dir/vimlist-append-with-path.sh \"\" \"$match\""
 			else
-				run=". $fast_change_dir/gisanfu-vimlist-append-with-path.sh \"$match\" \"\""
+				run=". $fast_change_dir/vimlist-append-with-path.sh \"$match\" \"\""
 			fi
 		elif [ "${#item_search_file_array[@]}" -gt 1 ]; then
-			run=". $fast_change_dir/gisanfu-vimlist-append-files.sh "
+			run=". $fast_change_dir/vimlist-append-files.sh "
 			for bbb in ${item_search_file_array[@]}
 			do
 				match=`echo $bbb | sed 's/___/ /g'`
@@ -836,7 +836,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'R' ]; then
-		$fast_change_dir/gisanfu-cmd-refresh-firefox.sh switchonly
+		$fast_change_dir_bin/cmd-refresh-firefox.sh switchonly
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'M' ]; then

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir_func/normal.sh"
 
 program=$1
 
@@ -21,7 +21,7 @@ if [ "$groupname" != "" ]; then
 	if [[ "$program" == '' || "$program" =~ $regex ]]; then
 		# 先把一些己知的東西先ignore掉，例如壓縮檔
 		cmdlist="$cmdlist | grep -v .tar.gz | grep -v .zip"
-		cmdlist="$cmdlist | xargs -n 1 $fast_change_dir/gisanfu-only-text-filecontent.sh"
+		cmdlist="$cmdlist | xargs -n 1 $fast_change_dir_bin/only-text-filecontent.sh"
 	fi
 
 	# 這是多行文字檔內容，變成以空格分格成字串的步驟

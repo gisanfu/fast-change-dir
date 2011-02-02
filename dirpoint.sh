@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir_func/normal.sh"
+source "$fast_change_dir_func/dialog.sh"
 
 # default ifs value
 default_ifs=$' \t\n'

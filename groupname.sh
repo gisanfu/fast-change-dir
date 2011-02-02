@@ -4,7 +4,7 @@
 # 這個檔案，是選擇、以及增加專案代碼
 #
 
-source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir_func/dialog.sh"
 
 action=$1
 groupname=$2
@@ -28,7 +28,7 @@ if [ "$action" == "select" ]; then
 			export groupname=$groupname
 			echo '[OK] export groupname success'
 			# 切換到Root的資料夾，預設是root，這是我建立資料夾link的方式，根目錄名稱叫root
-			. $fast_change_dir/gisanfu-dirpoint.sh root
+			dv root
 		fi
 	else
 		dialogitems=`cat ~/gisanfu-groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
@@ -43,7 +43,7 @@ if [ "$action" == "select" ]; then
 			export groupname=$result
 			echo '[OK] export groupname success'
 			# 切換到Root的資料夾，預設是root，這是我建立資料夾link的方式，根目錄名稱叫root
-			. /bin/gisanfu-dirpoint.sh root
+			dv root
 		fi
 	fi
 elif [ "$action" == "append" ]; then

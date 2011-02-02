@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir_func/normal.sh"
 
 Position=$1
 dot='../'

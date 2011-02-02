@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function-entonum.sh"
+source "$fast_change_dir_func/entonum.sh"
 
 # 這是複制svn-v3過來修改的，應該流程是有點類似的
 

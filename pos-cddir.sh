@@ -4,7 +4,7 @@
 # 先做列表，針對資料夾，並存在陣列，
 # 接下來就看你要編號多少的陣列元素，取出來而以。
 
-source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir_func/normal.sh"
 
 # default ifs value
 default_ifs=$' \t\n'

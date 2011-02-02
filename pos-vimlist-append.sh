@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function.sh"
+source "$fast_change_dir_func/normal.sh"
 
 # default ifs value
 default_ifs=$' \t\n'
@@ -18,7 +18,7 @@ if [ "$filePosition" != "" ]; then
 		if [ "${fileList[$filePosition - 1]}" == "" ]; then
 			func_statusbar 'THIS-POSITION-IS-NO-FILE'
 		else
-			. $fast_change_dir/gisanfu-vimlist-append.sh ${fileList[$filePosition - 1]}
+			. $fast_change_dir/vimlist-append.sh ${fileList[$filePosition - 1]}
 		fi
 	fi
 else

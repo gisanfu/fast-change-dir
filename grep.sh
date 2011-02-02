@@ -78,7 +78,7 @@ do
 			echo '[WAIT] 確定，是編輯暫存檔案[N0,y1]'
 			read -n 1 inputvar3
 			if [[ "$inputvar3" == 'y' || "$inputvar3" == "1" ]]; then
-				$fast_change_dir/gisanfu-vimlist.sh
+				vff
 			elif [[ "$inputvar3" == 'n' || "$inputvar3" == "0" ]]; then
 				echo "Your want append other file"
 			else

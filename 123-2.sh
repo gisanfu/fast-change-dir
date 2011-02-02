@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-function-entonum.sh"
+source "$fast_change_dir_func/entonum.sh"
 
 # 這個版本的新特色
 # 1. 選擇完、或是選擇到以後，就會離開了
