@@ -1,39 +1,43 @@
 #!/bin/bash
 
 source "$fast_change_dir/gisanfu-function.sh"
-
-# default ifs value
-default_ifs=$' \t\n'
-
-# fix space to effect array result
-IFS=$'\012'
+source "$fast_change_dir/gisanfu-function-entonum.sh"
+source "$fast_change_dir/gisanfu-function-relativeitem.sh"
 
 dirpoint=$1
-nextRelativeItem=$2
-secondCondition=$3
+# cmd1、2是第一、二個關鍵字
+cmd1=$2
+cmd2=$3
+# 位置，例如e就代表1，或者你也可以輸入1
+cmd3=$4
 
 if [ "$dirpoint" != "" ]; then
 
-	itemList=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem`)
-	
-	# use (^) grep fast, if no match, then remove (^)
-	if [ "${#itemList[@]}" -lt "1" ]; then
-		itemList=(`ls -AF | grep "/$" | grep -ir $nextRelativeItem`)
-		if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != "" ]]; then
-			itemList2=(`ls -AF | grep "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+	item_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
+
+	if [ "${#item_array[@]}" -gt 1 ]; then
+		# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
+		tmpfile=/tmp/`whoami`-dirpointappend-dialogselect-$( date +%Y%m%d-%H%M ).txt
+		dialogitems=''
+		for echothem in ${item_array[@]}
+		do
+			dialogitems=" $dialogitems $echothem '' "
+		done
+		cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+		eval $cmd
+		result=`cat $tmpfile`
+
+		if [ -f "$tmpfile" ]; then
+			rm -rf $tmpfile
 		fi
-	elif [ "${#itemList[@]}" -gt "1" ]; then
-		if [ "$secondCondition" != "" ]; then
-			itemList2=(`ls -AF | grep "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
+
+		if [ "$result" != "" ]; then
+			match=`echo $result | sed 's/___/ /g'`
+			relativeitem=$match
 		fi
-	fi
-	
-	. $fast_change_dir/gisanfu-relative.sh
-	
-	if [ "$relativeitem" != "" ]; then
-		# $relativeitem
-		# check file count and ls action
-		func_checkfilecount
+	elif [ "${#item_array[@]}" -eq 1 ]; then 
+		relativeitem=${item_array[0]}
 	fi
 	
 	if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
@@ -43,9 +47,14 @@ if [ "$dirpoint" != "" ]; then
 		echo '[ERROR] groupname is empty, please use GA cmd'
 	fi
 else
-	echo '[ERROR] "dirpoint-arg01" "nextRelativeItem-arg01" "secondCondition"'
+	echo '[ERROR] "dirpoint-arg01" "nextRelativeItem-arg02" "secondCondition-arg03" "Position-arg04"'
 fi
 
-relativeitem=''
-itemList=''
-IFS=$default_ifs
+unset dirpoint
+unset cmd
+unset cmd1
+unset cmd2
+unset cmd3
+unset number
+unset item_array
+unset relativeitem
