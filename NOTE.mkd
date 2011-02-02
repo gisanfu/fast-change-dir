@@ -16,7 +16,7 @@
 
 以下這幾個檔案也tune一下，改成使用source gisanfu-function-relativeitem的檔案
 
-gisanfu-dirpoint-append.sh:	. $fast_change_dir/gisanfu-relative.sh ***暫時先不改***
+gisanfu-dirpoint-append.sh:	. $fast_change_dir/gisanfu-relative.sh ***OK***
 gisanfu-editfile.sh:. $fast_change_dir/gisanfu-relative.sh ***OK***
 gisanfu-vimlist-append.sh:. $fast_change_dir/gisanfu-relative.sh ***OK***
 gisanfu-git-2.sh
