@@ -4,15 +4,6 @@ source "$fast_change_dir/gisanfu-function.sh"
 source "$fast_change_dir/gisanfu-function-entonum.sh"
 source "$fast_change_dir/gisanfu-function-relativeitem.sh"
 
-# default ifs value
-#default_ifs=$' \t\n'
-
-# fix space to effect array result
-#IFS=$'\012'
-
-#nextRelativeItem=$1
-#secondCondition=$2
-
 # cmd1、2是第一、二個關鍵字
 cmd1=$1
 cmd2=$2
@@ -38,22 +29,6 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 elif [ "${#item_array[@]}" -eq 1 ]; then 
 	relativeitem=${item_array[0]}
 fi
-
-#itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem`)
-
-# use (^) grep fast, if no match, then remove (^)
-#if [ "${#itemList[@]}" -lt "1" ]; then
-#	itemList=(`ls -AF --file-type | grep -v "/$" | grep -ir $nextRelativeItem`)
-#	if [[ "${#itemList[@]}" -gt "1" && "$secondCondition" != "" ]]; then
-#		itemList2=(`ls -AF --file-type | grep -v "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
-#	fi
-#elif [ "${#itemList[@]}" -gt "1" ]; then
-#	if [ "$secondCondition" != "" ]; then
-#		itemList2=(`ls -AF --file-type | grep -v "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
-#	fi
-#fi
-
-#. $fast_change_dir/gisanfu-relative.sh
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	if [ "$isVFF" == '0' ]; then

@@ -585,7 +585,7 @@ do
 		case $good_select in
 			1 )
 				if [ "$groupname" != '' ]; then
-					run="vf \"$match\" \"\" $isvff"
+					run="vf \"$match\" \"\" \"\" $isvff"
 				else
 					run="vim \"$match\""
 				fi
@@ -595,7 +595,7 @@ do
 				;;
 			3 )
 				if [ "$groupname" != '' ]; then
-					run="cd .. && vf \"$match\" \"\" $isvff"
+					run="cd .. && vf \"$match\" \"\" \"\" $isvff"
 				else
 					run="vim ../\"$match\""
 				fi

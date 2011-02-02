@@ -18,7 +18,7 @@
 
 gisanfu-dirpoint-append.sh:	. $fast_change_dir/gisanfu-relative.sh ***暫時先不改***
 gisanfu-editfile.sh:. $fast_change_dir/gisanfu-relative.sh ***OK***
-gisanfu-vimlist-append.sh:. $fast_change_dir/gisanfu-relative.sh ***OK, but need test***
+gisanfu-vimlist-append.sh:. $fast_change_dir/gisanfu-relative.sh ***OK, 別忘了要改abc-v3裡面的vf引數***
 gisanfu-git-2.sh
 gisanfu-hg.sh
 gisanfu-svn-3.sh
