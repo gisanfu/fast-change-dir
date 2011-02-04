@@ -16,10 +16,9 @@ default_ifs=$' \t\n'
 func_dirpoint()
 {
 	dirpoint=$1
-	config_path=$2
 
 	if [[ "$groupname" != '' && "$dirpoint" != '' ]]; then
-		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $config_path/dirpoint-$groupname.txt | cut -d, -f1`)
+		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | cut -d, -f1`)
 		echo ${resultarray[@]}
 	fi
 }
@@ -27,9 +26,8 @@ func_dirpoint()
 func_groupname()
 {
 	groupname=$1
-	config_path=$2
 
-	resultarray=(`grep $groupname $config_path/groupname.txt`)
+	resultarray=(`grep $groupname $fast_change_dir_config/groupname.txt`)
 	echo ${resultarray[@]}
 }
 
@@ -100,9 +98,6 @@ func_ssh()
 	second=$2
 	position=$3
 
-	# 文字檔存放的路徑(ssh.txt)
-	path=$4
-
 	declare -a resultarray
 	declare -a resultarraytmp
 
@@ -113,12 +108,12 @@ func_ssh()
 		newposition=$(($position - 1))
 	fi
 
-	if [ ! -f "$path/ssh.txt" ]; then
-		touch $path/ssh.txt
+	if [ ! -f "$fast_change_dir_config/ssh.txt" ]; then
+		touch $fast_change_dir_config/ssh.txt
 	fi
 
 	if [ "$keyword" != '' ]; then
-		cmd="cat $path/ssh.txt | grep $keyword"
+		cmd="cat $fast_change_dir_config/ssh.txt | grep $keyword"
 		if [ "$second" != '' ]; then
 			cmd="$cmd | grep $second"
 		fi
@@ -969,8 +964,8 @@ do
 
 		# 有些功能，只要看到第2個引數就會失效
 		if [ "$cmd2" == '' ]; then
-			item_dirpoint_array=( `func_dirpoint "$cmd1" "$fast_change_dir_config"` )
-			item_groupname_array=( `func_groupname "$cmd1" "$fast_change_dir_config"` )
+			item_dirpoint_array=( `func_dirpoint "$cmd1"` )
+			item_groupname_array=( `func_groupname "$cmd1"` )
 		else
 			unset item_dirpoint_array
 			unset item_groupname_array
