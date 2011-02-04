@@ -336,8 +336,8 @@ backspace=$(echo -e \\b\\c)
 # 4. [cache] cache list
 mode='1'
 
-uncachefile='~/gisanfu-svn3-uncache.txt'
-cachefile='~/gisanfu-svn3-cache.txt'
+uncachefile="$fast_change_dir_tmp/svn3-uncache-`whoami`.txt"
+cachefile="$fast_change_dir_tmp/svn3-cache`whoami`.txt"
 
 # 清理uncache的同時，也會一並清除cache，因為它們是有相依性的
 func_svn_cache_controller "$uncachefile" "$cachefile" "clear-uncache"

@@ -41,8 +41,8 @@ if [ "$dirpoint" != "" ]; then
 	fi
 	
 	if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
-		echo "$dirpoint,`pwd`/$relativeitem" >> ~/gisanfu-dirpoint-$groupname.txt
-		cat ~/gisanfu-dirpoint-$groupname.txt
+		echo "$dirpoint,`pwd`/$relativeitem" >> $fast_change_dir_config/dirpoint-$groupname.txt
+		cat $fast_change_dir_config/dirpoint-$groupname.txt
 	elif [ "$groupname" == "" ]; then
 		echo '[ERROR] groupname is empty, please use GA cmd'
 	fi

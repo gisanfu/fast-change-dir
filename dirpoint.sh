@@ -14,16 +14,16 @@ tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
 
 if [ "$groupname" != "" ]; then
 
-	if [ ! -f ~/gisanfu-dirpoint-$groupname.txt ]; then
-		touch ~/gisanfu-dirpoint-$groupname.txt
+	if [ ! -f $fast_change_dir_config/dirpoint-$groupname.txt ]; then
+		touch $fast_change_dir_config/dirpoint-$groupname.txt
 	fi
 
 	if [ "$dirpoint" != "" ]; then
-		result=`grep ^$dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`
-		resultarray=(`grep ^$dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f2`)
+		result=`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | cut -d, -f2`
+		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | cut -d, -f2`)
 
 		if [ "${#resultarray[@]}" -gt "1" ]; then
-			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
+			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
 
 			eval $cmd
 			result=`cat $tmpfile`
@@ -45,11 +45,11 @@ if [ "$groupname" != "" ]; then
 			echo '[ERROR] dirpoint is not exist!!'
 		fi
 	else
-		resultvalue=`cat ~/gisanfu-dirpoint-$groupname.txt | wc -l`
+		resultvalue=`cat $fast_change_dir_config/dirpoint-$groupname.txt | wc -l`
 
 		if [ "$resultvalue" -ge "1" ]; then
 			echo ${#resultarray[@]}
-			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `cat ~/gisanfu-dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` $tmpfile )
+			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `cat $fast_change_dir_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '` $tmpfile )
 			eval $cmd
 			result=`cat $tmpfile`
 

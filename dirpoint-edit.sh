@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$groupname" != "" ]; then
-	vim ~/gisanfu-dirpoint-$groupname.txt
+	vim $fast_change_dir_config/dirpoint-$groupname.txt
 else
 	echo '[ERROR] groupname is empty'
 fi

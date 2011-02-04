@@ -327,8 +327,8 @@ backspace=$(echo -e \\b\\c)
 # 4. [cache] cache list
 mode='1'
 
-uncachefile='~/gisanfu-hg-uncache.txt'
-cachefile='~/gisanfu-hg-cache.txt'
+uncachefile="$fast_change_dir_tmp/hg-uncache-`whoami`.txt"
+cachefile="$fast_change_dir_tmp/hg-cache-`whoami`.txt"
 
 # 清理uncache的同時，也會一並清除cache，因為它們是有相依性的
 func_hg_cache_controller "$uncachefile" "$cachefile" "clear-uncache"

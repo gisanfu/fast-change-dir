@@ -10,17 +10,17 @@ action=$1
 groupname=$2
 tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
 
-if [ -f ~/gisanfu-groupname.txt ]; then
+if [ -f $fast_change_dir_config/groupname.txt ]; then
 	echo
 else
 	# 如果檔案不存在，就建立文字檔案，以及建立一個預設空白的groupname
-	touch ~/gisanfu-groupname.txt
-	echo '""' >> ~/gisanfu-groupname.txt
+	touch $fast_change_dir_config/groupname.txt
+	echo '""' >> $fast_change_dir_config/groupname.txt
 fi
 
 if [ "$action" == "select" ]; then
 	if [ "$groupname" != "" ]; then
-		count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
+		count=`grep -ir $groupname $fast_change_dir_config/groupname.txt | wc -l`
 		if [ "$count" == "0" ]; then
 			export groupname=""
 			echo "[ERROR] groupname is not exist by $groupname"
@@ -31,7 +31,7 @@ if [ "$action" == "select" ]; then
 			dv root
 		fi
 	else
-		dialogitems=`cat ~/gisanfu-groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
+		dialogitems=`cat $fast_change_dir_config/groupname.txt | awk -F"\n" '{ print $1 " \" \" " }' | tr "\n" ' '`
 		cmd=$( func_dialog_menu '請選擇專案代碼' '123' 70 "$dialogitems" "$tmpfile")
 
 		eval $cmd
@@ -48,9 +48,9 @@ if [ "$action" == "select" ]; then
 	fi
 elif [ "$action" == "append" ]; then
 	if [ "$groupname" != "" ]; then
-		count=`grep -ir $groupname ~/gisanfu-groupname.txt | wc -l`
+		count=`grep -ir $groupname $fast_change_dir_config/groupname.txt | wc -l`
 		if [ "$count" == "0" ]; then
-			echo $groupname >> ~/gisanfu-groupname.txt
+			echo $groupname >> $fast_change_dir_config/groupname.txt
 			export groupname=$groupname
 			echo '[OK] append and export groupname success'
 		else
@@ -60,7 +60,7 @@ elif [ "$action" == "append" ]; then
 		echo "[ERROR] please fill groupname field by append action"
 	fi
 elif [ "$action" == "edit" ]; then
-	vim ~/gisanfu-groupname.txt
+	vim $fast_change_dir_config/groupname.txt
 else
 	echo '[ERROR] no support action'
 fi

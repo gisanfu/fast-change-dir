@@ -66,10 +66,10 @@ do
 			# 檢查一下，看文字檔裡面有沒有這個內容，如果有，當然就不需要在append
 			selectitem=''
 			selectitem=`pwd`/$selectfile
-			checkline=`grep "$selectitem" ~/gisanfu-vimlist-$groupname.txt | wc -l`
+			checkline=`grep "$selectitem" $fast_change_dir_config/vimlist-$groupname.txt | wc -l`
 			if [ "$checkline" -lt 1 ]; then
-				echo "\"$selectitem\"" >> ~/gisanfu-vimlist-$groupname.txt
-				cat ~/gisanfu-vimlist-$groupname.txt
+				echo "\"$selectitem\"" >> $fast_change_dir_config/vimlist-$groupname.txt
+				cat $fast_change_dir_config/vimlist-$groupname.txt
 			else
 				echo '[NOTICE] File is exist'
 			fi
