@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# 單純的把ls的忽略清單回傳而以
-func_getlsignore()
-{
-	echo '-I .svn -I .git'
-}
-
 func_relative()
 {
 	nextRelativeItem=$1
@@ -28,7 +22,8 @@ func_relative()
 	tmpfile="$fast_change_dir_tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt"
 
 	# ignore file or dir
-	ignorelist=$(func_getlsignore)
+	# ignorelist=$(func_getlsignore)
+	ignorelist=''
 	Success="0"
 
 	# 試著使用@來決定第一個grep，從最開啟來找字串

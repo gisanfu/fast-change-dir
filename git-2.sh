@@ -188,9 +188,6 @@ do
 	fi
 	echo '================================================='
 
-	#ignorelist=$(func_getlsignore)
-	#cmd="ls -AF $ignorelist --color=auto"
-	#eval $cmd
 	gitcmd=/usr/local/git/bin/git
 	if [ "$untracked" == '1' ]; then
 		cmd="$gitcmd status -s | grep -e '^ ' -e '^??'"

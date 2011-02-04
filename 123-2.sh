@@ -1,17 +1,12 @@
 #!/bin/bash
 
 source "$fast_change_dir_func/entonum.sh"
+source "$fast_change_dir_func/ignore.sh"
 
 # 這個版本的新特色
 # 1. 選擇完、或是選擇到以後，就會離開了
 # 2. 可以輸入數字，與輸入英文的數字，不過主要還是輸入英文
 # 3. 這個版本，主要是要配合英文模式所設計的
-
-# 單純的把ls的忽略清單回傳而以
-func_getLsIgnore()
-{
-	echo '-I .svn -I .git'
-}
 
 # 顯示現在的檔案，並且加上編號以及顏色
 # 編號想要紅色，檔案各有各的顏色
