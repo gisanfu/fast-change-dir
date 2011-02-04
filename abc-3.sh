@@ -98,6 +98,9 @@ func_ssh()
 	second=$2
 	position=$3
 
+	# 文字檔存放的路徑(ssh.txt)
+	path=$4
+
 	declare -a resultarray
 	declare -a resultarraytmp
 
@@ -108,12 +111,12 @@ func_ssh()
 		newposition=$(($position - 1))
 	fi
 
-	if [ ! -f "$fast_change_dir_config/ssh.txt" ]; then
-		touch $fast_change_dir_config/ssh.txt
+	if [ ! -f "$path/ssh.txt" ]; then
+		touch $path/ssh.txt
 	fi
 
 	if [ "$keyword" != '' ]; then
-		cmd="cat $fast_change_dir_config/ssh.txt | grep $keyword"
+		cmd="cat $path/ssh.txt | grep $keyword"
 		if [ "$second" != '' ]; then
 			cmd="$cmd | grep $second"
 		fi
@@ -943,7 +946,7 @@ do
 			fi
 		fi
 
-		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3"` )
+		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3" "$fast_change_dir_config"` )
 
 		if [ "$gisanfu_config_bashhistorysearch_enable" == '1' ]; then
 			if [ "${#cmd1}" -gt 3 ]; then
