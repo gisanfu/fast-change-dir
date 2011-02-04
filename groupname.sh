@@ -8,7 +8,7 @@ source "$fast_change_dir_func/dialog.sh"
 
 action=$1
 groupname=$2
-tmpfile=/tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt
+tmpfile="$fast_change_dir_tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt"
 
 if [ -f $fast_change_dir_config/groupname.txt ]; then
 	echo

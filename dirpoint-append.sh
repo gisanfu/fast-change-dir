@@ -17,7 +17,7 @@ if [ "$dirpoint" != "" ]; then
 
 	if [ "${#item_array[@]}" -gt 1 ]; then
 		# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-		tmpfile=/tmp/`whoami`-dirpointappend-dialogselect-$( date +%Y%m%d-%H%M ).txt
+		tmpfile="$fast_change_dir_tmp/`whoami`-dirpointappend-dialogselect-$( date +%Y%m%d-%H%M ).txt"
 		dialogitems=''
 		for echothem in ${item_array[@]}
 		do

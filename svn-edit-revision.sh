@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 這個檔案，是要讓gisanfu-svn.sh所呼叫的
+# 這個檔案，是要讓svn.sh所呼叫的
 # 方便以vim編輯某個版本號裡面的檔案群
 
 revision=$1

@@ -25,7 +25,7 @@ func_relative()
 	declare -a relativeitem
 
 
-	tmpfile=/tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt
+	tmpfile="$fast_change_dir_tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt"
 
 	# ignore file or dir
 	ignorelist=$(func_getlsignore)

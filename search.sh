@@ -8,7 +8,7 @@ if [ "$groupname" != '' ]; then
 	dv root
 fi
 
-tmpfile=/tmp/`whoami`-search-$( date +%Y%m%d-%H%M ).txt
+tmpfile="$fast_change_dir_tmp/`whoami`-search-$( date +%Y%m%d-%H%M ).txt"
 
 nowpath=`pwd`
 

@@ -646,7 +646,7 @@ do
 			run="cd \"$match\""
 		else
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-			tmpfile=/tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt
+			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
 			for echothem in ${item_dir_array[@]}
 			do
@@ -702,7 +702,7 @@ do
 			run="cd ../\"$match\""
 		else
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-			tmpfile=/tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt
+			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
 			for echothem in ${item_parent_dir_array[@]}
 			do
@@ -852,7 +852,7 @@ do
 		# 如果沒有輸入關鍵字，那就用dialog來詢問使用者
 		# 這時是可以輸入大寫的檔名，或是資料夾名稱
 		if [ "$condition" == '' ]; then
-			tmpfile=/tmp/`whoami`-abc3-filemanage-$( date +%Y%m%d-%H%M ).txt
+			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-filemanage-$( date +%Y%m%d-%H%M ).txt"
 			cmd=$( func_dialog_input '請輸入檔案或資料夾名稱' "" 70 "$tmpfile" )
 
 			eval $cmd
