@@ -6,9 +6,9 @@ absoluteitem_path=$1
 relativeitem_path=$2
 
 if [[ "$absoluteitem_path" != '' && "$groupname" != '' ]]; then
-	checkline=`grep "$absoluteitem_path" ~/gisanfu-vimlist-$groupname.txt | wc -l`
+	checkline=`grep "$absoluteitem_path" $fast_change_dir_config/vimlist-$groupname.txt | wc -l`
 	if [ "$checkline" -lt 1 ]; then
-		echo "\"$absoluteitem_path\"" >> ~/gisanfu-vimlist-$groupname.txt
+		echo "\"$absoluteitem_path\"" >> $fast_change_dir_config/vimlist-$groupname.txt
 	else
 		echo '[NOTICE] File is exist'
 	fi
@@ -16,9 +16,9 @@ elif [[ "$relativeitem_path" != '' && "$groupname" != ''  ]]; then
 	# 要把前面那個點拿掉
 	# 我指的是./aaa.txt前面那一個點
 	selectitem=`pwd`/${relativeitem_path:1}
-	checkline=`grep "$selectitem" ~/gisanfu-vimlist-$groupname.txt | wc -l`
+	checkline=`grep "$selectitem" $fast_change_dir_config/vimlist-$groupname.txt | wc -l`
 	if [ "$checkline" -lt 1 ]; then
-		echo "\"$selectitem\"" >> ~/gisanfu-vimlist-$groupname.txt
+		echo "\"$selectitem\"" >> $fast_change_dir_config/vimlist-$groupname.txt
 	else
 		echo '[NOTICE] File is exist'
 	fi
@@ -32,7 +32,7 @@ if [ "$groupname" != '' ]; then
 	read -n 1 inputchar
 	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then
 		# 取得最後append的檔案位置，這樣子vim -p以後就可以直接跳過該位置，就不用一直在gt..gt..gt..gt...
-		checklinenumber=`cat ~/gisanfu-vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
+		checklinenumber=`cat $fast_change_dir_config/vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
 		cmd='vff "vim'
 
 		# 不知道為什麼不能超過10，超過會出現以下的錯誤訊息
@@ -47,7 +47,7 @@ if [ "$groupname" != '' ]; then
 			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
 		fi
 
-		cmd="$cmd -p ~/gisanfu-vimlist-$groupname.txt\""
+		cmd="$cmd -p $fast_change_dir_config/vimlist-$groupname.txt\""
 		eval $cmd
 	elif [[ "$inputchar" == 'n' || "$inputchar" == "0" ]]; then
 		echo "Your want append other file"

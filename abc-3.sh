@@ -86,7 +86,7 @@ func_search_bash_history()
 	fi
 }
 
-# 會去搜尋home裡面的gisanfu-ssh.txt檔案內容
+# 會去搜尋home裡面的ssh.txt檔案內容
 # 如果有找到，就會用ssh連線過去
 # 檔案內容如下:
 # servername1
@@ -929,7 +929,7 @@ do
 			good_array=${item_dir_array[@]}
 		fi
 
-		if [ "$gisanfu_config_parent_enable" == '1' ]; then
+		if [ "$fast_change_dir_config_parent_enable" == '1' ]; then
 			item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "file"` )
 			item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "dir"` )
 
@@ -945,7 +945,7 @@ do
 
 		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3" "$fast_change_dir_config"` )
 
-		if [ "$gisanfu_config_bashhistorysearch_enable" == '1' ]; then
+		if [ "$fast_change_dir_config_bashhistorysearch_enable" == '1' ]; then
 			if [ "${#cmd1}" -gt 3 ]; then
 				item_search_bash_history_array=( `func_search_bash_history "$cmd1" "$cmd2" "$cmd3"` )
 			fi
@@ -953,11 +953,11 @@ do
 
 		# 長度大於3的關鍵字才能做搜尋的動作
 		if [[ "${#cmd1}" -gt 3 && "$groupname" != 'home' && "$groupname" != '' ]]; then
-			if [ "$gisanfu_config_searchfile_enable" == '1' ]; then
+			if [ "$fast_change_dir_config_searchfile_enable" == '1' ]; then
 				item_search_file_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "file" ` )
 			fi
 
-			if [ "$gisanfu_config_searchdir_enable" == '1' ]; then
+			if [ "$fast_change_dir_config_searchdir_enable" == '1' ]; then
 				item_search_dir_array=( `func_search "$cmd1" "$cmd2" "$cmd3" "dir" ` )
 			fi
 		fi
@@ -972,7 +972,7 @@ do
 		fi
 
 		# 這個功能不錯用，但是會拖累整個操作速度
-		if [ "$gisanfu_config_googlesearch_enable" == '1' ]; then
+		if [ "$fast_change_dir_config_googlesearch_enable" == '1' ]; then
 			if [[ "${#cmd1}" -gt 3 && "${#cmd2}" -le 2 ]]; then
 				item_search_google_string=`func_search_google "$cmd1" "$cmd2" `
 			else

@@ -7,11 +7,11 @@
 
 # 目前先加搜尋檔案/資料夾的功能啟用設定
 # 因為這兩個影響速度最明顯
-gisanfu_config_searchfile_enable='1'
-gisanfu_config_searchdir_enable='1'
+fast_change_dir_config_searchfile_enable='1'
+fast_change_dir_config_searchdir_enable='1'
 
-gisanfu_config_googlesearch_enable='1'
-gisanfu_config_bashhistorysearch_enable='1'
+fast_change_dir_config_googlesearch_enable='1'
+fast_change_dir_config_bashhistorysearch_enable='1'
 
 # 上一層的兩個功能，合併在同一項控制
-gisanfu_config_parent_enable='1'
+fast_change_dir_config_parent_enable='1'
