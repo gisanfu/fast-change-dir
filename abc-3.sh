@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source "$fast_change_dir/gisanfu-config.sh"
-source ~/gisanfu-config.sh
+source "$fast_change_dir/config.sh"
+source "$fast_change_dir_config/config.sh"
 
 source "$fast_change_dir_func/dialog.sh"
 source "$fast_change_dir_func/entonum.sh"
@@ -18,7 +18,7 @@ func_dirpoint()
 	dirpoint=$1
 
 	if [[ "$groupname" != '' && "$dirpoint" != '' ]]; then
-		resultarray=(`grep ^$dirpoint[[:alnum:]]*, ~/gisanfu-dirpoint-$groupname.txt | cut -d, -f1`)
+		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | cut -d, -f1`)
 		echo ${resultarray[@]}
 	fi
 }
@@ -27,7 +27,7 @@ func_groupname()
 {
 	groupname=$1
 
-	resultarray=(`grep $groupname ~/gisanfu-groupname.txt`)
+	resultarray=(`grep $groupname $fast_change_dir_config/groupname.txt`)
 	echo ${resultarray[@]}
 }
 
@@ -108,12 +108,12 @@ func_ssh()
 		newposition=$(($position - 1))
 	fi
 
-	if [ ! -f "~/gisanfu-ssh.txt" ]; then
-		touch ~/gisanfu-ssh.txt
+	if [ ! -f "$fast_change_dir_config/ssh.txt" ]; then
+		touch $fast_change_dir_config/ssh.txt
 	fi
 
 	if [ "$keyword" != '' ]; then
-		cmd="cat ~/gisanfu-ssh.txt | grep $keyword"
+		cmd="cat $fast_change_dir_config/ssh.txt | grep $keyword"
 		if [ "$second" != '' ]; then
 			cmd="$cmd | grep $second"
 		fi
@@ -179,7 +179,7 @@ func_search()
 	if [ "$keyword" != '' ]; then
 		if [ "$groupname" != '' ]; then
 			# 先取得root資料夾位置
-			dirpoint_roots=(`cat ~/gisanfu-dirpoint-$groupname.txt | grep ^root | head -n 1 | tr "," " "`)
+			dirpoint_roots=(`cat $fast_change_dir_config/dirpoint-$groupname.txt | grep ^root | head -n 1 | tr "," " "`)
 			path=${dirpoint_roots[1]}
 		else
 			path='.'
@@ -226,7 +226,7 @@ func_search_google()
 	# 先把英文轉成數字，如果這個欄位有資料的話
 	position=( `func_entonum "$position"` )
 
-	filename="/tmp/gisanfu-abc3-google-search-`whoami`.txt"
+	filename="$fast_change_dir_tmp/abc3-google-search-`whoami`.txt"
 
 	if [ "$keyword" != '' ]; then
 		cmd="perl $fast_change_dir_bin/google-search.pl $keyword"
@@ -279,7 +279,7 @@ do
 		unset item_search_google_string
 		unset good_select
 		unset good_array
-		rm -rf /tmp/gisanfu-abc3-google-search-`whoami`.txt
+		rm -rf $fast_change_dir_tmp/abc3-google-search-`whoami`.txt
 		clear_var_all=''
 	fi
 
@@ -531,10 +531,10 @@ do
 
 	# 顯示重覆的Google搜尋結果
 	if [ "$item_search_google_string" == '' ]; then
-		if [ -f "/tmp/gisanfu-abc3-google-search-`whoami`.txt" ]; then
+		if [ -f "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt" ]; then
 			echo '================================================='
 			echo "Google有找到資料哦:"
-			cat "/tmp/gisanfu-abc3-google-search-`whoami`.txt"
+			cat "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt"
 		fi
 	else
 		echo '================================================='
@@ -552,7 +552,7 @@ do
 		break
 	elif [ "$inputvar" == '/' ]; then
 		# 重新讀取設定檔
-		source ~/gisanfu-config.sh
+		source "$fast_change_dir_config/config.sh"
 
 		clear_var_all='1'
 		continue
@@ -977,7 +977,7 @@ do
 				item_search_google_string=`func_search_google "$cmd1" "$cmd2" `
 			else
 				unset item_search_google_string
-				rm /tmp/gisanfu-abc3-google-search-`whoami`.txt
+				rm $fast_change_dir_tmp/abc3-google-search-`whoami`.txt
 			fi
 		fi
 	elif [ "$condition" == '' ]; then

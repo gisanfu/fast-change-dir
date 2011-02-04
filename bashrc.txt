@@ -5,6 +5,10 @@ fast_change_dir_bin="$fast_change_dir/bin"
 fast_change_dir_lib="$fast_change_dir/lib"
 fast_change_dir_func="$fast_change_dir_lib/func"
 
+# 你可以依照使用習慣去修改
+fast_change_dir_tmp='/tmp'
+fast_change_dir_config="$fast_change_dir_pwd"
+
 # fast-change-dir: use relative keyword
 alias ll="ls -la"
 
