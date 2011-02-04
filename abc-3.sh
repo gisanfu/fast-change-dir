@@ -16,9 +16,10 @@ default_ifs=$' \t\n'
 func_dirpoint()
 {
 	dirpoint=$1
+	config_path=$2
 
 	if [[ "$groupname" != '' && "$dirpoint" != '' ]]; then
-		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | cut -d, -f1`)
+		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $config_path/dirpoint-$groupname.txt | cut -d, -f1`)
 		echo ${resultarray[@]}
 	fi
 }
@@ -26,8 +27,9 @@ func_dirpoint()
 func_groupname()
 {
 	groupname=$1
+	config_path=$2
 
-	resultarray=(`grep $groupname $fast_change_dir_config/groupname.txt`)
+	resultarray=(`grep $groupname $config_path/groupname.txt`)
 	echo ${resultarray[@]}
 }
 
@@ -967,8 +969,8 @@ do
 
 		# 有些功能，只要看到第2個引數就會失效
 		if [ "$cmd2" == '' ]; then
-			item_dirpoint_array=( `func_dirpoint "$cmd1"` )
-			item_groupname_array=( `func_groupname "$cmd1"` )
+			item_dirpoint_array=( `func_dirpoint "$cmd1" "$fast_change_dir_config"` )
+			item_groupname_array=( `func_groupname "$cmd1" "$fast_change_dir_config"` )
 		else
 			unset item_dirpoint_array
 			unset item_groupname_array
