@@ -4,4 +4,5 @@
 func_getlsignore()
 {
 	#echo '-I .svn -I .git'
+	echo ''
 }
