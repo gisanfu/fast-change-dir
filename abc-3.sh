@@ -5,6 +5,7 @@ source "$fast_change_dir_config/config.sh"
 
 source "$fast_change_dir_func/dialog.sh"
 source "$fast_change_dir_func/entonum.sh"
+source "$fast_change_dir_func/ignore.sh"
 source "$fast_change_dir_func/relativeitem.sh"
 
 # default ifs value 
