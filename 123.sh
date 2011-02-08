@@ -32,7 +32,7 @@ func_lsItemAndNumber()
 	declare -i loop_array_num
 	declare -i loop_item_num
 
-	ignorelist=$(func_getLsIgnore)
+	ignorelist=$(func_getlsignore)
 
 	cmd="ls -AFL1 $ignorelist $lspath" 
 
