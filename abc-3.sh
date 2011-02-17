@@ -887,7 +887,7 @@ do
 	# [W] Nopath 簡稱無路徑
 	elif [ "$inputvar" == 'W' ]; then
 		match=`echo ${item_nopath_array[0]} | sed 's/___/ /g'`
-		run="dv \"$match\""
+		run="wv \"$match\""
 		eval $run
 		clear_var_all='1'
 		continue
