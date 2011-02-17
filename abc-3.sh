@@ -24,6 +24,19 @@ func_dirpoint()
 	fi
 }
 
+# 無路徑
+# 這個功能類似dirpoint，差別在於不受groupname的限制
+# 在任何地方都可以切換，不過必需透過快速鍵去做選擇，不納入快速選擇的功能範圍內。
+func_nopath()
+{
+	nopath=$1
+
+	if [ "$nopath" != '' ]; then
+		resultarray=(`grep ^$nopath[[:alnum:]]*, $fast_change_dir_config/nopath.txt | cut -d, -f1`)
+		echo ${resultarray[@]}
+	fi
+}
+
 func_groupname()
 {
 	groupname=$1
@@ -272,6 +285,7 @@ do
 		unset item_parent_file_array
 		unset item_parent_dir_array
 		unset item_dirpoint_array
+		unset item_nopath_array
 		unset item_groupname_array
 		unset item_search_file_array
 		unset item_search_dir_array
@@ -323,10 +337,12 @@ do
 		echo ' 單項資料夾 (D)'
 		echo ' 上一層單項檔案 (S)'
 		echo ' 上一層單項資料夾 (A)'
+		echo -e "${color_txtgrn}只能使用快速鍵來選擇關鍵字所帶出來的項目:${color_none}"
 		echo ' 專案捷徑名稱 (L)'
 		echo ' 群組名稱 (G)'
 		echo ' 搜尋檔案的結果 (Z)'
 		echo ' 搜尋資料夾的結果 (N)'
+		echo ' 無路徑nopath的結果 (W)'
 		echo -e "${color_txtgrn}VimList操作類:${color_none}"
 		echo ' Do It! (I)'
 		echo ' Modify (J)'
@@ -530,6 +546,9 @@ do
 		echo "Bash History有找到一筆哦[U]: ${item_search_bash_history_array[0]}"
 	fi
 
+	# Google搜尋結果的處理區塊己經包含分隔線了
+	# =========================================================
+
 	# 顯示重覆的Google搜尋結果
 	if [ "$item_search_google_string" == '' ]; then
 		if [ -f "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt" ]; then
@@ -540,6 +559,23 @@ do
 	else
 		echo '================================================='
 		echo "Google有找到一筆哦[B]: $item_search_google_string"
+	fi
+
+	if [ "${#item_nopath_array[@]}" -gt 0 ]; then
+		echo '================================================='
+	fi
+
+	# 顯示重覆的nopath
+	if [ "${#item_nopath_array[@]}" -gt 1 ]; then
+		echo "重覆的nopath: 有${#item_nopath_array[@]}筆"
+		number=1
+		for bbb in ${item_nopath_array[@]}
+		do
+			echo "$number. $bbb"
+			number=$((number + 1))
+		done
+	elif [ "${#item_nopath_array[@]}" -eq 1 ]; then 
+		echo "Nopath有找到一筆哦[W]: ${item_nopath_array[0]}"
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
@@ -848,6 +884,13 @@ do
 		sudo su -
 		clear_var_all='1'
 		continue
+	# [W] Nopath 簡稱無路徑
+	elif [ "$inputvar" == 'W' ]; then
+		match=`echo ${item_nopath_array[0]} | sed 's/___/ /g'`
+		run="dv \"$match\""
+		eval $run
+		clear_var_all='1'
+		continue
 	# [C] Create
 	elif [ "$inputvar" == 'C' ]; then
 		# 如果沒有輸入關鍵字，那就用dialog來詢問使用者
@@ -966,6 +1009,7 @@ do
 		# 有些功能，只要看到第2個引數就會失效
 		if [ "$cmd2" == '' ]; then
 			item_dirpoint_array=( `func_dirpoint "$cmd1"` )
+			item_nopath_array=( `func_nopath "$cmd1"` )
 			item_groupname_array=( `func_groupname "$cmd1"` )
 		else
 			unset item_dirpoint_array

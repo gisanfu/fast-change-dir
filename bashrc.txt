@@ -47,6 +47,8 @@ alias dv=". $fast_change_dir/dirpoint.sh"
 alias dvv=". $fast_change_dir/dirpoint-append.sh"
 # edit point
 alias dvvv=". $fast_change_dir/dirpoint-edit.sh"
+# nopath, nolimit to change directory by keyword
+alias wv=". $fast_change_dir/nopath.sh"
 
 # vim
 alias v=". $fast_change_dir/editfile.sh"

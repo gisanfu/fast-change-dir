@@ -10,7 +10,7 @@ default_ifs=$' \t\n'
 IFS=$'\012'
 
 dirpoint=$1
-tmpfile="$fast_change_dir_tmp/`whoami`-dialog-$( date +%Y%m%d-%H%M ).txt"
+tmpfile="$fast_change_dir_tmp/`whoami`-dirpoint-dialog-$( date +%Y%m%d-%H%M ).txt"
 
 if [ "$groupname" != "" ]; then
 
