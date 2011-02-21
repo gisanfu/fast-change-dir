@@ -3,6 +3,7 @@
 看能不能在啟動ide之前，先去update(應該是說git pull)最新的資料，
 這樣子就可以做最快速的同步，
 希望目前原有的fast-change-dir-config的目標，能夠改成自己的git repo，比較安全。
+或許可以試試google code
 
 # 2011-02-18
 
