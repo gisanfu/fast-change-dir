@@ -709,7 +709,7 @@ do
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
 		else
-			if [ "${#item_parent_dir_array[@]}" -lt 1 ]; then
+			if [ "${#item_dir_array[@]}" -lt 1 ]; then
 				item_dir_array=( `func_relative "" "" "" "" "dir" "1"` )
 			fi
 
