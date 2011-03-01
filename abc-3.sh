@@ -669,13 +669,13 @@ do
 		else
 			item_file_array=( `func_relative "" "" "" "" "file" "1"` )
 
-			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselect-only-file-$( date +%Y%m%d-%H%M ).txt"
+			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
 			for echothem in ${item_file_array[@]}
 			do
 				dialogitems=" $dialogitems $echothem '' "
 			done
-			cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+			cmd=$( func_dialog_menu '請從裡面挑一項你所要的(本層的檔案)' 100 "$dialogitems" $tmpfile )
 
 			eval $cmd
 			result=`cat $tmpfile`
