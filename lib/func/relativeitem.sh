@@ -14,6 +14,11 @@ func_relative()
 	# dir or file
 	filetype=$5
 
+	# get all item flag
+	# 0 or empty: do not get all
+	# 1: Get All
+	isgetall=$6
+
 	declare -a itemList
 	declare -a itemListTmp
 	declare -a relativeitem
@@ -68,6 +73,7 @@ func_relative()
 		filetype_grep_arg='-v'
 		if [ -f "$lspath$nextRelativeItem" ]; then
 			echo "$nextRelativeItem"
+			echo 'ggg'
 			exit
 		fi
 	fi
@@ -76,10 +82,17 @@ func_relative()
 	default_ifs=$' \t\n'
 
 	IFS=$'\n'
-	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep  $filetype_grep_arg \"/$\" | grep -ir $isHeadSearch$nextRelativeItem"
+	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep  $filetype_grep_arg \"/$\""
+
+	if [ "$isgetall" != '1' ]; then
+		cmd="$cmd | grep -ir $isHeadSearch$nextRelativeItem"
+	fi
+
 	if [ "$secondCondition" != '' ]; then
 		cmd="$cmd | grep -ir $secondCondition"
 	fi
+
+	# 取得項目列表，存到陣列裡面，當然也會做空白的處理
 	declare -i num
 	itemListTmp=(`eval $cmd`)
 	for i in ${itemListTmp[@]}
@@ -92,6 +105,15 @@ func_relative()
 	num=0
 
 	if [ "$nextRelativeItem" != "" ]; then
+		if [ "${#itemList[@]}" == "1" ]; then
+			relativeitem=${itemList[0]}
+			#func_statusbar 'USE-ITEM'
+		elif [ "${#itemList[@]}" -gt "1" ]; then
+			relativeitem=${itemList[@]}
+		fi
+	fi
+
+	if [ "$isgetall" == '1' ]; then
 		if [ "${#itemList[@]}" == "1" ]; then
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'

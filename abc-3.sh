@@ -371,10 +371,11 @@ do
 		fi
 	fi
 
-	if [ "$condition" != '' ]; then
-		echo '================================================='
-		echo '檔案或資料夾建立刪除 [C]'
-	fi
+	# 這個應該就不顯示了，記得了就好
+	#if [ "$condition" != '' ]; then
+	#	echo '================================================='
+	#	echo '檔案或資料夾建立刪除 [C]'
+	#fi
 
 	if [ "${#item_file_array[@]}" -gt 0 ]; then
 		echo '================================================='
@@ -666,8 +667,36 @@ do
 				run="$run \"$match\""
 			done
 		else
-			echo -e "${color_txtred}[ERROR]${color_none} 沒有任何檔案被選擇，請按Enter鍵離開..."
-			read -s drop_variable_aabbcc
+			#echo -e "${color_txtred}[ERROR]${color_none} 沒有任何檔案被選擇，請按Enter鍵離開..."
+			#read -s drop_variable_aabbcc
+			item_file_array=( `func_relative "" "" "" "" "file" "1"` )
+
+			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselect-only-file-$( date +%Y%m%d-%H%M ).txt"
+			dialogitems=''
+			for echothem in ${item_file_array[@]}
+			do
+				dialogitems=" $dialogitems $echothem '' "
+			done
+			cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+			eval $cmd
+			result=`cat $tmpfile`
+
+			if [ -f "$tmpfile" ]; then
+				rm -rf $tmpfile
+			fi
+
+			if [ "$result" != "" ]; then
+				match=`echo $result | sed 's/___/ /g'`
+				if [ "$groupname" != '' ]; then
+					run="vf \"$match\""
+				else
+					run="vim \"$match\""
+				fi
+			else
+				clear_var_all='1'
+				continue
+			fi
 		fi
 
 		if [ "$run" != '' ]; then

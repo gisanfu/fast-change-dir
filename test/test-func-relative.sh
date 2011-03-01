@@ -59,185 +59,51 @@ func_relative()
 	# dir or file
 	filetype=$5
 
-	declare -a itemList
-	declare -a itemListTmp
-	declare -a itemList2
-	declare -a itemList2Tmp
-	declare -a itemreturn
-	declare -a relativeitem
-
-	# 先把英文轉成數字，如果這個欄位有資料的話
-	fileposition=( `func_entonum "$fileposition"` )
-
-	if [ "$fileposition" != '' ]; then
-		newposition=$(($fileposition - 1))
-	fi
-
-	# ignore file or dir
-	ignorelist=$(func_getlsignore)
-	Success="0"
-
-	if [ "$filetype" == "dir" ]; then
-		filetype_ls_arg=''
-		filetype_grep_arg=''
-	else
-		filetype_ls_arg='--file-type'
-		filetype_grep_arg='-v'
-	fi
-
-	# default ifs value
-	default_ifs=$' \t\n'
-
-	IFS=$'\n'
-	declare -i num
-	itemListTmp=(`ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem` )
-	for i in ${itemListTmp[@]}
-	do
-		# 為了要解決空白檔名的問題
-		itemList[$num]=`echo $i|sed 's/ /___/g'`
-		num=$num+1
-	done
-	IFS=$default_ifs
-	num=0
-
-	# use (^) grep fast, if no match, then remove (^)
-	if [ "${#itemList[@]}" -lt "1" ]; then
-
-		IFS=$'\n'
-		itemListTmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem`)
-		for i in ${itemListTmp[@]}
-		do
-			# 為了要解決空白檔名的問題
-			itemList[$num]=`echo $i|sed 's/ /___/g'`
-			num=$num+1
-		done
-		IFS=$default_ifs
-		num=0
-
-		if [[ "${#itemList[@]}" -ge 1 && "$secondCondition" != '' ]]; then
-			IFS=$'\n'
-			itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
-			for i in ${itemList2Tmp[@]}
-			do
-				# 為了要解決空白檔名的問題
-				itemList2[$num]=`echo $i|sed 's/ /___/g'`
-				num=$num+1
-			done
-			IFS=$default_ifs
-			num=0
-		fi
-	elif [[ "${#itemList[@]}" -ge 1 && "$secondCondition" != '' ]]; then
-		IFS=$'\n'
-		itemList2Tmp=(`ls -AFL $ignorelist $file_ls_arg $lspath | grep $filetype_grep_arg "/$" | grep -ir ^$nextRelativeItem | grep -ir $secondCondition`)
-		for i in ${itemList2Tmp[@]}
-		do
-			# 為了要解決空白檔名的問題
-			itemList2[$num]=`echo $i|sed 's/ /___/g'`
-			num=$num+1
-		done
-		IFS=$default_ifs
-		num=0
-	fi
-
-	# if empty of variable, then go back directory
-	if [ "$nextRelativeItem" != "" ]; then
-		if [ "${#itemList[@]}" == "1" ]; then
-			relativeitem=${itemList[0]}
-			#func_statusbar 'USE-ITEM'
-		elif [ "${#itemList[@]}" -gt "1" ]; then
-			if [ "$secondCondition" == '' ]; then
-				# if have duplicate dirname then CHDIR
-				for dirDuplicatelist in ${itemList[@]}
-				do
-					# to match file or dir rule
-					if [[ "$dirDuplicatelist" == "$nextRelativeItem/" || "$dirDuplicatelist" == "$nextRelativeItem" ]]; then
-						relativeitem=$nextRelativeItem
-						#func_statusbar 'USE-LUCK-ITEM'
-						Success="1"
-						break
-					fi
-				done
-			else
-				# if have secondCondition, DO secondCheck
-				if [ "${#itemList2[@]}" == "1" ]; then
-					relativeitem=${itemList2[0]}
-					#func_statusbar 'USE-LUCK-ITEM-BY-SECOND-CONDITION'
-					Success="1"
-				elif [ "${#itemList2[@]}" -gt "1" ]; then 
-					relativeitem=${itemList2[@]}
-					Success="1"
-				fi
-			fi
-
-			# if no duplicate dirname then print them
-			if [ $Success == "0" ]; then
-				if [ "${#itemList2[@]}" -gt 0 ]; then
-					relativeitem=${itemList2[@]}
-				else
-					relativeitem=${itemList[@]}
-				fi
-			fi
-		fi
-	fi
-
-	# return array的標準用法
-	if [ "$relativeitem" != '' ]; then
-		if [ "$newposition" == '' ]; then
-			echo ${relativeitem[@]}
-		else
-			# 先把含空格的文字，轉成陣列
-			aaa=(${relativeitem[@]})
-			# 然後在指定位置輸出
-			echo ${aaa[$newposition]}
-		fi
-	else
-		echo ''
-	fi
-}
-
-func_relative2()
-{
-	nextRelativeItem=$1
-	secondCondition=$2
-
-	# 檔案的位置
-	fileposition=$3
-
-	# 要搜尋哪裡的路徑，空白代表現行目錄
-	lspath=$4
-
-	# dir or file
-	filetype=$5
+	# get all item flag
+	# 0 or empty: do not get all
+	# 1: Get All
+	isgetall=$6
 
 	declare -a itemList
 	declare -a itemListTmp
 	declare -a relativeitem
 
-	# 先把英文轉成數字，如果這個欄位有資料的話
-	fileposition=( `func_entonum "$fileposition"` )
 
-	if [ "$fileposition" != '' ]; then
-		newposition=$(($fileposition - 1))
-	fi
-
-	tmpfile=/tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt
+	tmpfile="$fast_change_dir_tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt"
 
 	# ignore file or dir
-	ignorelist=$(func_getlsignore)
+	# ignorelist=$(func_getlsignore)
+	ignorelist=''
 	Success="0"
 
 	# 試著使用@來決定第一個grep，從最開啟來找字串
 	firstchar=${nextRelativeItem:0:1}
 	isHeadSearch=''
+
+	# 這裡要注意，不能夠使用井字號(#)來當做控制字元，會有問題
 	if [ "$firstchar" == '@' ]; then
 		isHeadSearch='^'
 		nextRelativeItem=${nextRelativeItem:1}
-	elif [ "$firstchar" == '*' ]; then
-		nextRelativeItem=${nextRelativeItem:1}
+	#elif [ "$firstchar" == '*' ]; then
+	#	nextRelativeItem=${nextRelativeItem:1}
 	else
 		firstchar=''
 	fi
-	echo $nextRelativeItem
+
+	# 試著使用第二個引數的第一個字元，來判斷是不是position
+	firstchar2=${secondCondition:0:1}
+
+	if [[ "$firstchar2" == '@' && "$fileposition" == '' ]]; then
+		fileposition=${secondCondition:1}
+		secondCondition=''
+	fi
+
+	# 先把英文轉成數字，如果這個欄位有資料的話
+	fileposition=( `func_entonum "$fileposition"` )
+
+	if [ "$fileposition" != '' ]; then
+		newposition=$(($fileposition - 1))
+	fi
 
 	lucky=''
 	if [ "$filetype" == "dir" ]; then
@@ -252,6 +118,7 @@ func_relative2()
 		filetype_grep_arg='-v'
 		if [ -f "$lspath$nextRelativeItem" ]; then
 			echo "$nextRelativeItem"
+			echo 'ggg'
 			exit
 		fi
 	fi
@@ -260,10 +127,17 @@ func_relative2()
 	default_ifs=$' \t\n'
 
 	IFS=$'\n'
-	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep  $filetype_grep_arg \"/$\" | grep -ir $isHeadSearch$nextRelativeItem"
+	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep  $filetype_grep_arg \"/$\""
+
+	if [ "$isgetall" != '1' ]; then
+		cmd="$cmd | grep -ir $isHeadSearch$nextRelativeItem"
+	fi
+
 	if [ "$secondCondition" != '' ]; then
 		cmd="$cmd | grep -ir $secondCondition"
 	fi
+
+	# 取得項目列表，存到陣列裡面，當然也會做空白的處理
 	declare -i num
 	itemListTmp=(`eval $cmd`)
 	for i in ${itemListTmp[@]}
@@ -280,31 +154,16 @@ func_relative2()
 			relativeitem=${itemList[0]}
 			#func_statusbar 'USE-ITEM'
 		elif [ "${#itemList[@]}" -gt "1" ]; then
-			if [ "$firstchar" == '*' ]; then
-				dialogitems=''
-				for echothem in ${itemList[@]}
-				do
-					dialogitems=" $dialogitems $echothem '' "
-				done
-				#echo $dialogitems
-				cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+			relativeitem=${itemList[@]}
+		fi
+	fi
 
-				eval $cmd
-				result=`cat $tmpfile`
-
-				if [ -f "$tmpfile" ]; then
-					rm -rf $tmpfile
-				fi
-
-				if [ "$result" == "" ]; then
-					relativeitem=${itemList[@]}
-				else
-					echo $result
-					exit
-				fi
-			else
-				relativeitem=${itemList[@]}
-			fi
+	if [ "$isgetall" == '1' ]; then
+		if [ "${#itemList[@]}" == "1" ]; then
+			relativeitem=${itemList[0]}
+			#func_statusbar 'USE-ITEM'
+		elif [ "${#itemList[@]}" -gt "1" ]; then
+			relativeitem=${itemList[@]}
 		fi
 	fi
 
@@ -323,18 +182,6 @@ func_relative2()
 	fi
 }
 
-func_relative3()
-{
-	nextRelativeItem=$1
-
-	# default ifs value
-	default_ifs=$' \t\n'
-
-	#IFS=$''
-	echo ${nextRelativeItem:0:1}
-	#IFS=$default_ifs
-}
-
 cmd1=$1
 cmd2=$2
 cmd3=$3
@@ -346,7 +193,8 @@ else
 	firstchar=''
 fi
 
-item_file_array=( `func_relative2 "$cmd1" "$cmd2" "$cmd3" "/home/gisanfu/test" "dir"` )
+#item_file_array=( `func_relative2 "$cmd1" "$cmd2" "$cmd3" "/home/gisanfu/test" "dir"` )
+item_file_array=( `func_relative "" "" "" "/home/gisanfu/test" "file" "1"` )
 
 number=1
 for bbb in ${item_file_array[@]}
