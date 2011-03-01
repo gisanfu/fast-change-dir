@@ -109,16 +109,15 @@ func_relative()
 	if [ "$filetype" == "dir" ]; then
 		filetype_ls_arg=''
 		filetype_grep_arg=''
-		if [ -d "$lspath$nextRelativeItem" ]; then
+		if [[ -d "$lspath$nextRelativeItem" && "$isgetall" != '1' ]]; then
 			echo "$nextRelativeItem"
 			exit
 		fi
 	else
 		filetype_ls_arg='--file-type'
 		filetype_grep_arg='-v'
-		if [ -f "$lspath$nextRelativeItem" ]; then
+		if [[ -f "$lspath$nextRelativeItem" && "$isgetall" != '1' ]]; then
 			echo "$nextRelativeItem"
-			echo 'ggg'
 			exit
 		fi
 	fi
@@ -194,7 +193,7 @@ else
 fi
 
 #item_file_array=( `func_relative2 "$cmd1" "$cmd2" "$cmd3" "/home/gisanfu/test" "dir"` )
-item_file_array=( `func_relative "" "" "" "/home/gisanfu/test" "file" "1"` )
+item_file_array=( `func_relative "" "" "" "../" "dir" "1"` )
 
 number=1
 for bbb in ${item_file_array[@]}
