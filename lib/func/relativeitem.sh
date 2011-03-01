@@ -73,7 +73,6 @@ func_relative()
 		filetype_grep_arg='-v'
 		if [ -f "$lspath$nextRelativeItem" ]; then
 			echo "$nextRelativeItem"
-			echo 'ggg'
 			exit
 		fi
 	fi
