@@ -708,7 +708,7 @@ do
 		if [ "${#item_dir_array[@]}" == 1 ]; then
 			match=`echo ${item_dir_array[0]} | sed 's/___/ /g'`
 			run="cd \"$match\""
-		else
+		elif [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
 			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
@@ -793,7 +793,7 @@ do
 		if [ "${#item_parent_dir_array[@]}" == 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
-		else
+		elif [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
 			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
