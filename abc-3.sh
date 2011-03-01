@@ -777,9 +777,9 @@ do
 			if [ "$result" != "" ]; then
 				match=`echo $result | sed 's/___/ /g'`
 				if [ "$groupname" != '' ]; then
-					run="vf \"$match\""
+					run="cd .. && vf \"$match\""
 				else
-					run="vim \"$match\""
+					run="vim ../\"$match\""
 				fi
 			else
 				clear_var_all='1'
