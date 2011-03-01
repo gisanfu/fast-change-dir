@@ -843,7 +843,7 @@ do
 				continue
 			fi
 		else
-			item_parent_dir_array=( `func_relative "" "" "" "" "dir" "1"` )
+			item_parent_dir_array=( `func_relative "" "" "" "../" "dir" "1"` )
 
 			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselect-only-parent-dir-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
