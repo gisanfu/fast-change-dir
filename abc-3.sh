@@ -818,40 +818,19 @@ do
 		if [ "${#item_parent_dir_array[@]}" == 1 ]; then
 			match=`echo ${item_parent_dir_array[0]} | sed 's/___/ /g'`
 			run="cd ../\"$match\""
-		elif [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
-			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselectdir-$( date +%Y%m%d-%H%M ).txt"
-			dialogitems=''
-			for echothem in ${item_parent_dir_array[@]}
-			do
-				dialogitems=" $dialogitems $echothem '' "
-			done
-			cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
-
-			eval $cmd
-			result=`cat $tmpfile`
-
-			if [ -f "$tmpfile" ]; then
-				rm -rf $tmpfile
-			fi
-
-			if [ "$result" != "" ]; then
-				match=`echo $result | sed 's/___/ /g'`
-				run="cd ../\"$match\""
-			else
-				clear_var_all='1'
-				continue
-			fi
 		else
-			item_parent_dir_array=( `func_relative "" "" "" "../" "dir" "1"` )
+			if [ "${#item_parent_dir_array[@]}" -lt 1 ]; then
+				item_parent_dir_array=( `func_relative "" "" "" "../" "dir" "1"` )
+			fi
 
-			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselect-only-parent-dir-$( date +%Y%m%d-%H%M ).txt"
+			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
+			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialog-select-parent-dir-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
 			for echothem in ${item_parent_dir_array[@]}
 			do
 				dialogitems=" $dialogitems $echothem '' "
 			done
-			cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+			cmd=$( func_dialog_menu '請從裡面挑一項你所要的(上層資料夾)' 100 "$dialogitems" $tmpfile )
 
 			eval $cmd
 			result=`cat $tmpfile`
