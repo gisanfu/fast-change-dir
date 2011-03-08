@@ -35,15 +35,13 @@ func_relative_by_git_append()
 	# default ifs value
 	default_ifs=$' \t\n'
 
-	gitcmd=/usr/local/git/bin/git
-
 	IFS=$'\n'
 	declare -i num
 
 	if [ "$trackstatus" == 'untracked' ]; then
-		itemListTmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem`)
+		itemListTmp=(`git status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem`)
 	else
-		itemListTmp=(`$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem`)
+		itemListTmp=(`git status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem`)
 	fi
 
 	for i in ${itemListTmp[@]}
@@ -60,9 +58,9 @@ func_relative_by_git_append()
 		IFS=$'\n'
 
 		if [ "$trackstatus" == 'untracked' ]; then
-			itemList2Tmp=(`$gitcmd status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			itemList2Tmp=(`git status -s | grep -e '^ ' -e '^??' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		else
-			itemList2Tmp=(`$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
+			itemList2Tmp=(`git status -s | grep -e '^A' -e '^M' -e '^D' | grep -ir $nextRelativeItem | grep -ir $secondCondition`)
 		fi
 
 		for i in ${itemList2Tmp[@]}
@@ -188,11 +186,10 @@ do
 	fi
 	echo '================================================='
 
-	gitcmd=/usr/local/git/bin/git
 	if [ "$untracked" == '1' ]; then
-		cmd="$gitcmd status -s | grep -e '^ ' -e '^??'"
+		cmd="git status -s | grep -e '^ ' -e '^??'"
 	else
-		cmd="$gitcmd status -s | grep -e '^A' -e '^M' -e '^D' -e '^R'"
+		cmd="git status -s | grep -e '^A' -e '^M' -e '^D' -e '^R'"
 	fi
 	eval $cmd
 

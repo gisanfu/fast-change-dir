@@ -8,7 +8,7 @@ author: gisanfu
 - dialog
 - wmctrl
 - xmacro
-- git
+- git 1.7+
 
 ## Develop environment
 
