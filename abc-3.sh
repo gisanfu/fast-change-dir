@@ -1025,18 +1025,6 @@ do
 		# 第三個引數，是位置
 		cmd3=${cmds[2]}
 
-		item_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
-		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
-
-		# 決定誰是最佳人選，當你按了;分號或是.點
-		if [ ${#item_file_array[@]} -eq 1 ]; then
-			good_select=1
-			good_array=${item_file_array[@]}
-		elif [ ${#item_dir_array[@]} -eq 1 ]; then
-			good_select=2
-			good_array=${item_dir_array[@]}
-		fi
-
 		if [ "$fast_change_dir_config_parent_enable" == '1' ]; then
 			item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "file"` )
 			item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "dir"` )
@@ -1049,6 +1037,18 @@ do
 				good_select=4
 				good_array=${item_parent_dir_array[@]}
 			fi
+		fi
+
+		item_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
+		item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
+
+		# 決定誰是最佳人選，當你按了;分號或是.點
+		if [ ${#item_file_array[@]} -eq 1 ]; then
+			good_select=1
+			good_array=${item_file_array[@]}
+		elif [ ${#item_dir_array[@]} -eq 1 ]; then
+			good_select=2
+			good_array=${item_dir_array[@]}
 		fi
 
 		item_ssh_array=( `func_ssh "$cmd1" "$cmd2" "$cmd3" "$fast_change_dir_config"` )
