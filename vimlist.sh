@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source "$fast_change_dir_func/normal.sh"
+source "$fast_change_dir_func/dialog.sh"
 
 program=$1
 
@@ -20,7 +21,7 @@ if [ "$groupname" != "" ]; then
 	# 使用vim，當然不會去開一些binary的檔案
 	if [[ "$program" == '' || "$program" =~ $regex ]]; then
 		# 先把一些己知的東西先ignore掉，例如壓縮檔
-		cmdlist="$cmdlist | grep -v .tar.gz | grep -v .zip"
+		cmdlist="$cmdlist | grep -v .tar.gz | grep -v .zip | grep -v .png | grep -v .gif | grep -v .jpeg | grep -v .jpg"
 		cmdlist="$cmdlist | xargs -n 1 $fast_change_dir_bin/only-text-filecontent.sh"
 	fi
 
@@ -35,8 +36,39 @@ if [ "$groupname" != "" ]; then
 	# 會這樣子寫，是因為不要去影響其它程式的相依性
 	if [ "$program" == "" ]; then
 		count=`cat $fast_change_dir_config/vimlist-$groupname.txt | wc -l`
-		if [ "$count" == '1' ]; then
+
+		if [ "$count" == 1 ]; then
 		  cmd="$cmd +tabnext"
+		fi
+
+		# 如果大於1筆，就用選擇的方式，選擇第一次要看到的檔案
+		if [ "$count" -gt 1 ]; then
+			vimlist_array=(`cat $fast_change_dir_config/vimlist-$groupname.txt`)
+			tmpfile="$fast_change_dir_tmp/`whoami`-vimlist-dialogselect-$( date +%Y%m%d-%H%M ).txt"
+			dialogitems=''
+			start=1
+			for echothem in ${vimlist_array[@]}
+			do
+				dialogitems=" $dialogitems '$start' $echothem "
+				$((start++))
+			done
+			cmd2=$( func_dialog_menu '你想從哪一個位置開始編輯 ' 100 "$dialogitems" $tmpfile )
+
+			eval $cmd2
+			result=`cat $tmpfile`
+
+			if [ -f "$tmpfile" ]; then
+				rm -rf $tmpfile
+			fi
+
+			if [ "$result" != "" ]; then
+				for (( b=1; b<=$result; b++ ))
+				do
+					cmd="$cmd +tabnext"
+				done
+			else
+				cmd="$cmd +tabnext"
+			fi
 		fi
 	fi
 
@@ -45,3 +77,5 @@ if [ "$groupname" != "" ]; then
 else
 	echo '[ERROR] groupname is empty, please use GA cmd'
 fi
+
+unset vimlist_array
