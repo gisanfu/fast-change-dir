@@ -50,7 +50,7 @@ if [ "$groupname" != "" ]; then
 			for echothem in ${vimlist_array[@]}
 			do
 				dialogitems=" $dialogitems '$start' $echothem "
-				$((start++))
+				start=$(expr $start + 1)
 			done
 			cmd2=$( func_dialog_menu '你想從哪一個位置開始編輯 ' 100 "$dialogitems" $tmpfile )
 
