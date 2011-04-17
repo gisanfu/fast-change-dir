@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$fast_change_dir_func/md5.sh"
+
 func_relative()
 {
 	nextRelativeItem=$1
@@ -23,6 +25,11 @@ func_relative()
 	declare -a itemListTmp
 	declare -a relativeitem
 
+	if [ "$lspath" == "" ]; then
+		lspath=`pwd`
+	elif [ "$lspath" == ".." ]; then
+		lspath="`pwd`/../"
+	fi
 
 	tmpfile="$fast_change_dir_tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt"
 
@@ -81,7 +88,20 @@ func_relative()
 	default_ifs=$' \t\n'
 
 	IFS=$'\n'
-	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep  $filetype_grep_arg \"/$\""
+	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg \"/$\""
+
+	# 先去cache找看看，有沒有暫存的路徑檔案
+	md5key=(`func_md5 $cmd`)
+	cachefile="$fast_change_dir_tmp/`whoami`-relativeitem-cache-$md5key.txt"
+
+	# 如果該cache有存在，就改寫指令
+	# 如果不存在，那在處理之前，先寫入cache
+	if [ ! -f "$cachefile" ]; then
+		cmd="$cmd > $cachefile"
+		eval $cmd
+	fi
+
+	cmd="cat $cachefile "
 
 	if [ "$isgetall" != '1' ]; then
 		cmd="$cmd | grep -ir $isHeadSearch$nextRelativeItem"

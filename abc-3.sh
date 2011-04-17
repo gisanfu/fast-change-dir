@@ -592,6 +592,9 @@ do
 		# 重新讀取設定檔
 		source "$fast_change_dir_config/config.sh"
 
+		# 砍掉relativeitem cache的檔案
+		rm -rf $fast_change_dir_tmp/`whoami`-relativeitem-cache-*
+
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == ',' ]; then
@@ -761,7 +764,7 @@ do
 				run="$run \"../$match\""
 			done
 		else
-			item_parent_file_array=( `func_relative "" "" "" "../" "file" "1"` )
+			item_parent_file_array=( `func_relative "" "" "" ".." "file" "1"` )
 
 			tmpfile="$fast_change_dir_tmp/`whoami`-abc3-dialogselect-only-parent-file-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
@@ -799,7 +802,7 @@ do
 			run="cd ../\"$match\""
 		else
 			if [ "${#item_parent_dir_array[@]}" -lt 1 ]; then
-				item_parent_dir_array=( `func_relative "" "" "" "../" "dir" "1"` )
+				item_parent_dir_array=( `func_relative "" "" "" ".." "dir" "1"` )
 			fi
 
 			# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
@@ -1026,8 +1029,8 @@ do
 		cmd3=${cmds[2]}
 
 		if [ "$fast_change_dir_config_parent_enable" == '1' ]; then
-			item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "file"` )
-			item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "../" "dir"` )
+			item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
+			item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
 
 			# 決定誰是最佳人選，當你按了;分號或是.點
 			if [ ${#item_parent_file_array[@]} -eq 1 ]; then
