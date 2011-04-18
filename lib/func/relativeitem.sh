@@ -88,7 +88,9 @@ func_relative()
 	default_ifs=$' \t\n'
 
 	IFS=$'\n'
-	cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg \"/$\""
+	#cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg \"/$\""
+
+	cmd="ls -AFL $ignorelist --file-type $lspath"
 
 	# 先去cache找看看，有沒有暫存的路徑檔案
 	md5key=(`func_md5 $cmd`)
@@ -102,6 +104,8 @@ func_relative()
 	fi
 
 	cmd="cat $cachefile "
+
+	cmd="$cmd | grep $filetype_grep_arg \"/$\""
 
 	if [ "$isgetall" != '1' ]; then
 		cmd="$cmd | grep -ir $isHeadSearch$nextRelativeItem"
