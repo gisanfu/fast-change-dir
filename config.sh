@@ -15,3 +15,6 @@ fast_change_dir_config_bashhistorysearch_enable='1'
 
 # 上一層的兩個功能，合併在同一項控制
 fast_change_dir_config_parent_enable='1'
+
+# 重覆項目的顯示開關
+fast_change_dir_config_duplicate_enable='1'

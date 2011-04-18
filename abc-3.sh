@@ -377,206 +377,208 @@ do
 	#	echo '檔案或資料夾建立刪除 [C]'
 	#fi
 
-	if [ "${#item_file_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆檔案
-	if [ "${#item_file_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量(有多項的功能)[F]: 有${#item_file_array[@]}筆"
-		number=1
-		for bbb in ${item_file_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_file_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆哦[F]: ${item_file_array[0]}"
-	fi
-
-	if [ "${#item_dir_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆資料夾
-	if [ "${#item_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的資料夾數量[D]: 有${#item_dir_array[@]}筆"
-		number=1
-		for bbb in ${item_dir_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_dir_array[@]}" -eq 1 ]; then 
-		echo "資料夾有找到一筆哦[D]: ${item_dir_array[0]}"
-	fi
-
-	if [ "${#item_parent_file_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆檔案(上一層)
-	if [ "${#item_parent_file_array[@]}" -gt 1 ]; then
-		echo "重覆的檔案數量 (有多項的功能) (上一層)[S]: 有${#item_parent_file_array[@]}筆"
-		number=1
-		for bbb in ${item_parent_file_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_parent_file_array[@]}" -eq 1 ]; then 
-		echo "檔案有找到一筆哦(上一層)[S]: ${item_parent_file_array[0]}"
-	fi
-
-	if [ "${#item_parent_dir_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆資料夾(上一層)
-	if [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的資料夾數量(上一層)[A]: 有${#item_parent_dir_array[@]}筆"
-		number=1
-		for bbb in ${item_parent_dir_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_parent_dir_array[@]}" -eq 1 ]; then 
-		echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
-	fi
-
-	if [ "${#item_dirpoint_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆的捷徑
-	if [ "${#item_dirpoint_array[@]}" -gt 1 ]; then
-		echo "重覆的捷徑: 有${#item_dirpoint_array[@]}筆"
-		number=1
-		for bbb in ${item_dirpoint_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_dirpoint_array[@]}" -eq 1 ]; then 
-		echo "捷徑有找到一筆哦[L]: ${item_dirpoint_array[0]}"
-	fi
-
-	if [ "${#item_groupname_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆的群組名稱
-	if [ "${#item_groupname_array[@]}" -gt 1 ]; then
-		echo "重覆的群組名稱: 有${#item_groupname_array[@]}筆"
-		number=1
-		for bbb in ${item_groupname_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_groupname_array[@]}" -eq 1 ]; then 
-		echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
-	fi
-
-	if [ "${#item_search_file_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆的搜尋檔案結果項目
-	if [ "${#item_search_file_array[@]}" -gt 1 ]; then
-		echo "重覆的搜尋檔案結果(有多項的功能)[Z]: 有${#item_search_file_array[@]}筆"
-		number=1
-		for bbb in ${item_search_file_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_search_file_array[@]}" -eq 1 ]; then 
-		echo "搜尋檔案的結果有找到一筆哦[Z]: ${item_search_file_array[0]}"
-	fi
-
-	if [ "${#item_search_dir_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆的搜尋資料夾結果項目
-	if [ "${#item_search_dir_array[@]}" -gt 1 ]; then
-		echo "重覆的搜尋資料夾結果: 有${#item_search_dir_array[@]}筆"
-		number=1
-		for bbb in ${item_search_dir_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_search_dir_array[@]}" -eq 1 ]; then 
-		echo "搜尋資料夾的結果有找到一筆哦[N]: ${item_search_dir_array[0]}"
-	fi
-
-	if [ "${#item_ssh_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆的SSH清單
-	if [ "${#item_ssh_array[@]}" -gt 1 ]; then
-		echo "重覆的SSH清單列表: 有${#item_ssh_array[@]}筆"
-		number=1
-		for bbb in ${item_ssh_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_ssh_array[@]}" -eq 1 ]; then 
-		echo "SSH目標有找到一筆哦[P]: ${item_ssh_array[0]}"
-	fi
-
-	if [ "${#item_search_bash_history_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
-
-	# 顯示重覆的Bash History搜尋結果
-	if [ "${#item_search_bash_history_array[@]}" -gt 1 ]; then
-		echo "重覆的Bash History列表: 有${#item_search_bash_history_array[@]}筆"
-		number=1
-		for bbb in ${item_search_bash_history_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_search_bash_history_array[@]}" -eq 1 ]; then 
-		echo "Bash History有找到一筆哦[U]: ${item_search_bash_history_array[0]}"
-	fi
-
-	# Google搜尋結果的處理區塊己經包含分隔線了
-	# =========================================================
-
-	# 顯示重覆的Google搜尋結果
-	if [ "$item_search_google_string" == '' ]; then
-		if [ -f "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt" ]; then
+	if [ "$fast_change_dir_config_duplicate_enable" == '1' ]; then
+		if [ "${#item_file_array[@]}" -gt 0 ]; then
 			echo '================================================='
-			echo "Google有找到資料哦:"
-			cat "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt"
 		fi
-	else
-		echo '================================================='
-		echo "Google有找到一筆哦[B]: $item_search_google_string"
-	fi
 
-	if [ "${#item_nopath_array[@]}" -gt 0 ]; then
-		echo '================================================='
-	fi
+		# 顯示重覆檔案
+		if [ "${#item_file_array[@]}" -gt 1 ]; then
+			echo "重覆的檔案數量(有多項的功能)[F]: 有${#item_file_array[@]}筆"
+			number=1
+			for bbb in ${item_file_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_file_array[@]}" -eq 1 ]; then 
+			echo "檔案有找到一筆哦[F]: ${item_file_array[0]}"
+		fi
 
-	# 顯示重覆的nopath
-	if [ "${#item_nopath_array[@]}" -gt 1 ]; then
-		echo "重覆的nopath: 有${#item_nopath_array[@]}筆"
-		number=1
-		for bbb in ${item_nopath_array[@]}
-		do
-			echo "$number. $bbb"
-			number=$((number + 1))
-		done
-	elif [ "${#item_nopath_array[@]}" -eq 1 ]; then 
-		echo "Nopath有找到一筆哦[W]: ${item_nopath_array[0]}"
+		if [ "${#item_dir_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆資料夾
+		if [ "${#item_dir_array[@]}" -gt 1 ]; then
+			echo "重覆的資料夾數量[D]: 有${#item_dir_array[@]}筆"
+			number=1
+			for bbb in ${item_dir_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_dir_array[@]}" -eq 1 ]; then 
+			echo "資料夾有找到一筆哦[D]: ${item_dir_array[0]}"
+		fi
+
+		if [ "${#item_parent_file_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆檔案(上一層)
+		if [ "${#item_parent_file_array[@]}" -gt 1 ]; then
+			echo "重覆的檔案數量 (有多項的功能) (上一層)[S]: 有${#item_parent_file_array[@]}筆"
+			number=1
+			for bbb in ${item_parent_file_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_parent_file_array[@]}" -eq 1 ]; then 
+			echo "檔案有找到一筆哦(上一層)[S]: ${item_parent_file_array[0]}"
+		fi
+
+		if [ "${#item_parent_dir_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆資料夾(上一層)
+		if [ "${#item_parent_dir_array[@]}" -gt 1 ]; then
+			echo "重覆的資料夾數量(上一層)[A]: 有${#item_parent_dir_array[@]}筆"
+			number=1
+			for bbb in ${item_parent_dir_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_parent_dir_array[@]}" -eq 1 ]; then 
+			echo "資料夾有找到一筆哦(上一層)[A]: ${item_parent_dir_array[0]}"
+		fi
+
+		if [ "${#item_dirpoint_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的捷徑
+		if [ "${#item_dirpoint_array[@]}" -gt 1 ]; then
+			echo "重覆的捷徑: 有${#item_dirpoint_array[@]}筆"
+			number=1
+			for bbb in ${item_dirpoint_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_dirpoint_array[@]}" -eq 1 ]; then 
+			echo "捷徑有找到一筆哦[L]: ${item_dirpoint_array[0]}"
+		fi
+
+		if [ "${#item_groupname_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的群組名稱
+		if [ "${#item_groupname_array[@]}" -gt 1 ]; then
+			echo "重覆的群組名稱: 有${#item_groupname_array[@]}筆"
+			number=1
+			for bbb in ${item_groupname_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_groupname_array[@]}" -eq 1 ]; then 
+			echo "群組名稱有找到一筆哦[G]: ${item_groupname_array[0]}"
+		fi
+
+		if [ "${#item_search_file_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的搜尋檔案結果項目
+		if [ "${#item_search_file_array[@]}" -gt 1 ]; then
+			echo "重覆的搜尋檔案結果(有多項的功能)[Z]: 有${#item_search_file_array[@]}筆"
+			number=1
+			for bbb in ${item_search_file_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_search_file_array[@]}" -eq 1 ]; then 
+			echo "搜尋檔案的結果有找到一筆哦[Z]: ${item_search_file_array[0]}"
+		fi
+
+		if [ "${#item_search_dir_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的搜尋資料夾結果項目
+		if [ "${#item_search_dir_array[@]}" -gt 1 ]; then
+			echo "重覆的搜尋資料夾結果: 有${#item_search_dir_array[@]}筆"
+			number=1
+			for bbb in ${item_search_dir_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_search_dir_array[@]}" -eq 1 ]; then 
+			echo "搜尋資料夾的結果有找到一筆哦[N]: ${item_search_dir_array[0]}"
+		fi
+
+		if [ "${#item_ssh_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的SSH清單
+		if [ "${#item_ssh_array[@]}" -gt 1 ]; then
+			echo "重覆的SSH清單列表: 有${#item_ssh_array[@]}筆"
+			number=1
+			for bbb in ${item_ssh_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_ssh_array[@]}" -eq 1 ]; then 
+			echo "SSH目標有找到一筆哦[P]: ${item_ssh_array[0]}"
+		fi
+
+		if [ "${#item_search_bash_history_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的Bash History搜尋結果
+		if [ "${#item_search_bash_history_array[@]}" -gt 1 ]; then
+			echo "重覆的Bash History列表: 有${#item_search_bash_history_array[@]}筆"
+			number=1
+			for bbb in ${item_search_bash_history_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_search_bash_history_array[@]}" -eq 1 ]; then 
+			echo "Bash History有找到一筆哦[U]: ${item_search_bash_history_array[0]}"
+		fi
+
+		# Google搜尋結果的處理區塊己經包含分隔線了
+		# =========================================================
+
+		# 顯示重覆的Google搜尋結果
+		if [ "$item_search_google_string" == '' ]; then
+			if [ -f "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt" ]; then
+				echo '================================================='
+				echo "Google有找到資料哦:"
+				cat "$fast_change_dir_tmp/abc3-google-search-`whoami`.txt"
+			fi
+		else
+			echo '================================================='
+			echo "Google有找到一筆哦[B]: $item_search_google_string"
+		fi
+
+		if [ "${#item_nopath_array[@]}" -gt 0 ]; then
+			echo '================================================='
+		fi
+
+		# 顯示重覆的nopath
+		if [ "${#item_nopath_array[@]}" -gt 1 ]; then
+			echo "重覆的nopath: 有${#item_nopath_array[@]}筆"
+			number=1
+			for bbb in ${item_nopath_array[@]}
+			do
+				echo "$number. $bbb"
+				number=$((number + 1))
+			done
+		elif [ "${#item_nopath_array[@]}" -eq 1 ]; then 
+			echo "Nopath有找到一筆哦[W]: ${item_nopath_array[0]}"
+		fi
 	fi
 
 	# 不加IFS=012的話，我輸入空格，read variable是讀不到的
