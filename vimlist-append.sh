@@ -15,19 +15,44 @@ cmd3=$3
 # 不詢問，要vff的話，就放1
 isVFF=$4
 
+if [ "$isVFF" == '' ]; then
+	isVFF=1
+fi
+
 item_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
 
 relativeitem=''
-if [ "${#item_array[@]}" -gt 1 ]; then
-	echo "重覆的檔案數量: 有${#item_array[@]}筆"
-	number=1
-	for bbb in ${item_array[@]}
-	do
-		echo "$number. $bbb"
-		number=$((number + 1))
-	done
-elif [ "${#item_array[@]}" -eq 1 ]; then 
-	relativeitem=${item_array[0]}
+#if [ "${#item_array[@]}" -gt 1 ]; then
+#	echo "重覆的檔案數量: 有${#item_array[@]}筆"
+#	number=1
+#	for bbb in ${item_array[@]}
+#	do
+#		echo "$number. $bbb"
+#		number=$((number + 1))
+#	done
+#elif [ "${#item_array[@]}" -eq 1 ]; then 
+#	relativeitem=${item_array[0]}
+#fi
+
+tmpfile="$fast_change_dir_tmp/`whoami`-vf-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
+dialogitems=''
+for echothem in ${item_array[@]}
+do
+	dialogitems=" $dialogitems $echothem '' "
+done
+cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+eval $cmd
+result=`cat $tmpfile`
+
+if [ -f "$tmpfile" ]; then
+	rm -rf $tmpfile
+fi
+
+if [ "$result" != "" ]; then
+	relativeitem=$result
+else
+	relativeitem=''
 fi
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then

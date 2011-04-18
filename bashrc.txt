@@ -13,12 +13,12 @@ fast_change_dir_config="$fast_change_dir_pwd"
 alias ll="ls -la"
 
 # main function
-alias ide=". $fast_change_dir/abc-3.sh"
+alias ide=". $fast_change_dir/abc-4.sh"
 
 # number function
 alias gre=". $fast_change_dir/grep.sh"
 alias sear=". $fast_change_dir/search.sh"
-alias abc=". $fast_change_dir/abc-3.sh"
+alias abc=". $fast_change_dir/abc-4.sh"
 alias 123=". $fast_change_dir/123.sh"
 alias abc123=". $fast_change_dir/123-2.sh"
 
