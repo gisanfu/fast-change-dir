@@ -34,25 +34,29 @@ relativeitem=''
 #	relativeitem=${item_array[0]}
 #fi
 
-tmpfile="$fast_change_dir_tmp/`whoami`-vf-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
-dialogitems=''
-for echothem in ${item_array[@]}
-do
-	dialogitems=" $dialogitems $echothem '' "
-done
-cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
-
-eval $cmd
-result=`cat $tmpfile`
-
-if [ -f "$tmpfile" ]; then
-	rm -rf $tmpfile
-fi
-
-if [ "$result" != "" ]; then
-	relativeitem=$result
+if [ ${#item_array[@]} -eq 1 ]; then
+	relativeitem=${item_array[0]}
 else
-	relativeitem=''
+	tmpfile="$fast_change_dir_tmp/`whoami`-vf-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
+	dialogitems=''
+	for echothem in ${item_array[@]}
+	do
+		dialogitems=" $dialogitems $echothem '' "
+	done
+	cmd=$( func_dialog_menu '請從裡面挑一項你所要的' 100 "$dialogitems" $tmpfile )
+
+	eval $cmd
+	result=`cat $tmpfile`
+
+	if [ -f "$tmpfile" ]; then
+		rm -rf $tmpfile
+	fi
+
+	if [ "$result" != "" ]; then
+		relativeitem=$result
+	else
+		relativeitem=''
+	fi
 fi
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
