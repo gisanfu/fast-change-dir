@@ -36,7 +36,8 @@ relativeitem=''
 
 if [ ${#item_array[@]} -eq 1 ]; then
 	relativeitem=${item_array[0]}
-else
+#else
+elif [ ${#item_array[@]} -gt 1 ]; then
 	tmpfile="$fast_change_dir_tmp/`whoami`-vf-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
 	dialogitems=''
 	for echothem in ${item_array[@]}
@@ -57,6 +58,8 @@ else
 	else
 		relativeitem=''
 	fi
+else
+	relativeitem=''
 fi
 
 if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
