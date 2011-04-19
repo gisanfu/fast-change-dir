@@ -43,7 +43,7 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 	#	number=$((number + 1))
 	#done
 elif [ "${#item_array[@]}" -eq 1 ]; then 
-	relativeitem="\"${item_array[0]}\""
+	relativeitem="${item_array[0]}"
 	#cmd="vim \"${item_array[0]}\""
 	#eval $cmd
 	# check file count and ls action
