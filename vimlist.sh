@@ -7,12 +7,12 @@ program=$1
 
 if [ "$groupname" != "" ]; then
 	if [ "$program" == "" ]; then
-		program2="vim -p $fast_change_dir_config/vimlist-$groupname.txt"
+		program2="vim -p $fast_change_dir_project_config/vimlist-$groupname.txt"
 	else
 		program2=$program
 	fi
 
-	cmdlist="cat $fast_change_dir_config/vimlist-$groupname.txt"
+	cmdlist="cat $fast_change_dir_project_config/vimlist-$groupname.txt"
 
 	# 正規的外面要用雙引包起來
 	regex="^vim"
@@ -35,7 +35,7 @@ if [ "$groupname" != "" ]; then
 	# 這樣子只有一筆的時候，會比較方便
 	# 會這樣子寫，是因為不要去影響其它程式的相依性
 	if [ "$program" == "" ]; then
-		count=`cat $fast_change_dir_config/vimlist-$groupname.txt | wc -l`
+		count=`cat $fast_change_dir_project_config/vimlist-$groupname.txt | wc -l`
 
 		if [ "$count" == 1 ]; then
 		  cmd="$cmd +tabnext"
@@ -43,7 +43,7 @@ if [ "$groupname" != "" ]; then
 
 		# 如果大於1筆，就用選擇的方式，選擇第一次要看到的檔案
 		if [ "$count" -gt 1 ]; then
-			vimlist_array=(`cat $fast_change_dir_config/vimlist-$groupname.txt`)
+			vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
 			tmpfile="$fast_change_dir_tmp/`whoami`-vimlist-dialogselect-$( date +%Y%m%d-%H%M ).txt"
 			dialogitems=''
 			start=1

@@ -26,6 +26,14 @@ if [ "$action" == "select" ]; then
 			echo "[ERROR] groupname is not exist by $groupname"
 		else
 			export groupname=$groupname
+
+			if [ -f $fast_change_dir_config/your-project-config-$groupname.sh ]; then
+				source $fast_change_dir_config/your-project-config-$groupname.sh
+				fast_change_dir_project_config=$fast_change_dir_your_project_config
+			else
+				fast_change_dir_project_config=$fast_change_dir_config
+			fi
+
 			echo '[OK] export groupname success'
 			# 切換到Root的資料夾，預設是root，這是我建立資料夾link的方式，根目錄名稱叫root
 			dv root
@@ -41,6 +49,14 @@ if [ "$action" == "select" ]; then
 			func_statusbar '你不選嗎，別忘了要選才能使用專案功能哦'
 		else
 			export groupname=$result
+
+			if [ -f $fast_change_dir_config/your-project-config-$groupname.sh ]; then
+				source $fast_change_dir_config/your-project-config-$groupname.sh
+				fast_change_dir_project_config=$fast_change_dir_your_project_config
+			else
+				fast_change_dir_project_config=$fast_change_dir_config
+			fi
+
 			echo '[OK] export groupname success'
 			# 切換到Root的資料夾，預設是root，這是我建立資料夾link的方式，根目錄名稱叫root
 			dv root
@@ -48,14 +64,14 @@ if [ "$action" == "select" ]; then
 	fi
 
 	# 在確認一次，如果有選擇，接下來就檢查是否有定義專案設定檔
-	if [ "$groupname" != "" ]; then
-		if [ -f $fast_change_dir_config/$groupname-your-project-config.sh ]; then
-			source $fast_change_dir_config/$groupname-your-project-config.sh
-			fast_change_dir_project_config=$fast_change_dir_your_project_config
-		else
-			fast_change_dir_project_config=$fast_change_dir_config
-		fi
-	fi
+	#if [ "$groupname" != "" ]; then
+	#	if [ -f $fast_change_dir_config/$groupname-your-project-config.sh ]; then
+	#		source $fast_change_dir_config/$groupname-your-project-config.sh
+	#		fast_change_dir_project_config=$fast_change_dir_your_project_config
+	#	else
+	#		fast_change_dir_project_config=$fast_change_dir_config
+	#	fi
+	#fi
 elif [ "$action" == "append" ]; then
 	if [ "$groupname" != "" ]; then
 		count=`grep -ir $groupname $fast_change_dir_config/groupname.txt | wc -l`

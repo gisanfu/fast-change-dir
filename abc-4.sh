@@ -19,7 +19,7 @@ func_dirpoint()
 	dirpoint=$1
 
 	if [[ "$groupname" != '' && "$dirpoint" != '' ]]; then
-		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | cut -d, -f1`)
+		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | cut -d, -f1`)
 		echo ${resultarray[@]}
 	fi
 }
@@ -371,41 +371,6 @@ do
 		cmd2=${cmds[1]}
 		# 第三個引數，是位置
 		cmd3=${cmds[2]}
-
-		#if [ "$fast_change_dir_config_parent_enable" == '1' ]; then
-		#	item_parent_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "file"` )
-		#	item_parent_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" ".." "dir"` )
-
-		#	# 決定誰是最佳人選，當你按了;分號或是.點
-		#	if [ ${#item_parent_file_array[@]} -eq 1 ]; then
-		#		good_select=3
-		#		good_array=${item_parent_file_array[@]}
-		#	elif [ ${#item_parent_dir_array[@]} -eq 1 ]; then
-		#		good_select=4
-		#		good_array=${item_parent_dir_array[@]}
-		#	fi
-		#fi
-
-		#item_file_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
-		#item_dir_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "dir"` )
-
-		## 決定誰是最佳人選，當你按了;分號或是.點
-		#if [ ${#item_file_array[@]} -eq 1 ]; then
-		#	good_select=1
-		#	good_array=${item_file_array[@]}
-		#elif [ ${#item_dir_array[@]} -eq 1 ]; then
-		#	good_select=2
-		#	good_array=${item_dir_array[@]}
-		#fi
-
-		# 有些功能，只要看到第2個引數就會失效
-		#if [ "$cmd2" == '' ]; then
-		#	item_dirpoint_array=( `func_dirpoint "$cmd1"` )
-		#	item_groupname_array=( `func_groupname "$cmd1"` )
-		#else
-		#	unset item_dirpoint_array
-		#	unset item_groupname_array
-		#fi
 
 	elif [ "$condition" == '' ]; then
 		# 會符合這裡的條件，是使用Ctrl + H 倒退鍵，把字元都砍光了以後會發生的狀況
