@@ -52,6 +52,7 @@ do
 
 	if [[ "$clear_var_all" == '1' || "$needhelp" == '1' ]]; then
 		unset condition
+		unset inputvar
 		unset item_file_array
 		unset item_dir_array
 		unset item_parent_file_array

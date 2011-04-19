@@ -36,6 +36,8 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 	fi
 elif [ "${#item_array[@]}" -eq 1 ]; then 
 	run="cd \"${item_array[0]}\""
+else
+	run=''
 fi
 
 if [ "$run" != '' ]; then
