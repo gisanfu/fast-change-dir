@@ -15,7 +15,7 @@ if [ -f $fast_change_dir_config/groupname.txt ]; then
 else
 	# 如果檔案不存在，就建立文字檔案，以及建立一個預設空白的groupname
 	touch $fast_change_dir_config/groupname.txt
-	echo '""' >> $fast_change_dir_config/groupname.txt
+	#echo '""' >> $fast_change_dir_config/groupname.txt
 fi
 
 if [ "$action" == "select" ]; then
@@ -44,6 +44,16 @@ if [ "$action" == "select" ]; then
 			echo '[OK] export groupname success'
 			# 切換到Root的資料夾，預設是root，這是我建立資料夾link的方式，根目錄名稱叫root
 			dv root
+		fi
+	fi
+
+	# 在確認一次，如果有選擇，接下來就檢查是否有定義專案設定檔
+	if [ "$groupname" != "" ]; then
+		if [ -f $fast_change_dir_config/$groupname-your-project-config.sh ]; then
+			source $fast_change_dir_config/$groupname-your-project-config.sh
+			fast_change_dir_project_config=$fast_change_dir_your_project_config
+		else
+			fast_change_dir_project_config=$fast_change_dir_config
 		fi
 	fi
 elif [ "$action" == "append" ]; then
