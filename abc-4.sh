@@ -139,29 +139,35 @@ do
 	read -s -n 1 inputvar
 	IFS=$default_ifs
 
-	if [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
-		# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
-		tmpfile="$fast_change_dir_tmp/`whoami`-abc4-dialog-select-action-$( date +%Y%m%d-%H%M ).txt"
-		dialogitems='file "" dir "" parent-file "" parent-dir "" '
-		cmd=$( func_dialog_menu '您要做什麼動作?' 100 "$dialogitems" $tmpfile )
-
-		eval $cmd
-		result=`cat $tmpfile`
-
-		if [ -f "$tmpfile" ]; then
-			rm -rf $tmpfile
-		fi
-
-		if [ "$result" == "file" ]; then
-			inputvar='F'
-		elif [ "$result" == "dir" ]; then
-			inputvar='D'
-		elif [ "$result" == "parent-file" ]; then
-			inputvar='S'
-		elif [ "$result" == "parent-dir" ]; then
-			inputvar='A'
-		fi
+	if [ "$inputvar" == ';' ]; then
+		inputvar='F'
+	elif [ "$inputvar" == '.' ]; then
+		inputvar='D'
 	fi
+
+	#if [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
+	#	# 雖然沒有選到資料夾，不過可以用dialog試著來輔助
+	#	tmpfile="$fast_change_dir_tmp/`whoami`-abc4-dialog-select-action-$( date +%Y%m%d-%H%M ).txt"
+	#	dialogitems='file "" dir "" parent-file "" parent-dir "" '
+	#	cmd=$( func_dialog_menu '您要做什麼動作?' 100 "$dialogitems" $tmpfile )
+
+	#	eval $cmd
+	#	result=`cat $tmpfile`
+
+	#	if [ -f "$tmpfile" ]; then
+	#		rm -rf $tmpfile
+	#	fi
+
+	#	if [ "$result" == "file" ]; then
+	#		inputvar='F'
+	#	elif [ "$result" == "dir" ]; then
+	#		inputvar='D'
+	#	elif [ "$result" == "parent-file" ]; then
+	#		inputvar='S'
+	#	elif [ "$result" == "parent-dir" ]; then
+	#		inputvar='A'
+	#	fi
+	#fi
 
 	if [ "$inputvar" == '?' ]; then
 		# 離開
