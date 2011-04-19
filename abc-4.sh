@@ -179,7 +179,7 @@ do
 		source "$fast_change_dir_config/config.sh"
 
 		# 砍掉relativeitem cache的檔案
-		#rm -rf $fast_change_dir_tmp/`whoami`-relativeitem-cache-*
+		rm -rf $fast_change_dir_tmp/`whoami`-relativeitem-cache-*
 
 		clear_var_all='1'
 		continue

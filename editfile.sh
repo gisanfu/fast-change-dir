@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# 這支檔案，碰到ggg.txt，就會查不到，不知道是什麼問題
-# 碰到function.menu_cart_count.php的檔名也是一樣
-
 source "$fast_change_dir_func/normal.sh"
 source "$fast_change_dir_func/entonum.sh"
 source "$fast_change_dir_func/relativeitem.sh"
