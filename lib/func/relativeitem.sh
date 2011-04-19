@@ -31,6 +31,10 @@ func_relative()
 		lspath="`pwd`/../"
 	fi
 
+	if [ "$nextRelativeItem" == '' ]; then
+		isgetall='1'
+	fi
+
 	tmpfile="$fast_change_dir_tmp/`whoami`-function-relativeitem-$( date +%Y%m%d-%H%M ).txt"
 
 	# ignore file or dir
