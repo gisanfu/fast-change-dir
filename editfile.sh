@@ -33,13 +33,6 @@ if [ "${#item_array[@]}" -gt 1 ]; then
 		relativeitem="$result"
 	fi
 
-	#echo "重覆的檔案數量: 有${#item_array[@]}筆"
-	#number=1
-	#for bbb in ${item_array[@]}
-	#do
-	#	echo "$number. $bbb"
-	#	number=$((number + 1))
-	#done
 elif [ "${#item_array[@]}" -eq 1 ]; then 
 	relativeitem="${item_array[0]}"
 	#cmd="vim \"${item_array[0]}\""
