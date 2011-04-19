@@ -220,9 +220,8 @@ do
 		clear_var_all='1'
 		continue
 	elif [[ "$inputvar" == 'A' ]]; then
-		run="cd .. && d \"$cmd1\" \"$cmd2\" \"$cmd3\""
+		run="g \"$cmd1\" \"$cmd2\" \"$cmd3\""
 		eval $run
-		cd -
 
 		clear_var_all='1'
 		continue
