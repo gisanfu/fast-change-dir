@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$fast_change_dir/config.sh"
+source "$fast_change_dir/config/config.sh"
 source "$fast_change_dir_config/config.sh"
 
 source "$fast_change_dir_func/dialog.sh"
