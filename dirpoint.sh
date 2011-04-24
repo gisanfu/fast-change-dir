@@ -23,7 +23,7 @@ if [ "$groupname" != "" ]; then
 		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | cut -d, -f2`)
 
 		if [ "${#resultarray[@]}" -gt "1" ]; then
-			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, $fast_change_dir_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
+			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
 
 			eval $cmd
 			result=`cat $tmpfile`
