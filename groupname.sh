@@ -20,15 +20,48 @@ fi
 
 if [ "$action" == "select" ]; then
 	if [ "$groupname" != "" ]; then
-		count=`grep -ir $groupname $fast_change_dir_config/groupname.txt | wc -l`
-		if [ "$count" == "0" ]; then
-			export groupname=""
-			echo "[ERROR] groupname is not exist by $groupname"
-		else
-			export groupname=$groupname
+		# 這個變數是存放選擇後，或是match後的結果
+		groupname_select=''
 
-			if [ -f $fast_change_dir_config/your-project-config-$groupname.sh ]; then
-				source $fast_change_dir_config/your-project-config-$groupname.sh
+		resultarray=(`grep $groupname $fast_change_dir_config/groupname.txt`)
+
+		# 先處理與判斷，將結果存起來，最後才去處理那個結果
+		if [ "${#resultarray[@]}" -gt "1" ]; then
+			# 把陣列轉成dialog，以數字來選單
+			dialogitems=''
+			start=1
+			for echothem in ${resultarray[@]}
+			do
+				dialogitems=" $dialogitems '$start' $echothem "
+				start=$(expr $start + 1)
+			done
+			tmpfile="$fast_change_dir_tmp/`whoami`-groupname-dialogselect-$( date +%Y%m%d-%H%M ).txt"
+			cmd=$( func_dialog_menu 'Please select groupname' 100 "$dialogitems" $tmpfile )
+
+			eval $cmd
+			result=`cat $tmpfile`
+
+			if [ -f "$tmpfile" ]; then
+				rm -rf $tmpfile
+			fi
+
+			if [ "$result" != "" ]; then
+				groupname_select=${resultarray[$result - 1]}
+				echo $groupname_select
+			else
+				echo '[ERROR] groupname no match, or no select'
+			fi
+		elif [ "${#resultarray[@]}" == "1" ]; then
+			groupname_select=${resultarray[0]}
+		else
+			echo '[ERROR] groupname is not select or not exist!!'
+		fi
+
+		if [ "$groupname_select" != '' ]; then
+			export groupname=$groupname_select
+
+			if [ -f $fast_change_dir_config/your-project-config-$groupname_select.sh ]; then
+				source $fast_change_dir_config/your-project-config-$groupname_select.sh
 				fast_change_dir_project_config=$fast_change_dir_your_project_config
 			else
 				fast_change_dir_project_config=$fast_change_dir_config
