@@ -48,7 +48,6 @@ if [ "$groupname" != "" ]; then
 		resultvalue=`cat $fast_change_dir_project_config/dirpoint-$groupname.txt | grep -v "^#" | wc -l`
 
 		if [ "$resultvalue" -ge "1" ]; then
-			echo ${#resultarray[@]}
 			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `cat $fast_change_dir_project_config/dirpoint-$groupname.txt | grep -v "^#" | tr "\n" " " | tr ',' ' '` $tmpfile )
 			eval $cmd
 			result=`cat $tmpfile`

@@ -59,6 +59,9 @@ do
 		unset item_parent_dir_array
 		unset item_dirpoint_array
 		unset item_groupname_array
+		unset cmd1
+		unset cmd2
+		unset cmd3
 		clear_var_all=''
 	fi
 
