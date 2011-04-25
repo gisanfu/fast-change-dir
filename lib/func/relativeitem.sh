@@ -97,17 +97,17 @@ func_relative()
 	cmd="ls -AFL $ignorelist --file-type $lspath"
 
 	# 先去cache找看看，有沒有暫存的路徑檔案
-	md5key=(`func_md5 $cmd`)
-	cachefile="$fast_change_dir_tmp/`whoami`-relativeitem-cache-$md5key.txt"
+	#md5key=(`func_md5 $cmd`)
+	#cachefile="$fast_change_dir_tmp/`whoami`-relativeitem-cache-$md5key.txt"
 
 	# 如果該cache有存在，就改寫指令
 	# 如果不存在，那在處理之前，先寫入cache
-	if [ ! -f "$cachefile" ]; then
-		cmd="$cmd > $cachefile"
-		eval $cmd
-	fi
+	#if [ ! -f "$cachefile" ]; then
+	#	cmd="$cmd > $cachefile"
+	#	eval $cmd
+	#fi
 
-	cmd="cat $cachefile "
+	#cmd="cat $cachefile "
 
 	cmd="$cmd | grep $filetype_grep_arg \"/$\""
 
