@@ -37,13 +37,14 @@ elif [ "${#item_array[@]}" -eq 1 ]; then
 	relativeitem="${item_array[0]}"
 	#cmd="vim \"${item_array[0]}\""
 	#eval $cmd
-	# check file count and ls action
-	func_checkfilecount
 fi
 
 if [ "$relativeitem" != '' ]; then
 	vim $relativeitem
 fi
+
+# check file count and ls action
+func_checkfilecount
 
 unset cmd
 unset cmd1
