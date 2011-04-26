@@ -67,15 +67,19 @@ if [ "$groupname" != "" ]; then
 					cmd="$cmd +tabnext"
 				done
 			else
-				cmd="$cmd +tabnext"
+				# 如果使用者選擇取消，那就取消整個vff
+				cmd=""
 			fi
 		fi
 	fi
 
-	eval $cmd
+	if [ "$cmd" != '' ]; then
+		eval $cmd
+	fi
 	func_checkfilecount
 else
 	echo '[ERROR] groupname is empty, please use GA cmd'
 fi
 
 unset vimlist_array
+unset cmd
