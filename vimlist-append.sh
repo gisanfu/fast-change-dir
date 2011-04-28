@@ -87,10 +87,9 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		# 太多 "+command" 、 "-c command" 或 "--cmd command" 參數
 		# 查詢更多資訊請執行: "vim -h"
 		if [ "$checklinenumber" -lt 10 ]; then
-			for i in `seq 1 $checklinenumber`
-			do
-				cmd="$cmd +tabnext"
-			done
+			# 為了加快速度而這麼寫的
+			tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+			cmd="$cmd ${tabennn[$checklinenumber]}"
 		else
 			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
 		fi
