@@ -62,10 +62,13 @@ if [ "$groupname" != "" ]; then
 			fi
 
 			if [ "$result" != "" ]; then
-				for (( b=1; b<=$result; b++ ))
-				do
-					cmd="$cmd +tabnext"
-				done
+				if [ "$result" -lt 10 ]; then
+					# 為了加快速度而這麼寫的
+					tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+					cmd="$cmd ${tabennn[$result]}"
+				else
+					echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
+				fi
 			else
 				# 如果使用者選擇取消，那就取消整個vff
 				cmd=""

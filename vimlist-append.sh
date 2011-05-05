@@ -88,14 +88,31 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		# 查詢更多資訊請執行: "vim -h"
 		if [ "$checklinenumber" -lt 10 ]; then
 			# 為了加快速度而這麼寫的
-			tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+			tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
 			cmd="$cmd ${tabennn[$checklinenumber]}"
 		else
 			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
+			echo '[NOTICE] 純編輯這個檔案，以及叫出列表，看你要砍掉哪一個'
+			vim "$selectitem"
+
+			unset cmd
+			unset cmd1
+			unset cmd2
+			unset cmd3
+			unset number
+			unset item_array
+			unset checklinenumber
+			unset relativeitem
+			unset selectitem
+
+			vfff
+			cmd=''
 		fi
 
-		cmd="$cmd -p $fast_change_dir_project_config/vimlist-$groupname.txt\""
-		eval $cmd
+		if [ "$cmd" != '' ]; then
+			cmd="$cmd -p $fast_change_dir_project_config/vimlist-$groupname.txt\""
+			eval $cmd
+		fi
 	elif [[ "$inputchar" == 'n' || "$inputchar" == "0" ]]; then
 		echo "Your want append other file"
 	elif [ "$inputchar" == 'j' ]; then
