@@ -18,3 +18,6 @@ fast_change_dir_config_parent_enable='1'
 
 # 重覆項目的顯示開關
 fast_change_dir_config_duplicate_enable='1'
+
+# 是否自動的在執行指令完後，顯示資料夾裡面的東西
+fast_change_dir_auto_list_file_enable='1'

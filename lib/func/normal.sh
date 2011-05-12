@@ -18,13 +18,15 @@ func_statusbar()
 # +--------+----------------------+
 func_checkfilecount()
 {
-	echo "[PWD]=>`pwd`"
-	#filecount=`ls | wc -l`
-	#if [ "$filecount" == "0" ]; then
-	#	echo "[EMPTY]"
-	#elif [ "$filecount" -le "6" ]; then
-	#	ls -la
-	#else
-	#	ls
-	#fi
+	if [ "$fast_change_dir_auto_list_file_enable" == '1' ]; then
+		echo "[PWD]=>`pwd`"
+		filecount=`ls | wc -l`
+		if [ "$filecount" == "0" ]; then
+			echo "[EMPTY]"
+		elif [ "$filecount" -le "6" ]; then
+			ls -la
+		else
+			ls
+		fi
+	fi
 }

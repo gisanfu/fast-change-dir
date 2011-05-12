@@ -50,6 +50,8 @@ while [ 1 ];
 do
 	clear
 
+	fast_change_dir_auto_list_file_enable='0'
+
 	if [[ "$clear_var_all" == '1' || "$needhelp" == '1' ]]; then
 		unset condition
 		unset inputvar
@@ -176,6 +178,7 @@ do
 	if [ "$inputvar" == '?' ]; then
 		# 離開
 		clear
+		fast_change_dir_auto_list_file_enable='1'
 		break
 	elif [ "$inputvar" == '/' ]; then
 		# 重新讀取設定檔
