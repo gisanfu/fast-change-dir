@@ -19,11 +19,10 @@ if [ "$groupname" != "" ]; then
 	fi
 
 	if [ "$dirpoint" != "" ]; then
-		result=`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | cut -d, -f2`
 		resultarray=(`grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | cut -d, -f2`)
 
 		if [ "${#resultarray[@]}" -gt "1" ]; then
-			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
+			cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep ^$dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
 
 			eval $cmd
 			result=`cat $tmpfile`
@@ -38,11 +37,33 @@ if [ "$groupname" != "" ]; then
 				dv $result
 			fi
 		elif [ "${#resultarray[@]}" == "1" ]; then
-			cmd="cd $result"
+			cmd="cd ${resultarray[0]}"
 			eval $cmd
 			func_checkfilecount
 		else
-			echo '[ERROR] dirpoint is not exist!!'
+			resultarray=(`grep $dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | cut -d, -f2`)
+			if [ "${#resultarray[@]}" -gt "1" ]; then
+				cmd=$( func_dialog_menu 'Please Select DirPoint' 100 `grep $dirpoint[[:alnum:]]*, $fast_change_dir_project_config/dirpoint-$groupname.txt | tr "\n" " " | tr ',' ' '`  $tmpfile )
+
+				eval $cmd
+				result=`cat $tmpfile`
+
+				if [ -f "$tmpfile" ]; then
+					rm -rf $tmpfile
+				fi
+
+				if [ "$result" == "" ]; then
+					echo '[ERROR] dirpoint is empty'
+				else
+					dv $result
+				fi
+			elif [ "${#resultarray[@]}" == "1" ]; then
+				cmd="cd ${resultarray[0]}"
+				eval $cmd
+				func_checkfilecount
+			else
+				echo '[ERROR] dirpoint is not exist!!'
+			fi
 		fi
 	else
 		resultvalue=`cat $fast_change_dir_project_config/dirpoint-$groupname.txt | grep -v "^#" | wc -l`
@@ -70,5 +91,7 @@ else
 	echo '[ERROR] groupname is empty, please use GA cmd'
 fi
 
+fetchone=''
+result=''
 tmpfile=''
 IFS=$default_ifs
