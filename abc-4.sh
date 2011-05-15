@@ -97,6 +97,7 @@ do
 		echo ' 重新輸入條件 (/)'
 		echo ' 智慧選取單項 (;) 分號'
 		echo ' 上一層 (,) 逗點'
+		echo ' 上一個資料夾 (<) 小於，跟上一層是同一個按鍵'
 		echo " 到數字切換資料夾功能 (') 單引號"
 		echo ' 我忘了快速鍵了 (H)'
 		echo ' 離開 (?)'
@@ -193,8 +194,9 @@ do
 		cd ..	
 		clear_var_all='1'
 		continue
-
-		#clear_var_all='1'
+	elif [ "$inputvar" == '<' ]; then
+		cd -
+		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'F' ]; then
 		if [ "$groupname" != '' ]; then
