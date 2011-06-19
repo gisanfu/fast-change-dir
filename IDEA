@@ -1,3 +1,15 @@
+# 2011-06-19
+
+想要加上以下的範例指定進來
+
+echo "hello" | xclip
+
+可以把hello貼到clipboard裡面，然後回到vim貼上，
+
+在ubuntu是按mouse的中鍵，
+
+windows裡面使用putty可能要測試一下。
+
 # 2011-05-15
 
 想要加上"cd -"的指令進來
