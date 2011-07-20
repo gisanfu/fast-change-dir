@@ -211,7 +211,7 @@ do
 
 		clear_var_all='1'
 		continue
-	# 多選所使用
+	# 多選功能在使用的，只支援本層
 	elif [ "$inputvar" == 'FF' ]; then
 		if [ "$groupname" != '' ]; then
 			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\" 2"

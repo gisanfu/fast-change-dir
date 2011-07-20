@@ -10,10 +10,21 @@ cmd2=$2
 # 位置，例如e就代表1，或者你也可以輸入1
 cmd3=$3
 
+# 是否要vff
+# 2代表要多選
+isVFF=$4
+
 item_array=( `func_relative "$cmd1" "$cmd2" "$cmd3" "" "file"` )
 
 relativeitem=''
-if [ "${#item_array[@]}" -gt 1 ]; then
+if [[ "${#item_array[@]}" -gt 1 && "$isVFF" == '2' ]]; then
+	vimpitems=""
+	for echothem in ${item_array[@]}
+	do
+		vimpitems=" $vimpitems $echothem "
+	done
+	relativeitem=" -p $vimpitems"
+elif [ "${#item_array[@]}" -gt 1 ]; then
 	tmpfile="$fast_change_dir_tmp/`whoami`-vf-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
 	dialogitems=''
 	for echothem in ${item_array[@]}
