@@ -13,6 +13,7 @@ cmd3=$3
 # 是否要vff，如果沒有指定，就是會詢問使用者
 # 不詢問，不要vff的話，就放0
 # 不詢問，要vff的話，就放1
+# 想要vff，然後又要多選的狀況，那就放2，也會自動做vff的動作
 isVFF=$4
 
 if [ "$isVFF" == '' ]; then
@@ -25,9 +26,20 @@ relativeitem=''
 
 if [ ${#item_array[@]} -eq 1 ]; then
 	relativeitem=${item_array[0]}
+elif [[ ${#item_array[@]} -gt 1 && "$isVFF" == '2' ]]; then
+	for file in ${item_array[@]}
+	do
+		selectitem=''
+		selectitem=`pwd`/$file
+		checkline=`grep $selectitem $fast_change_dir_project_config/vimlist-$groupname.txt | wc -l`
+		if [ "$checkline" -lt 1 ]; then
+			echo "\"$selectitem\"" >> $fast_change_dir_project_config/vimlist-$groupname.txt
+		fi
+	done
+	relativeitem='__empty'
 elif [ ${#item_array[@]} -gt 1 ]; then
 	tmpfile="$fast_change_dir_tmp/`whoami`-vf-dialog-select-only-file-$( date +%Y%m%d-%H%M ).txt"
-	dialogitems=''
+	dialogitems=""
 	for echothem in ${item_array[@]}
 	do
 		dialogitems=" $dialogitems $echothem '' "
@@ -55,6 +67,8 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		inputchar='n'
 	elif [ "$isVFF" == '1' ]; then
 		inputchar='y'
+	elif [ "$isVFF" == '2' ]; then
+		inputchar='y'
 	else
 		isVFF=''
 	fi
@@ -69,13 +83,15 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	fi
 
 	# 檢查一下，看文字檔裡面有沒有這個內容，如果有，當然就不需要在append
-	selectitem=''
-	selectitem=`pwd`/$relativeitem
-	checkline=`grep "$selectitem" $fast_change_dir_project_config/vimlist-$groupname.txt | wc -l`
-	if [ "$checkline" -lt 1 ]; then
-		echo "\"$selectitem\"" >> $fast_change_dir_project_config/vimlist-$groupname.txt
-	else
-		echo '[NOTICE] File is exist'
+	if [ "$relativeitem" != '__empty' ]; then
+		selectitem=''
+		selectitem=`pwd`/$relativeitem
+		checkline=`grep "$selectitem" $fast_change_dir_project_config/vimlist-$groupname.txt | wc -l`
+		if [ "$checkline" -lt 1 ]; then
+			echo "\"$selectitem\"" >> $fast_change_dir_project_config/vimlist-$groupname.txt
+		else
+			echo '[NOTICE] File is exist'
+		fi
 	fi
 
 	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then

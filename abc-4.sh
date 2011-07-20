@@ -150,6 +150,8 @@ do
 		inputvar='F'
 	elif [ "$inputvar" == '.' ]; then
 		inputvar='D'
+	elif [ "$inputvar" == '*' ]; then
+		inputvar='FF'
 	fi
 
 	#if [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
@@ -203,6 +205,18 @@ do
 			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\""
 		else
 			run="v \"$cmd1\" \"$cmd2\" \"$cmd3\""
+		fi
+
+		eval $run
+
+		clear_var_all='1'
+		continue
+	# 多選所使用
+	elif [ "$inputvar" == 'FF' ]; then
+		if [ "$groupname" != '' ]; then
+			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\" 2"
+		else
+			run="v \"$cmd1\" \"$cmd2\" \"$cmd3\" 2"
 		fi
 
 		eval $run
