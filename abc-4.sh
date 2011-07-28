@@ -182,6 +182,20 @@ do
 		# 離開
 		clear
 		fast_change_dir_auto_list_file_enable='1'
+
+		unset condition
+		unset inputvar
+		unset item_file_array
+		unset item_dir_array
+		unset item_parent_file_array
+		unset item_parent_dir_array
+		unset item_dirpoint_array
+		unset item_groupname_array
+		unset cmd1
+		unset cmd2
+		unset cmd3
+		clear_var_all=''
+
 		break
 	elif [ "$inputvar" == '/' ]; then
 		# 重新讀取設定檔
