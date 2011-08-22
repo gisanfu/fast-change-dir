@@ -152,6 +152,10 @@ do
 		inputvar='D'
 	elif [ "$inputvar" == '*' ]; then
 		inputvar='FF'
+	elif [ "$inputvar" == '&' ]; then
+		inputvar='FFF'
+	if [ "$inputvar" == ':' ]; then
+		inputvar='FFFF'
 	fi
 
 	#if [[ "$inputvar" == ';' || "$inputvar" == '.' ]]; then
@@ -214,11 +218,24 @@ do
 		cd -
 		clear_var_all='1'
 		continue
+	# 想拉一個檔案進來，接下來會做vff的動作
 	elif [ "$inputvar" == 'F' ]; then
 		if [ "$groupname" != '' ]; then
 			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\""
 		else
 			run="v \"$cmd1\" \"$cmd2\" \"$cmd3\""
+		fi
+
+		eval $run
+
+		clear_var_all='1'
+		continue
+	# 想拉一個檔案進來，但是不啟用vff的狀況
+	elif [ "$inputvar" == 'FFFF' ]; then
+		if [ "$groupname" != '' ]; then
+			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\" 0"
+		else
+			run="v \"$cmd1\" \"$cmd2\" \"$cmd3\" 0"
 		fi
 
 		eval $run
@@ -231,6 +248,18 @@ do
 			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\" 2"
 		else
 			run="v \"$cmd1\" \"$cmd2\" \"$cmd3\" 2"
+		fi
+
+		eval $run
+
+		clear_var_all='1'
+		continue
+	# 多選功能在使用的，只支援本層(不啟動vff)
+	elif [ "$inputvar" == 'FFF' ]; then
+		if [ "$groupname" != '' ]; then
+			run="vf \"$cmd1\" \"$cmd2\" \"$cmd3\" 3"
+		else
+			run="v \"$cmd1\" \"$cmd2\" \"$cmd3\" 3"
 		fi
 
 		eval $run

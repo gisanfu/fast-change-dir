@@ -14,6 +14,7 @@ cmd3=$3
 # 不詢問，不要vff的話，就放0
 # 不詢問，要vff的話，就放1
 # 想要vff，然後又要多選的狀況，那就放2，也會自動做vff的動作
+# 同2，但不要vff的狀況
 isVFF=$4
 
 if [ "$isVFF" == '' ]; then
@@ -26,7 +27,7 @@ relativeitem=''
 
 if [ ${#item_array[@]} -eq 1 ]; then
 	relativeitem=${item_array[0]}
-elif [[ ${#item_array[@]} -gt 1 && "$isVFF" == '2' ]]; then
+elif [[ ${#item_array[@]} -gt 1 && "$isVFF" == '2' || "$isVFF" == '3' ]]; then
 	for file in ${item_array[@]}
 	do
 		selectitem=''
@@ -69,6 +70,8 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		inputchar='y'
 	elif [ "$isVFF" == '2' ]; then
 		inputchar='y'
+	elif [ "$isVFF" == '3' ]; then
+		inputchar='n'
 	else
 		isVFF=''
 	fi
