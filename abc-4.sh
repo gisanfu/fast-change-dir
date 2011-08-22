@@ -154,7 +154,7 @@ do
 		inputvar='FF'
 	elif [ "$inputvar" == '&' ]; then
 		inputvar='FFF'
-	if [ "$inputvar" == ':' ]; then
+	elif [ "$inputvar" == ':' ]; then
 		inputvar='FFFF'
 	fi
 
