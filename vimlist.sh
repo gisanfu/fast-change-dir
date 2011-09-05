@@ -22,7 +22,9 @@ if [ "$groupname" != "" ]; then
 	if [[ "$program" == '' || "$program" =~ $regex ]]; then
 		# 先把一些己知的東西先ignore掉，例如壓縮檔
 		cmdlist="$cmdlist | grep -v .tar.gz | grep -v .zip | grep -v .png | grep -v .gif | grep -v .jpeg | grep -v .jpg"
-		cmdlist="$cmdlist | xargs -n 1 $fast_change_dir_bin/only-text-filecontent.sh"
+
+		# 這行是判斷是不是文字檔，但是遇到css的檔案，會誤判，所以暫時先mark起來，或許以後用得到
+		# cmdlist="$cmdlist | xargs -n 1 $fast_change_dir_bin/only-text-filecontent.sh"
 	fi
 
 	# 這是多行文字檔內容，變成以空格分格成字串的步驟
