@@ -118,6 +118,7 @@ do
 		echo ' 無路徑nopath的結果 (W)'
 		echo -e "${color_txtgrn}VimList操作類:${color_none}"
 		echo ' Do It! (I)'
+		echo ' 利用檔案做索引，進入該檔案所在的資料夾 (O)'
 		echo ' Modify (J)'
 		echo ' Clear (K)'
 		echo -e "${color_txtgrn}搜尋引擎類:${color_none}"
