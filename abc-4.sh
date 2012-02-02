@@ -307,6 +307,10 @@ do
 		vff
 		clear_var_all='1'
 		continue
+	elif [ "$inputvar" == 'O' ]; then
+		d2ff
+		clear_var_all='1'
+		continue
 	elif [ "$inputvar" == 'J' ]; then
 		vfff
 		clear_var_all='1'

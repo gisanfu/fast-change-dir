@@ -44,6 +44,8 @@ alias gaaa=". $fast_change_dir/groupname.sh edit"
 # cd
 #
 alias d=". $fast_change_dir/cddir.sh"
+alias d2=". $fast_change_dir/cddir2.sh"
+alias d2ff=". $fast_change_dir/cddir2-ui.sh"
 # cd point
 alias dv=". $fast_change_dir/dirpoint.sh"
 # append point
