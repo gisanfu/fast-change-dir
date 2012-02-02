@@ -37,7 +37,6 @@ if [ "$groupname" != "" ]; then
 
 		eval $cmd2
 		result=`cat $tmpfile`
-		echo $result
 
 		if [ -f "$tmpfile" ]; then
 			rm -rf $tmpfile
@@ -57,10 +56,12 @@ if [ "$groupname" != "" ]; then
 			# 如果使用者選擇取消，那就取消整個vff
 			cmd=""
 		fi
+	elif [ "$count" -eq 1 ]; then
+		vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
+		cmd="$cmd ${vimlist_array[0]}"
 	fi
 
 	if [ "$cmd" != '' ]; then
-		echo $cmd
 		eval $cmd
 	fi
 	func_checkfilecount
