@@ -46,6 +46,8 @@ color_txtgrn='\e[0;32m' # Green
 color_txtred='\e[0;31m' # Red
 color_none='\e[0m' # No Color
 
+fast_change_dir_switch_list='1'
+
 while [ 1 ];
 do
 	clear
@@ -78,9 +80,20 @@ do
 		echo "`whoami` || \"$groupname\" || `pwd`"
 		echo '================================================='
 
-		ignorelist=$(func_getlsignore)
-		cmd="ls -AF $ignorelist --color=auto"
-		eval $cmd
+		if [ "$fast_change_dir_switch_list" == '2' ]; then
+			tree -L 1
+		elif [ "$fast_change_dir_switch_list" == '3' ]; then
+			tree -L 1 -d
+		elif [ "$fast_change_dir_switch_list" == '4' ]; then
+			tree -L 2
+		elif [ "$fast_change_dir_switch_list" == '5' ]; then
+			tree -L 2 -d
+		else
+			ignorelist=$(func_getlsignore)
+			cmd="ls -AF $ignorelist --color=auto"
+			eval $cmd
+		fi
+
 
 		if [ "$condition" == 'quit' ]; then
 			break
@@ -99,6 +112,7 @@ do
 		echo ' 只將單檔案列入暫存 (;) 分號'
 		echo ' 將多個檔案列入暫存，並使用vim編輯它們 (*)'
 		echo ' 只將多個檔案列入暫存 (&)'
+		echo ' 切換檔案列表的方式 (T)'
 		echo ' 上一層 (,) 逗點'
 		echo ' 上一個資料夾 (<) 小於，跟上一層是同一個按鍵'
 		echo " 到數字切換資料夾功能 (') 單引號"
@@ -312,6 +326,32 @@ do
 		d2ff
 		clear_var_all='1'
 		continue
+	elif [ "$inputvar" == 'T' ]; then
+		array=(ls Tree顯示全部 Tree只顯示資料夾 Tree顯示全部2層 Tree只顯示資料夾2層)
+		dialogitems=''
+		start=1
+		for echothem in ${array[@]}
+		do
+			dialogitems=" $dialogitems '$start' $echothem "
+			start=$(expr $start + 1)
+		done
+		tmpfile="$fast_change_dir_tmp/`whoami`-abc4T-dialogselect-$( date +%Y%m%d-%H%M ).txt"
+		cmd2=$( func_dialog_menu '選擇檔案列表的方式 ' 100 "$dialogitems" $tmpfile )
+
+		eval $cmd2
+		result=`cat $tmpfile`
+
+		if [ -f "$tmpfile" ]; then
+			rm -rf $tmpfile
+		fi
+
+		if [ "$result" != "" ]; then
+			fast_change_dir_switch_list=$result
+		fi
+
+		clear_var_all='1'
+		continue
+
 	elif [ "$inputvar" == 'J' ]; then
 		vfff
 		clear_var_all='1'
