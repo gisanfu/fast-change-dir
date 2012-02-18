@@ -105,10 +105,22 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		# 不知道為什麼不能超過10，超過會出現以下的錯誤訊息
 		# 太多 "+command" 、 "-c command" 或 "--cmd command" 參數
 		# 查詢更多資訊請執行: "vim -h"
+
+		# 為了加快速度而這麼寫的
+		tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
 		if [ "$checklinenumber" -lt 10 ]; then
-			# 為了加快速度而這麼寫的
-			tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
 			cmd="$cmd ${tabennn[$checklinenumber]}"
+			echo $cmd
+		elif [[ "$checklinenumber" -ge 10 && "$checklinenumber" -lt 20 ]]; then
+			# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
+			# 位置0是所開始的檔案列表
+			for i in {1..8}
+			do
+				unset item_array[$i]
+			done
+
+			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
+			cmd="$cmd ${tabennn[$(expr $checklinenumber - 8)]}"
 		else
 			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
 			echo '[NOTICE] 純編輯這個檔案，以及叫出列表，看你要砍掉哪一個'

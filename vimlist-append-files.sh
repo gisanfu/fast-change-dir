@@ -30,8 +30,7 @@ if [ "$groupname" != '' ]; then
 		checklinenumber=`cat $fast_change_dir_config/vimlist-$groupname.txt | nl -w1 -s: | grep "$absoluteitem_path" | head -n 1 | awk -F: '{print $1}'`
 		cmd='vff "vim'
 
-		# 不知道為什麼不能超過10，超過會出現以下的錯誤訊息
-		# 太多 "+command" 、 "-c command" 或 "--cmd command" 參數
+		# 太多 "+command" 、 "-c command" 或 "--cmd command" 參數，因為vim只能接受10個+
 		# 查詢更多資訊請執行: "vim -h"
 		if [ "$checklinenumber" -lt 10 ]; then
 			for i in `seq 1 $checklinenumber`
