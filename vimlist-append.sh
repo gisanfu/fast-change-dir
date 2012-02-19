@@ -111,16 +111,32 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		if [ "$checklinenumber" -lt 10 ]; then
 			cmd="$cmd ${tabennn[$checklinenumber]}"
 			echo $cmd
-		elif [[ "$checklinenumber" -ge 10 && "$checklinenumber" -lt 20 ]]; then
+		elif [[ "$checklinenumber" -ge 10 && "$checklinenumber" -lt 18 ]]; then
 			# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
 			# 位置0是所開始的檔案列表
-			for i in {1..8}
+			for i in {0..7}
 			do
 				unset item_array[$i]
 			done
 
 			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
-			cmd="$cmd ${tabennn[$(expr $checklinenumber - 8)]}"
+			cmd="$cmd ${tabennn[$(expr $checklinenumber - 7)]}"
+		elif [[ "$checklinenumber" -ge 18 && "$checklinenumber" -lt 27 ]]; then
+			for i in {0..16}
+			do
+				unset item_array[$i]
+			done
+
+			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
+			cmd="$cmd ${tabennn[$(expr $checklinenumber - 17)]}"
+		elif [[ "$checklinenumber" -ge 27 && "$checklinenumber" -lt 36 ]]; then
+			for i in {0..25}
+			do
+				unset item_array[$i]
+			done
+
+			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
+			cmd="$cmd ${tabennn[$(expr $checklinenumber - 26)]}"
 		else
 			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
 			echo '[NOTICE] 純編輯這個檔案，以及叫出列表，看你要砍掉哪一個'

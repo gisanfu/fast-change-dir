@@ -65,22 +65,39 @@ if [ "$groupname" != "" ]; then
 			fi
 
 			if [ "$result" != "" ]; then
-				tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+				tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
 				if [ "$result" -lt 10 ]; then
 					# 為了加快速度而這麼寫的
 					cmd="$cmd ${tabennn[$result]}"
-				elif [[ "$result" -ge 10 && "$result" -lt 20 ]]; then
+				# 底下是一次9個累加
+				elif [[ "$result" -ge 10 && "$result" -lt 18 ]]; then
 					# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
 					# 位置0是所開始的檔案列表
-					for i in {1..8}
+					for i in {0..7}
 					do
 						unset vimlist_array[$i]
 					done
 
 					cmd="$program2 ${vimlist_array[@]}"
 					cmd="$cmd ${tabennn[$(expr $result - 8)]}"
+				elif [[ "$result" -ge 18 && "$result" -lt 27 ]]; then
+					for i in {0..16}
+					do
+						unset vimlist_array[$i]
+					done
+
+					cmd="$program2 ${vimlist_array[@]}"
+					cmd="$cmd ${tabennn[$(expr $result - 17)]}"
+				elif [[ "$result" -ge 27 && "$result" -lt 36 ]]; then
+					for i in {0..25}
+					do
+						unset vimlist_array[$i]
+					done
+
+					cmd="$program2 ${vimlist_array[@]}"
+					cmd="$cmd ${tabennn[$(expr $result - 26)]}"
 				else
-					echo '[NOTICE] 19個以上的tabnext會有問題，所以我略過了:p'
+					echo '[NOTICE] 10個以上的tabnext會有問題，所以我略過了:p'
 				fi
 			else
 				# 如果使用者選擇取消，那就取消整個vff
@@ -92,10 +109,14 @@ if [ "$groupname" != "" ]; then
 		count=`cat $fast_change_dir_project_config/vimlist-$groupname.txt | wc -l`
 		vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
 		if [[ "$count" -ge 10 && "$count" -lt 20 ]]; then
-			vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
 			# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
 			# 位置0是所開始的檔案列表
 			for i in {1..8}
+			do
+				unset vimlist_array[$i]
+			done
+		elif [[ "$count" -ge 20 && "$count" -lt 30 ]]; then
+			for i in {1..18}
 			do
 				unset vimlist_array[$i]
 			done
@@ -105,6 +126,7 @@ if [ "$groupname" != "" ]; then
 	fi
 
 	if [ "$cmd" != '' ]; then
+		echo $cmd
 		eval $cmd
 	fi
 	func_checkfilecount
