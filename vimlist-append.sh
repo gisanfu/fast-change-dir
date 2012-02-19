@@ -138,7 +138,7 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
 			cmd="$cmd ${tabennn[$(expr $checklinenumber - 26)]}"
 		else
-			echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
+			echo '[NOTICE] 不要超過35個以上(不含35)的編輯檔案'
 			echo '[NOTICE] 純編輯這個檔案，以及叫出列表，看你要砍掉哪一個'
 			vim "$selectitem"
 

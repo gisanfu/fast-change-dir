@@ -97,7 +97,8 @@ if [ "$groupname" != "" ]; then
 					cmd="$program2 ${vimlist_array[@]}"
 					cmd="$cmd ${tabennn[$(expr $result - 26)]}"
 				else
-					echo '[NOTICE] 10個以上的tabnext會有問題，所以我略過了:p'
+					#echo '[NOTICE] 10個以上的tabnext會有問題，所以我略過了:p'
+					echo '[NOTICE] 不要超過35個以上(不含35)的編輯檔案'
 				fi
 			else
 				# 如果使用者選擇取消，那就取消整個vff
@@ -126,7 +127,6 @@ if [ "$groupname" != "" ]; then
 	fi
 
 	if [ "$cmd" != '' ]; then
-		echo $cmd
 		eval $cmd
 	fi
 	func_checkfilecount
