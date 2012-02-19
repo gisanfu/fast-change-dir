@@ -90,15 +90,16 @@ if [ "$groupname" != "" ]; then
 	else
 		# 如果選擇某一個檔案，這時就會跑以下這個判斷式
 		count=`cat $fast_change_dir_project_config/vimlist-$groupname.txt | wc -l`
+		vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
 		if [[ "$count" -ge 10 && "$count" -lt 20 ]]; then
 			vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
+			# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
+			# 位置0是所開始的檔案列表
+			for i in {1..8}
+			do
+				unset vimlist_array[$i]
+			done
 		fi
-		# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
-		# 位置0是所開始的檔案列表
-		for i in {1..8}
-		do
-			unset vimlist_array[$i]
-		done
 
 		cmd="$program2 ${vimlist_array[@]}"
 	fi
