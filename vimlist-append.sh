@@ -120,7 +120,7 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 			done
 
 			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
-			cmd="$cmd ${tabennn[$(expr $checklinenumber - 7)]}"
+			cmd="$cmd ${tabennn[$(expr $checklinenumber - 8)]}"
 		elif [[ "$checklinenumber" -ge 18 && "$checklinenumber" -lt 27 ]]; then
 			for i in {0..16}
 			do
