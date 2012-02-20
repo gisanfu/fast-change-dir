@@ -110,7 +110,6 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
 		if [ "$checklinenumber" -lt 10 ]; then
 			cmd="$cmd ${tabennn[$checklinenumber]}"
-			echo $cmd
 		elif [[ "$checklinenumber" -ge 10 && "$checklinenumber" -lt 18 ]]; then
 			# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
 			# 位置0是所開始的檔案列表
