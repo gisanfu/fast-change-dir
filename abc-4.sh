@@ -80,7 +80,11 @@ do
 		echo "`whoami` || \"$groupname\" || `pwd`"
 		echo '================================================='
 
-		if [ "$fast_change_dir_switch_list" == '2' ]; then
+		if [ "$fast_change_dir_switch_list" == '1' ]; then
+			ignorelist=$(func_getlsignore)
+			cmd="ls -AF $ignorelist --color=auto"
+			eval $cmd
+		elif [ "$fast_change_dir_switch_list" == '2' ]; then
 			tree -L 1
 		elif [ "$fast_change_dir_switch_list" == '3' ]; then
 			tree -L 1 -d
@@ -88,6 +92,10 @@ do
 			tree -L 2
 		elif [ "$fast_change_dir_switch_list" == '5' ]; then
 			tree -L 2 -d
+		elif [ "$fast_change_dir_switch_list" == '6' ]; then
+			ignorelist=$(func_getlsignore)
+			cmd="ls -AF $ignorelist --color=never"
+			eval $cmd
 		else
 			ignorelist=$(func_getlsignore)
 			cmd="ls -AF $ignorelist --color=auto"
@@ -327,7 +335,7 @@ do
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'T' ]; then
-		array=(ls Tree顯示全部 Tree只顯示資料夾 Tree顯示全部2層 Tree只顯示資料夾2層)
+		array=(ls Tree顯示全部 Tree只顯示資料夾 Tree顯示全部2層 Tree只顯示資料夾2層 ls無顏色)
 		dialogitems=''
 		start=1
 		for echothem in ${array[@]}
