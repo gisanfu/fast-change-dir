@@ -100,42 +100,44 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 	if [[ "$inputchar" == 'y' || "$inputchar" == "1" ]]; then
 		# 取得最後append的檔案位置，這樣子vim -p以後就可以直接跳過該位置，就不用一直在gt..gt..gt..gt...
 		checklinenumber=`cat $fast_change_dir_project_config/vimlist-$groupname.txt | nl -w1 -s: | grep "$selectitem" | head -n 1 | awk -F: '{print $1}'`
-		cmd='vff "vim'
+		#cmd='vff "vim'
+		cmd='vim'
 
 		# 不知道為什麼不能超過10，超過會出現以下的錯誤訊息
 		# 太多 "+command" 、 "-c command" 或 "--cmd command" 參數
 		# 查詢更多資訊請執行: "vim -h"
 
 		# 為了加快速度而這麼寫的
-		tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+		tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+		vimlist_array=(`cat $fast_change_dir_project_config/vimlist-$groupname.txt`)
 		if [ "$checklinenumber" -lt 10 ]; then
-			cmd="$cmd ${tabennn[$checklinenumber]}"
+			cmd2="${vimlist_array[@]} ${tabennn[$checklinenumber]}"
 		elif [[ "$checklinenumber" -ge 10 && "$checklinenumber" -lt 18 ]]; then
 			# 先把編輯清單陣列1~8(從0開始)清掉，把10到19補進來
 			# 位置0是所開始的檔案列表
 			for i in {0..7}
 			do
-				unset item_array[$i]
+				unset vimlist_array[$i]
 			done
 
 			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
-			cmd="$cmd ${tabennn[$(expr $checklinenumber - 8)]}"
+			cmd2="${vimlist_array[@]} ${tabennn[$(expr $checklinenumber - 8)]}"
 		elif [[ "$checklinenumber" -ge 18 && "$checklinenumber" -lt 27 ]]; then
 			for i in {0..16}
 			do
-				unset item_array[$i]
+				unset vimlist_array[$i]
 			done
 
 			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
-			cmd="$cmd ${tabennn[$(expr $checklinenumber - 17)]}"
+			cmd2="${vimlist_array[@]} ${tabennn[$(expr $checklinenumber - 17)]}"
 		elif [[ "$checklinenumber" -ge 27 && "$checklinenumber" -lt 36 ]]; then
 			for i in {0..25}
 			do
-				unset item_array[$i]
+				unset vimlist_array[$i]
 			done
 
 			# 在這裡，只是準備好tabenext的數量，剩下的工作會交給vimlist2.sh
-			cmd="$cmd ${tabennn[$(expr $checklinenumber - 26)]}"
+			cmd2="${vimlist_array[@]} ${tabennn[$(expr $checklinenumber - 26)]}"
 		else
 			echo '[NOTICE] 不要超過35個以上(不含35)的編輯檔案'
 			echo '[NOTICE] 純編輯這個檔案，以及叫出列表，看你要砍掉哪一個'
@@ -156,7 +158,8 @@ if [[ "$relativeitem" != "" && "$groupname" != "" ]]; then
 		fi
 
 		if [ "$cmd" != '' ]; then
-			cmd="$cmd -p $fast_change_dir_project_config/vimlist-$groupname.txt\""
+			#cmd="$cmd -p $fast_change_dir_project_config/vimlist-$groupname.txt\""
+			cmd="$cmd -p $fast_change_dir_project_config/vimlist-$groupname.txt $cmd2"
 			eval $cmd
 		fi
 	elif [[ "$inputchar" == 'n' || "$inputchar" == "0" ]]; then
