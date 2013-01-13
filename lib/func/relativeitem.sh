@@ -91,7 +91,8 @@ func_relative()
 	# default ifs value
 	default_ifs=$' \t\n'
 
-	IFS=$'\n'
+	# 把空格也加進去，因為在用vf的指令的時候，沒有加的話，abc和abc-2這兩個檔案(例)，會在vim中當做一個檔名
+	IFS=$' \n'
 	#cmd="ls -AFL $ignorelist $filetype_ls_arg $lspath | grep $filetype_grep_arg \"/$\""
 
 	cmd="ls -AFL $ignorelist --file-type $lspath"
