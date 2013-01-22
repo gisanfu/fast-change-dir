@@ -139,7 +139,8 @@ do
 		echo ' 搜尋資料夾的結果 (N)'
 		echo ' 無路徑nopath的結果 (W)'
 		echo -e "${color_txtgrn}VimList操作類:${color_none}"
-		echo ' Do It! (I)'
+		echo ' 一次10個 (I)'
+		echo ' 每次20個 (U)'
 		echo ' 利用檔案做索引，進入該檔案所在的資料夾 (O)'
 		echo ' Modify (J)'
 		echo ' Clear (K)'
@@ -154,7 +155,6 @@ do
 		echo ' Grep以關鍵字去搜尋檔案 (M)'
 		echo ' SSH (P)'
 		echo ' Sudo Root (Y)'
-		echo ' History Bash (U)'
 		echo ' 離開EXIT (X)(Q)'
 		echo -e "${color_txtgrn}輸入條件的結構:${color_none}"
 		echo ' "關鍵字1" [space] "關鍵字2" [space] "英文位置ersfwlcbko(1234567890)"'
@@ -328,6 +328,10 @@ do
 		continue
 	elif [ "$inputvar" == 'I' ]; then
 		vff
+		clear_var_all='1'
+		continue
+	elif [ "$inputvar" == 'U' ]; then
+		vfffff
 		clear_var_all='1'
 		continue
 	elif [ "$inputvar" == 'O' ]; then
