@@ -15,6 +15,8 @@ cmdlist="$cmdlist $cmdlist2"
 cmdlist_result=`eval $cmdlist`
 cmd="$program2 $cmdlist_result"
 
+cmd="$cmd -u ~/.vimrc_30"
+
 if [ "$cmd" != '' ]; then
 	eval $cmd
 fi
