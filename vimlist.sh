@@ -67,6 +67,7 @@ if [ "$groupname" != "" ]; then
 				if [ "$result" -lt 10 ]; then
 					# 為了加快速度而這麼寫的
 					tabennn=('' '+tabnext' '+tabnext +tabnext' '+tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext' '+tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext +tabnext')
+					#tabennn=('' '+tabn2' '+tabn3' '+tabn4' '+tabn5' '+tabn6' '+tabn7' '+tabn8' '+tabn9' '+tabn10' '+tabn11' '+tabn12')
 					cmd="$cmd ${tabennn[$result]}"
 				else
 					echo '[NOTICE] 10以上的tabnext會有問題，所以我略過了:p'
