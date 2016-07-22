@@ -113,11 +113,11 @@ func_relative()
 	cmd="$cmd | grep $filetype_grep_arg \"/$\""
 
 	if [ "$isgetall" != '1' ]; then
-		cmd="$cmd | grep -ir $isHeadSearch$nextRelativeItem"
+		cmd="$cmd | grep -i $isHeadSearch$nextRelativeItem"
 	fi
 
 	if [ "$secondCondition" != '' ]; then
-		cmd="$cmd | grep -ir $secondCondition"
+		cmd="$cmd | grep -i $secondCondition"
 	fi
 
 	# 取得項目列表，存到陣列裡面，當然也會做空白的處理
